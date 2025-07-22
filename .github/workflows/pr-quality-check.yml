@@ -1,0 +1,41 @@
+name: PR Quality Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [opened, synchronize, reopened]
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github Repository 파일 불러오기
+        uses: actions/checkout@v4
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.16'
+          cache: 'npm'
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: 린트 검사
+        run: npm run lint
+
+      - name: 타입 검사 (TypeScript 사용시)
+        run: npm run type-check
+        continue-on-error: false
+
+      - name: 빌드 테스트
+        run: npm run build
+
+      - name: 빌드 결과 확인
+        run: |
+          if [ ! -d "./dist" ]; then
+            echo "❌ 빌드 실패: dist 폴더가 생성되지 않았습니다."
+            exit 1
+          fi
+          echo "✅ 빌드 성공: dist 폴더가 정상적으로 생성되었습니다."
