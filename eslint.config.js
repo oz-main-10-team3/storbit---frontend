@@ -83,7 +83,7 @@ export default tseslint.config(
       ],
 
       // ===== TypeScript 기본 규칙 =====
-      '@typescript-eslint/no-explicit-any': 'warn', // any 타입 사용시 경고만 (에러 아님)
+      '@typescript-eslint/no-explicit-any': 'error', // any 타입 사용시 경고만 (에러 아님)
       '@typescript-eslint/explicit-function-return-type': 'off', // 함수 리턴 타입 명시 강제 안함
       '@typescript-eslint/explicit-module-boundary-types': 'off', // 모듈 경계 타입 명시 강제 안함
 
@@ -99,7 +99,7 @@ export default tseslint.config(
       'react/jsx-no-useless-fragment': 'warn', // 불필요한 Fragment 경고
 
       // ===== 기본적인 코드 품질 =====
-      'no-console': 'warn', // console.log 사용시 경고 (개발 중에는 필요할 수 있음)
+      'no-console': 'error', // console.log 사용시 경고 (개발 중에는 필요할 수 있음)
       'no-debugger': 'warn', // debugger 문 사용시 경고 (에러 아님)
       'no-duplicate-imports': 'warn', // 중복 import 경고
 
