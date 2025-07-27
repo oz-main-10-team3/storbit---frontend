@@ -1,1 +1,26 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-primary: #8349ff; /* 메인색상 */
+  --color-primary-hover: #6b3acb; /* 메인색상 호버 */
+  --color-text: #121212; /* 기본 텍스트 색상 */
+  --color-text2: #4d4d4d; /* 보조 텍스트 색상 (기본색상보다 조금 연함)*/
+  --color-text3: #ffffff; /* 흰색 텍스트 색상 */
+  --color-text4: #bdbdbd; /* 회색 텍스트 색상 */
+  --color-alertText: #fb2150; /* 경고 텍스트 색상 */
+  --color-bg: #212429; /* 어두운배경색상 */
+  --color-disabled-fill: #ececec; /* 비활성화된 요소의 배경색상 */
+  --color-disabled-text: #cecece; /* 비활성화된 요소의 텍스트 & 외곽선 색상 */
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./assets/fonts/Pretendard-Regular.woff2') format('woff2');
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'Pretendard', sans-serif;
+}
