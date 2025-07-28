@@ -1,6 +1,9 @@
+import TransientModal from '@/common/TransientModal'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function LoginPage() {
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <>
       <div className="text-2xl">로그인 페이지</div>
@@ -17,6 +20,12 @@ export default function LoginPage() {
         >
           비밀번호 찾기
         </Link>
+        <button onClick={() => setIsOpen(true)}>모달열기</button>
+        <TransientModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          type="start"
+        ></TransientModal>
       </div>
     </>
   )
