@@ -21,7 +21,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         'border-gray-300 text-text':
           isFilled && !isFocused && !error && !success, // Input
         'border-alertText text-text': error, // Error
-        'border-green-500 text-text': success && !error, // Success
+        'text-text': success && !error, // Success
       },
       className
     )
