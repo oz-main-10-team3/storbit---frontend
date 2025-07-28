@@ -4,6 +4,7 @@ import hourGlassIcon from '@/assets/icons/HourglassIcon.png'
 import matchingCompleteIcon from '@/assets/icons/MatchingCompletedIcon.png'
 import failedicon from '@/assets/icons/FailedIcon.png'
 import timerIcon from '@/assets/icons/TimerIcon.png'
+import closeIcon from '@/assets/icons/CloseIcon.png'
 
 interface CommonModalProps {
   isOpen: boolean
@@ -91,8 +92,14 @@ export default function ConfirmModal({
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className="w-[384px] h-[420px] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.25)] rounded-[24px] px-[60px] py-[40px] flex flex-col justify-center items-center gap-[40px]"
+        className="relative w-[384px] h-[420px] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.25)] rounded-[24px] px-[60px] py-[40px] flex flex-col justify-center items-center gap-[40px]"
       >
+        <img
+          src={closeIcon}
+          onClick={onClose}
+          className="absolute top-[24px] right-[24px] cursor-pointer"
+        />
+
         <div className="flex flex-col items-center gap-[32px]">
           <div className="flex flex-col items-center gap-[8px]">
             <img src={icon} className="h-[56px]" />
@@ -104,12 +111,11 @@ export default function ConfirmModal({
               <div>{subMessage}</div>
               <div>{subMessage2}</div>
             </div>
-            {/* <div>{countdown}초 후 이동합니다.</div> */}
           </div>
         </div>
         <button
           onClick={handleClick || onClose}
-          className="bg-primary text-text3 text-[16px] w-full h-[48px] rounded-[4px]"
+          className="bg-primary text-text3 text-[16px] w-full h-[48px] rounded-[4px] cursor-pointer"
         >
           {buttonText}
         </button>
