@@ -60,7 +60,6 @@ function App() {
           path="/study/create/success"
           element={<StudyCreateSuccessPage />}
         />
-        <Route path="/study/:roomid" element={<StudyRoomPage />} />
         <Route
           path="/study/category/:category"
           element={<StudyCategoryPage />}
@@ -97,6 +96,7 @@ function App() {
         <Route path="/event/:eventid" element={<EventDetailPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
+      <Route path="/study/:roomid" element={<StudyRoomPage />} />
     </Routes>
   )
 }
