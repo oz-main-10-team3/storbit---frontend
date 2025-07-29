@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import hourGlassIcon from '@/assets/icons/HourglassIcon.png'
-import matchingCompleteIcon from '@/assets/icons/MatchingCompletedIcon.png'
-import failedicon from '@/assets/icons/FailedIcon.png'
-import timerIcon from '@/assets/icons/TimerIcon.png'
-import closeIcon from '@/assets/icons/CloseIcon.png'
+import { IoIosClose, IoMdTime } from 'react-icons/io'
+import { LiaHourglass } from 'react-icons/lia'
+import { RiGroup3Line } from 'react-icons/ri'
+import { MdOutlineCancel } from 'react-icons/md'
 
 interface CommonModalProps {
   isOpen: boolean
@@ -23,7 +22,7 @@ export default function ConfirmModal({
 
   const MODAL_CONFIG = {
     underReview: {
-      icon: hourGlassIcon,
+      icon: <LiaHourglass />,
       title: '검토중',
       message: '방장이 확인하고 있어요',
       subMessage: '스터디팀에서 검토중 입니다.',
@@ -31,7 +30,7 @@ export default function ConfirmModal({
       buttonText: '신청 취소',
     },
     matchingComplete: {
-      icon: matchingCompleteIcon,
+      icon: <RiGroup3Line />,
       title: '매칭 완료',
       message: '멤버로 확정 되었어요',
       subMessage: '환영합니다!',
@@ -39,7 +38,7 @@ export default function ConfirmModal({
       buttonText: '스터디 확인하기',
     },
     notApproved: {
-      icon: failedicon,
+      icon: <MdOutlineCancel />,
       title: '멤버미승인',
       message: '타이밍이 아쉬웠네요',
       subMessage: '아쉽긴 하지만 더 좋은 기회가 올 거예요!',
@@ -47,7 +46,7 @@ export default function ConfirmModal({
       buttonText: '새로운 스터디 찾기',
     },
     wait: {
-      icon: timerIcon,
+      icon: <IoMdTime />,
       title: '23:59',
       message: '잠깐만요!',
       subMessage: '방금 신청을 취소하셨어요',
@@ -94,15 +93,13 @@ export default function ConfirmModal({
         onClick={(e) => e.stopPropagation()}
         className="relative w-[384px] h-[420px] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.25)] rounded-[24px] px-[60px] py-[40px] flex flex-col justify-center items-center gap-[40px]"
       >
-        <img
-          src={closeIcon}
+        <IoIosClose
           onClick={onClose}
-          className="absolute top-[24px] right-[24px] cursor-pointer"
+          className="absolute text-[#bdbdbd] text-[30px] top-[24px] right-[24px] cursor-pointer"
         />
-
         <div className="flex flex-col items-center gap-[32px]">
           <div className="flex flex-col items-center gap-[8px]">
-            <img src={icon} className="h-[56px]" />
+            <div className="text-[76px]">{icon}</div>
             <div className="text-[20px] font-medium">{title}</div>
           </div>
           <div className="flex flex-col items-center gap-[8px]">
