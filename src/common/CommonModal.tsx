@@ -22,19 +22,23 @@ export default function CommonModal({
   if (!isOpen) return null
 
   return (
-    <ModalWrapper className={className}> 
+    <ModalWrapper className={className}>
       {/* X 버튼 */}
       <button
-        className="absolute top-4 right-4 text-[#BDBDBD] text-xl"
+        className="absolute top-4 right-4 text-[#BDBDBD] text-xl cursor-pointer"
         onClick={onClose}
       >
         <IoIosClose />
       </button>
 
       {/* 타이틀 */}
-      <h2 className="text-center text-[24px] font-bold text-[#8349FF]">{title}</h2>
+      <h2 className="text-center mt-[20px] text-[24px] font-bold text-[#8349FF]">
+        {title}
+      </h2>
       {subtitle && (
-        <p className="mt-2 text-center text-[16px] text-[#BDBDBD]">{subtitle}</p>
+        <p className="mt-[8px] text-center text-[16px] text-[#BDBDBD]">
+          {subtitle}
+        </p>
       )}
 
       {/* 콘텐츠 */}

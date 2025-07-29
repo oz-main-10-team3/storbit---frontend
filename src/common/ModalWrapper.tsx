@@ -9,12 +9,12 @@ interface ModalWrapperProps {
 const ModalWrapper: React.FC<ModalWrapperProps> = ({
   children,
   width = 'w-[396px]',
-  className = '', 
+  className = '',
 }) => {
   return (
     <div className="fixed inset-0 bg-[rgba(18,18,18,0.6)] z-50 flex justify-center items-center">
       <div
-        className={`bg-white ${width} rounded-xl p-[24px] relative flex flex-col items-center ${className}`} 
+        className={`bg-white ${width} rounded-xl p-[24px] relative flex flex-col items-center ${className}`}
       >
         {children}
       </div>
