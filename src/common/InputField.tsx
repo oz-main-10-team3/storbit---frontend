@@ -13,17 +13,26 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
     const isFilled = !!props.value && String(props.value).length > 0
 
     const inputClass = cn(
-      'w-full px-4 py-2.5 rounded-md border text-sm placeholder:text-gray-400 transition',
+      'w-full px-4 py-2.5 rounded-md border text-sm placeholder:text-gray-400 transition-colors duration-100 focus:outline-none',
+      className,
       {
-        'border-gray-300 text-text4':
-          !isFocused && !isFilled && !error && !success, // Default
-        'border-black text-text1': isFocused && !error && !success, // Focus
+        // 최우선: 오류 스타일
+        'border-alertText text-text': !!error,
+
+        // 성공 스타일 (오류 없을 때만)
+        'text-text': !error && !!success,
+
+        // 포커스 상태 (에러, 성공 없을 때만)
+        'border-black text-text': isFocused && !error && !success,
+
+        // 입력만 된 상태 (포커스 아님, 에러/성공 없음)
         'border-gray-300 text-text':
-          isFilled && !isFocused && !error && !success, // Input
-        'border-alertText text-text': error, // Error
-        'text-text': success && !error, // Success
-      },
-      className
+          isFilled && !isFocused && !error && !success,
+
+        // 기본 상태
+        'border-gray-300 text-text4':
+          !isFocused && !isFilled && !error && !success,
+      }
     )
 
     return (
@@ -45,10 +54,10 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           {...props}
         />
         {error && (
-          <p className="text-xs text-alertText font-medium mt-1">*{error}</p>
+          <p className="text-xs text-alertText font-medium mt-1">* {error}</p>
         )}
         {!error && success && (
-          <p className="text-xs text-alertText font-medium mt-1">*{success}</p>
+          <p className="text-xs text-alertText font-medium mt-1">* {success}</p>
         )}
       </div>
     )
@@ -56,5 +65,4 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 )
 
 InputField.displayName = 'InputField'
-
 export default InputField
