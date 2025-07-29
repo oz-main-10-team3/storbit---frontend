@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { cva } from 'class-variance-authority'
-import checkIcon from '@/assets/dropdownicon/AiOutlineLeft.png'
 import { cn } from '@/utils/cn'
+import { AiOutlineLeft } from 'react-icons/ai'
 
 interface DropdownOption<T = string> {
   label: string
@@ -62,7 +62,7 @@ export default function Dropdown<T = string>({
         <span className="flex justify-between items-center w-full">
           {selectedLabel ?? <span className="text-text4">{placeholder}</span>}
           <span className="ml-2 text-text4">
-            <img src={checkIcon} alt="체크 아이콘" />
+            <AiOutlineLeft className="rotate-270" />
           </span>
         </span>
       </button>
