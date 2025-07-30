@@ -2,7 +2,10 @@
 
 @theme {
   --color-primary: #8349ff; /* 메인색상 */
+  --color-secondary: #f9f5ff; /* 보조색상 */
   --color-primary-hover: #6b3acb; /* 메인색상 호버 */
+  --color-secondary-hover: #f2e9ff; /* 보조색상 호버 */
+  --color-secondary-textHover: #6e32ff; /* 보조색상 텍스트 호버 */
   --color-text: #121212; /* 기본 텍스트 색상 */
   --color-text2: #4d4d4d; /* 보조 텍스트 색상 (기본색상보다 조금 연함)*/
   --color-text3: #ffffff; /* 흰색 텍스트 색상 */
