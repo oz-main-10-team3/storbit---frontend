@@ -1,3 +1,4 @@
+import CommonButton from '@/common/CommonButton'
 import TransientModal from '@/common/TransientModal'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -26,6 +27,20 @@ export default function LoginPage() {
           onClose={() => setIsOpen(false)}
           type="start"
         ></TransientModal>
+      </div>
+      <div className="flex flex-col gap-2">
+        <CommonButton variant="primary">
+          <span>로그인</span>
+        </CommonButton>
+        <CommonButton variant="secondary">
+          <span>회원가입</span>
+        </CommonButton>
+        <CommonButton variant="grayStyle">
+          <span>회색 버튼</span>
+        </CommonButton>
+        <CommonButton variant="disabled" visualScale="md">
+          <span>비활성화 버튼</span>
+        </CommonButton>
       </div>
     </>
   )
