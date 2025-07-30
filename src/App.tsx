@@ -31,8 +31,11 @@ import MypageLayout from '@/pages/Layout/MypageLayout'
 import AccountDeletePage from '@/pages/auth/AccountDeletePage'
 import MessageLayout from '@/pages/Layout/MessageLayout'
 import NotFound from '@/pages/NotFound'
+import TermsOfServicePage from '@/pages/terms/TermsOfServicePage'
+import PrivacyPolicyPage from '@/pages/privacy/PrivacyPolicyPage'
+import ContactPage from '@/pages/contact/ContactPage'
 
-function App() {
+export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -60,7 +63,6 @@ function App() {
           path="/study/create/success"
           element={<StudyCreateSuccessPage />}
         />
-        <Route path="/study/:roomid" element={<StudyRoomPage />} />
         <Route
           path="/study/category/:category"
           element={<StudyCategoryPage />}
@@ -96,9 +98,13 @@ function App() {
         <Route path="/event" element={<EventMainPage />} />
         <Route path="/event/:eventid" element={<EventDetailPage />} />
         <Route path="*" element={<NotFound />} />
+
+        {/* 약관, 개인정보처리방침, 문의하기 */}
+        <Route path="/terms" element={<TermsOfServicePage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Route>
+      <Route path="/study/:roomid" element={<StudyRoomPage />} />
     </Routes>
   )
 }
-
-export default App
