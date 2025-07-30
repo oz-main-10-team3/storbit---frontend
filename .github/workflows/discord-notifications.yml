@@ -72,6 +72,15 @@ jobs:
                 "yongarframe")
                   MENTIONS="$MENTIONS <@1339070103677042718>"
                   ;;
+                "Lee-sung-il")
+                  MENTIONS="$MENTIONS <@557510802773639171>"
+                  ;;
+                "93choi")
+                  MENTIONS="$MENTIONS <@1239806309789077585>"
+                  ;;  
+                "Js00223")
+                  MENTIONS="$MENTIONS <@866946002979913751>"
+                  ;;    
                 *)
                   MENTIONS="$MENTIONS @$login"
                   ;;
@@ -84,6 +93,9 @@ jobs:
                 "chen4023") MENTIONS="<@683563560063991848>" ;;
                 "devjaesung") MENTIONS="<@1344112571330072626>" ;;
                 "yongarframe") MENTIONS="<@1339070103677042718>" ;;
+                "Lee-sung-il") MENTIONS="<@557510802773639171>" ;;
+                "93choi") MENTIONS="<@1239806309789077585>" ;;
+                "Js00223") MENTIONS="<@866946002979913751>" ;;
                 *) MENTIONS="@$CURRENT_REVIEWER" ;;
               esac
             fi
@@ -168,6 +180,15 @@ jobs:
             "yongarframe")
               AUTHOR_MENTION="<@1339070103677042718>"
               ;;
+            "Lee-sung-il")
+              AUTHOR_MENTION="<@557510802773639171>"
+              ;;
+            "93choi")
+              AUTHOR_MENTION="<@1239806309789077585>"
+              ;;
+            "Js00223")
+              AUTHOR_MENTION="<@866946002979913751>"
+              ;;
             *)
               AUTHOR_MENTION="@${{ github.event.pull_request.user.login }}"
               ;;
@@ -214,6 +235,15 @@ jobs:
               ;;
             "yongarframe")
               AUTHOR_MENTION="<@1339070103677042718>"
+              ;;
+            "Lee-sung-il")
+              AUTHOR_MENTION="<@557510802773639171>"
+              ;;
+            "93choi")
+              AUTHOR_MENTION="<@1239806309789077585>"
+              ;;
+            "Js00223")
+              AUTHOR_MENTION="<@866946002979913751>"
               ;;
             *)
               AUTHOR_MENTION="@${{ github.event.pull_request.user.login }}"
