@@ -1,11 +1,15 @@
 import InputField from '@/common/InputField'
 import { useState } from 'react'
 import CommonButton from '@/common/CommonButton'
+import { useNavigate } from 'react-router-dom'
 
 export default function FindEmailPage() {
   const [email, setEmail] = useState('')
   const [validationCode, setValidationCode] = useState('')
-
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate('/auth/find-email/success')
+  }
   return (
     <div className="flex flex-col items-center justify-center bg-white h-[856px]">
       <div className="flex flex-col items-center justify-center gap-[64px]">
@@ -47,7 +51,9 @@ export default function FindEmailPage() {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center gap-[24px] w-full">
-            <CommonButton className="text-[15px]">계정 찾기</CommonButton>
+            <CommonButton className="text-[15px]" onClick={handleClick}>
+              계정 찾기
+            </CommonButton>
           </div>
         </div>
       </div>
