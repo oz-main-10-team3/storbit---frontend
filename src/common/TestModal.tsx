@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import CommonModal from '../common/CommonModal'
 import { cn } from '@/utils/cn'
-import ToastMessage from './ToastMessage'
+import ToastMessage from '@/common/ToastMessage'
+import CommonModal from '@/common/CommonModal'
 
 interface TestModalProps {
   isOpen: boolean

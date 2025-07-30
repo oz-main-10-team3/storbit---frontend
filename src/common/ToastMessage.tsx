@@ -5,14 +5,19 @@ import { IoCheckmarkCircle } from 'react-icons/io5'
 interface ToastMessageProps {
   message: string
   duration?: number
-  onClose?: () => void
+  onClose: () => void // 옵셔널 제거 → 필수로 변경
   className?: string
 }
 
-const ToastMessage = ({ message, duration = 3000, onClose, className }: ToastMessageProps) => {
+const ToastMessage = ({
+  message,
+  duration = 3000,
+  onClose,
+  className,
+}: ToastMessageProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose?.()
+      onClose()
     }, duration)
     return () => clearTimeout(timer)
   }, [duration, onClose])

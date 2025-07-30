@@ -3,7 +3,7 @@ import React from 'react'
 interface ModalWrapperProps {
   children: React.ReactNode // 모달 내부 콘텐츠
   width?: string // 모달 너비 (Tailwind 클래스로 전달)
-  className?: string // ✅ 외부에서 전달받은 커스텀 스타일
+  className?: string // 외부에서 전달받은 커스텀 스타일
 }
 
 const ModalWrapper: React.FC<ModalWrapperProps> = ({
