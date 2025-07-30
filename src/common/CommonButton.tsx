@@ -25,7 +25,9 @@ const ButtonVariants = cva(
   }
 )
 
-interface ButtonProps extends VariantProps<typeof ButtonVariants> {
+interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof ButtonVariants> {
   className?: string
   children?: React.ReactNode
   disabled?: boolean
