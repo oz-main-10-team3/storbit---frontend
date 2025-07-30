@@ -5,7 +5,7 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
   success?: string
-  type?: 'text' | 'checkbox' | 'email' | 'password'
+  type?: 'text' | 'checkbox' | 'email' | 'password' | 'number'
 }
 
 export default function InputField({
