@@ -1,32 +1,28 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+
+const menuItems = [
+  { path: '/mystudy/applied', label: '신청한 스터디' },
+  { path: '/mystudy/joined', label: '참여한 스터디' },
+  { path: '/mystudy/created', label: '내가 만든 스터디' },
+  { path: '/mystudy/favorites', label: '찜한 스터디' },
+]
 
 export default function MyStudySidebar() {
   return (
-    <div className="flex flex-col text-white gap-[10px]">
-      <Link
-        className="bg-amber-600 rounded-[5px] w-[120px] h-[40px] flex items-center justify-center"
-        to="/mystudy/applied"
-      >
-        신청한 스터디
-      </Link>
-      <Link
-        className="bg-amber-600 rounded-[5px] w-[120px] h-[40px] flex items-center justify-center"
-        to="/mystudy/joined"
-      >
-        참여한 스터디
-      </Link>
-      <Link
-        className="bg-amber-600 rounded-[5px] w-[120px] h-[40px] flex items-center justify-center"
-        to="/mystudy/created"
-      >
-        내가만든 스터디
-      </Link>
-      <Link
-        className="bg-amber-600 rounded-[5px] w-[120px] h-[40px] flex items-center justify-center"
-        to="/mystudy/favorites"
-      >
-        찜한 스터디
-      </Link>
+    <div className="flex flex-col gap-[40px] text-sm text-text font-medium ml-[130px] mt-[88px]">
+      {menuItems.map(({ path, label }) => (
+        <NavLink
+          key={path}
+          to={path}
+          className={({ isActive }) =>
+            `transition-colors duration-150 ${
+              isActive ? 'text-primary font-bold' : 'text-[#BDBDBD]'
+            }`
+          }
+        >
+          {label}
+        </NavLink>
+      ))}
     </div>
   )
 }

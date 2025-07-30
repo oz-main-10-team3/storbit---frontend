@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "코딩테스트 합격반",
+    "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
+    "imageUrl": "/assets/mockdataimage/requestedStudy.png",
+    "tags": ["왕초보", "프로그래밍"],
+    "isLiked": true,
+    "isApplied": true,
+    "status": "default"
+  },
+  {
+    "id": 2,
+    "title": "코딩테스트 합격반",
+    "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
+    "imageUrl": "/assets/mockdataimage/requestedStudy.png",
+    "tags": ["왕초보", "프로그래밍"],
+    "isLiked": false,
+    "isApplied": true,
+    "status": "매칭 완료"
+  },
+  {
+    "id": 3,
+    "title": "코딩테스트 합격반",
+    "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
+    "imageUrl": "/assets/mockdataimage/requestedStudy.png",
+    "tags": ["왕초보", "프로그래밍"],
+    "isLiked": true,
+    "isApplied": true,
+    "status": "미승인"
+  },
+  {
+    "id": 4,
+    "title": "코딩테스트 합격반",
+    "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
+    "imageUrl": "/assets/mockdataimage/requestedStudy.png",
+    "tags": ["왕초보", "프로그래밍"],
+    "isLiked": true,
+    "isApplied": true,
+    "status": "검토중"
+  },
+  {
+    "id": 5,
+    "title": "코딩테스트 합격반",
+    "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
+    "imageUrl": "/assets/mockdataimage/requestedStudy.png",
+    "tags": ["왕초보", "프로그래밍"],
+    "isLiked": true,
+    "isApplied": true,
+    "status": "대기"
+  },
+  {
+    "id": 6,
+    "title": "코딩테스트 합격반",
+    "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
+    "imageUrl": "/assets/mockdataimage/requestedStudy.png",
+    "tags": ["왕초보", "프로그래밍"],
+    "isLiked": true,
+    "isApplied": true,
+    "status": "미승인"
+  }
+]

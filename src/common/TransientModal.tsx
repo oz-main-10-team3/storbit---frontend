@@ -6,7 +6,13 @@ import { BiSolidRocket } from 'react-icons/bi'
 interface CommonModalProps {
   isOpen: boolean
   onClose: () => void
-  type: 'cancel' | 'start' | 'leave' | 'application' | 'dissolution'
+  type:
+    | 'cancel'
+    | 'start'
+    | 'leave'
+    | 'application'
+    | 'dissolution'
+    | 'userCancel'
   autoCloseDelay?: number // 초 단위, 기본값은 5초
 }
 
@@ -43,6 +49,11 @@ export default function TransientModal({
       icon: <AiOutlineCheckCircle />,
       title: '스터디 해체 완료',
       message: '신청자들에게 알림이 전송되었어요.',
+    },
+    userCancel: {
+      icon: <AiOutlineCheckCircle />,
+      title: '신청 취소 완료',
+      message: '24시간 후에 다시 신청할 수 있어요.',
     },
   }
 
