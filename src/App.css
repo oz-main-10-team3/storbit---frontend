@@ -1,5 +1,17 @@
 @import 'tailwindcss';
 
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+/* 커스텀 유틸리티 */
 @theme {
   --color-primary: #8349ff; /* 메인색상 */
   --color-secondary: #f9f5ff; /* 보조색상 */
