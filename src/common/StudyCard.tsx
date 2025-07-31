@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { cn } from '@/utils/cn'
-import { IoHeartOutline } from 'react-icons/io5'
+import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5'
 import { HiOutlineUserGroup } from 'react-icons/hi2'
 import { BsClock } from 'react-icons/bs'
 
@@ -10,10 +11,9 @@ interface StudyCardProps {
   memberCount?: number
   time?: string
   showBookmarkIcon?: boolean
-  clickable?: boolean
-  thumbnailRatio?: string
-  className?: string // 외부에서 크기 커스터마이징 가능
+  className?: string
   variant?: 'horizontal' | 'vertical'
+  thumbnailRatio?: string
   onClick?: () => void
 }
 
@@ -23,30 +23,35 @@ const StudyCard = ({
   description,
   memberCount,
   time,
+  showBookmarkIcon,
   className,
   variant = 'vertical',
+  thumbnailRatio,
   onClick,
 }: StudyCardProps) => {
   const isVertical = variant === 'vertical'
+  const [isBookmarked, setIsBookmarked] = useState(false)
+
+  const imageClass = thumbnailRatio
+    ? thumbnailRatio
+    : isVertical
+      ? 'w-[320px] h-[320px]'
+      : 'w-[440px] h-[256px]'
+
+  const wrapperClass = isVertical ? 'w-[320px]' : 'w-[440px]'
+
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.stopPropagation() // 카드 클릭 방지
+    setIsBookmarked(prev => !prev)
+  }
 
   return (
     <div
       onClick={onClick}
-      className={cn(
-        'cursor-pointer',
-        isVertical
-          ? 'w-full max-w-[360px] min-w-[260px]'
-          : 'w-full max-w-[440px]',
-        className
-      )}
+      className={cn('block', wrapperClass, className)}
     >
       {/* 이미지 */}
-      <div
-        className={cn(
-          'rounded-[8px] overflow-hidden',
-          isVertical ? 'w-full h-[360px]' : 'w-full h-[260px]'
-        )}
-      >
+      <div className={cn(imageClass, 'rounded-[8px] overflow-hidden')}>
         <img
           src={imageUrl}
           alt={title}
@@ -55,18 +60,28 @@ const StudyCard = ({
       </div>
 
       {/* 텍스트 영역 */}
-      <div className={cn('mt-[16px]')}>
+      <div className={cn(isVertical ? 'pt-[16px]' : 'pt-[20px]')}>
         <div className="flex justify-between items-start">
-          <p className="text-[18px] font-semibold text-[#121212] line-clamp-1">{title}</p>
-          <IoHeartOutline className="w-[24px] h-[24px] text-[#bdbdbd] shrink-0 mt-[1px]" />
+          <p className="text-[18px] font-semibold text-[#121212] line-clamp-1">
+            {title}
+          </p>
+          {showBookmarkIcon !== false && (
+            <button onClick={handleBookmarkClick}>
+              {isBookmarked ? (
+                <IoHeartSharp className="w-[24px] h-[24px] text-[#8349FF] cursor-pointer" />
+              ) : (
+                <IoHeartOutline className="w-[24px] h-[24px] text-[#bdbdbd] cursor-pointer" />
+              )}
+            </button>
+          )}
         </div>
 
-        <p className="text-[14px] text-[#121212] mt-[4px] text-left line-clamp-2">
+        <p className="text-[14px] text-[#121212] mt-[8px] text-left line-clamp-2">
           {description}
         </p>
 
-        {(memberCount || time) && (
-          <div className="flex items-center gap-4 text-sm text-[#bdbdbd] mt-[12px]">
+        {!isVertical && (memberCount || time) && (
+          <div className="flex items-center gap-4 text-sm text-[#bdbdbd] mt-4">
             {memberCount !== undefined && (
               <div className="flex items-center gap-1">
                 <HiOutlineUserGroup className="w-[16px] h-[16px]" />
