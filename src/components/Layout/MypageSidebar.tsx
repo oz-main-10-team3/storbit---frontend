@@ -9,7 +9,7 @@ const menuItems = [
 
 export default function MypageSidebar() {
   return (
-    <div className="flex flex-col justify-center items-center gap-[45px] w-[272px] ml-[260px] mt-[88px]">
+    <div className="flex flex-col justify-start items-center gap-[45px] w-[272px] ml-[260px] mt-[88px]">
       <div className="flex flex-col items-center gap-[23px] w-full">
         <div className="w-full flex justify-between gap-[20px]">
           <img

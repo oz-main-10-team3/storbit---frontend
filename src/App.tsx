@@ -55,7 +55,7 @@ export default function App() {
           path="/auth/find-email/success"
           element={<FindEmailSuccessPage />}
         />
-        <Route path="auth/account-delete" element={<AccountDeletePage />} />
+        <Route path="/auth/account-delete" element={<AccountDeletePage />} />
 
         {/* 스터디 */}
         <Route path="/study/create" element={<StudyCreatePage />} />
