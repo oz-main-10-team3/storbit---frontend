@@ -3,6 +3,7 @@ import { cn } from '@/utils/cn'
 import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5'
 import { HiOutlineUserGroup } from 'react-icons/hi2'
 import { BsClock } from 'react-icons/bs'
+import StudyTag from '@/common/StudyTag'
 
 interface StudyCardProps {
   imageUrl: string
@@ -11,9 +12,9 @@ interface StudyCardProps {
   memberCount?: number
   time?: string
   showBookmarkIcon?: boolean
-  className?: string
+  className?: string //외부에서 카드 전체 스타일을 확장할 때 사용 (Tailwind 클래스)
   variant?: 'horizontal' | 'vertical'
-  thumbnailRatio?: string
+  thumbnailRatio?: string //썸네일 이미지 영역의 크기를 커스터마이징할 때 사용 
   onClick?: () => void
 }
 
@@ -42,16 +43,20 @@ const StudyCard = ({
 
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.stopPropagation() // 카드 클릭 방지
-    setIsBookmarked(prev => !prev)
+    setIsBookmarked((prev) => !prev)
   }
 
   return (
-    <div
-      onClick={onClick}
-      className={cn('block', wrapperClass, className)}
-    >
-      {/* 이미지 */}
-      <div className={cn(imageClass, 'rounded-[8px] overflow-hidden')}>
+    <div onClick={onClick} className={cn('block', wrapperClass, className)}>
+      {/* 이미지 영역 */}
+      <div className={cn(imageClass, 'relative rounded-[8px] overflow-hidden')}>
+        {/* 태그 박스 */}
+        <div className="absolute top-[16px] right-[16px] flex gap-[4px] z-10">
+          <StudyTag variant="level" text="초급" />
+          <StudyTag variant="category" text="프로그래밍" />
+        </div>
+
+        {/* 이미지 */}
         <img
           src={imageUrl}
           alt={title}
