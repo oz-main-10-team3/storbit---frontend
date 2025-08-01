@@ -34,7 +34,7 @@ export default function StudyPlannerPage() {
         </div>
         <div className="flex gap-[16px]">
           <div className="flex flex-col gap-[16px] w-[440px]">
-            <div className="flex flex-col gap-[25px] w-[440px] h-[248px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[24px]">
+            <div className="flex flex-col gap-[25px] w-[440px] h-[248px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px]">
               <div className="flex items-center justify-between">
                 <div className="text-text1 text-[20px]">도전 중인 목표</div>
                 <GoPlus
@@ -43,22 +43,26 @@ export default function StudyPlannerPage() {
                 />
               </div>
               <div className="flex flex-col gap-[4px]">
-                {goalInProgresses.map(({ goal, dDay, progressDay }, index) => (
-                  <div key={index} className="flex flex-col gap-[1px]">
-                    <div className="text-[16px]">{goal}</div>
-                    <div className="flex items-center gap-[5px]">
-                      <ProgressBar
-                        current={progressDay}
-                        goal={dDay}
-                        className="w-[336px]"
-                      />
-                      <div className="text-[16px]">d-365</div>
+                {goalInProgresses.map(({ goal, dDay, progressDay }, index) => {
+                  const daysLeft = dDay - progressDay
+
+                  return (
+                    <div key={index} className="flex flex-col gap-[1px]">
+                      <div className="text-[16px]">{goal}</div>
+                      <div className="flex items-center gap-[5px]">
+                        <ProgressBar
+                          current={progressDay}
+                          goal={dDay}
+                          className="w-[336px]"
+                        />
+                        <div className="text-[16px]">d-{daysLeft}</div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
-            <div className="w-[440px] h-[472px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[24px] flex flex-col">
+            <div className="w-[440px] h-[472px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px] flex flex-col">
               {/* 스크롤 영역 */}
               <div className="flex-1 overflow-y-scroll scrollbar-hide">
                 {/* 상단 고정 헤더 */}
@@ -92,8 +96,8 @@ export default function StudyPlannerPage() {
             </div>
           </div>
           <div className="flex flex-col gap-[16px] w-full">
-            <div className="w-full h-[408px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[24px]"></div>
-            <div className="w-full h-[312px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[24px]"></div>
+            <div className="w-full h-[408px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px]"></div>
+            <div className="w-full h-[312px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px]"></div>
           </div>
         </div>
       </div>
