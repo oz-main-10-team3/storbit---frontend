@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { type ReactNode, useState } from 'react'
 import { FaPen } from 'react-icons/fa'
 import InputField from '@/common/InputField'
 import CommonModal from '@/common/CommonModal'
@@ -10,7 +10,7 @@ interface MissionModalProps {
   onClose: () => void
   onStart: () => void
   title: string
-  subtitle: string
+  subtitle: ReactNode | string
 }
 
 export default function MissionModal({
@@ -51,8 +51,8 @@ export default function MissionModal({
         isOpen={isOpen}
         onClose={onClose}
         title={title}
-        subtitle={subtitle}
-        className="w-[480px] h-[648px] p-4"
+        subtitle={<span className="whitespace-pre-line">{subtitle}</span>}
+        className="w-[480px] max-h-[90vh] p-4"
       >
         <div className="space-y-4 ml-[30px] mr-[30px]">
           <div>
@@ -138,7 +138,7 @@ export default function MissionModal({
 
           <div className="pt-8">
             <CommonButton
-              className="w-[368px] h-[48px] text-base"
+              className="h-[48px] text-base"
               variant="primary"
               onClick={() => {
                 onStart()

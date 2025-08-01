@@ -1,18 +1,14 @@
 // src/pages/mystudy/MyStudyAppliedPage.tsx
 import { useEffect, useState } from 'react'
-import mockData from '@/mystudymockdata/mockStudyData.json'
-import type { Study } from '@/types/study.ts'
+import type { Study } from '@/types/study'
 import ApplicationCompleted from '@/common/ConfirmModal/ApplicationCompleted.tsx'
 import ConfirmModal from '@/common/ConfirmModal.tsx'
 import TransientModal from '@/common/TransientModal'
 import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
-
-type StudyWithStatus = Study & {
-  status: string
-}
+import { studyData } from '@/data/mockData.ts'
 
 export default function MyStudyAppliedPage() {
-  const [studies, setStudies] = useState<StudyWithStatus[]>([])
+  const [studies, setStudies] = useState<Study[]>([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedQueue, setSelectedQueue] = useState(0)
   const [selectedStatus, setSelectedStatus] = useState('default')
@@ -22,7 +18,7 @@ export default function MyStudyAppliedPage() {
   }
 
   useEffect(() => {
-    setStudies(mockData as StudyWithStatus[])
+    setStudies(studyData)
   }, [])
 
   const handleOpenModal = (id: number, status: string) => {

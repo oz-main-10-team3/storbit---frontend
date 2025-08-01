@@ -35,12 +35,16 @@ export default function LeaderMissionModal({
       isOpen={isOpen}
       onClose={onClose}
       title="스터디 최종 목표"
-      subtitle="스터디 시작하기 전 스터디 최종 목표를 설정해주세요. 최종 목표를 설정하면 변경이 어려워요."
-      className="w-[460px] h-[376px]  p-8"
+      subtitle={
+        <p className="whitespace-pre-line text-sm text-text4 text-center">
+          스터디 시작하기 전 스터디 최종 목표를 설정해주세요.
+          {'\n'}최종 목표를 설정하면 변경이 어려워요.
+        </p>
+      }
+      className="w-[460px] max-h-[90vh] p-8 overflow-y-auto"
     >
-      <div className="flex flex-col justify-between h-full">
-        {/* 입력 + 저장 버튼 */}
-        <div className="flex gap-2 items-center mb-[24px]">
+      <div className="flex flex-col justify-between gap-6">
+        <div className="flex gap-2 items-center mx-auto">
           <InputField
             value={goal}
             onChange={(e) => {
@@ -48,24 +52,23 @@ export default function LeaderMissionModal({
               setSaved(false)
             }}
             placeholder="세계를 넘어 우주 정복!"
-            className=" w-[300px] h-[48px] text-sm"
+            className="w-[248px] h-[48px] text-sm "
           />
           <CommonButton
             onClick={handleSave}
             disabled={!goal.trim()}
             variant={goal.trim() ? 'primary' : 'disabled'}
-            className="w-[112px] h-[48px] text-sm"
+            className="w-[112px] h-[48px] text-sm "
           >
             저장
           </CommonButton>
         </div>
 
-        {/* 다음 버튼 */}
         <CommonButton
           onClick={handleNext}
           disabled={!saved}
           variant={saved ? 'primary' : 'disabled'}
-          className="w-full h-[48px] text-base"
+          className="w-[368px] h-[48px] text-base mx-auto"
         >
           다음
         </CommonButton>

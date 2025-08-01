@@ -1,4 +1,4 @@
-import { type PropsWithChildren } from 'react'
+import { type PropsWithChildren, type ReactNode } from 'react'
 import { IoIosClose } from 'react-icons/io'
 import ModalWrapper from '@/common/ModalWrapper'
 
@@ -6,7 +6,7 @@ interface CommonModalBaseProps {
   isOpen: boolean
   onClose: () => void
   title: string
-  subtitle?: string
+  subtitle?: ReactNode
   className?: string
 }
 

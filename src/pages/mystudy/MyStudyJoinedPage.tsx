@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import type { Study } from '@/types/study'
-import mockData from '@/mystudymockdata/mockStudyData.json'
 import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
 import MissionModal from '@/common/MissionModal.tsx'
 import TransientModal from '@/common/TransientModal.tsx'
 import LeaderMissionModal from '@/common/LeaderMissionModal.tsx'
+import { studyData } from '@/data/mockData.ts'
 
 export default function MyStudyJoinedPage() {
   const currentUserId = 123 // 현재 로그인된 유저 ID
@@ -16,7 +16,7 @@ export default function MyStudyJoinedPage() {
   const [isTransitionModalOpen, setIsTransitionModalOpen] = useState(false)
 
   useEffect(() => {
-    setStudies(mockData as Study[])
+    setStudies(studyData)
   }, [])
 
   return (
@@ -47,7 +47,12 @@ export default function MyStudyJoinedPage() {
           onClose={() => setIsDailyModalOpen(false)}
           onStart={() => setIsTransitionModalOpen(true)}
           title="데일리 미션"
-          subtitle="내가 오늘 꼭 달성하고 싶은 목표를 설정해주세요! 최대 5개까지 설정할 수 있습니다."
+          subtitle={
+            <p className="whitespace-pre-line text-sm text-text4 text-center">
+              내가 오늘 꼭 달성하고 싶은 목표를 설정해주세요!
+              {'\n'}최대 5개까지 설정할 수 있습니다.
+            </p>
+          }
         />
       )}
 
@@ -65,7 +70,12 @@ export default function MyStudyJoinedPage() {
           onClose={() => setIsCommonModalOpen(false)}
           onStart={() => setIsTransitionModalOpen(true)}
           title="공통 미션"
-          subtitle="스터디 전원의 오늘 목표를 명확하게 작성해주세요! 최대 5개까지 작성이 가능합니다."
+          subtitle={
+            <p className="whitespace-pre-line text-sm text-text4 text-center">
+              스터디 전원의 오늘 목표를 명확하게 작성해주세요!
+              {'\n'}최대 5개까지 작성이 가능합니다.
+            </p>
+          }
         />
       )}
 
