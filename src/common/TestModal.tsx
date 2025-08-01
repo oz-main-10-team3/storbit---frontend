@@ -54,7 +54,23 @@ const TestModal = ({ isOpen, onClose }: TestModalProps) => {
           variant="vertical"
           className=""
         />
+      {/* vertical + 정사각형 이미지 + 사이즈 제어 */}
+      <div className="ml-[100px]">
+        <StudyCard
+          imageUrl={defaultThumbnail}
+          title="정방향 카드"
+          description="영어 말하기가 두렵다면 여기서 시작! 매일 30분씩 일상 표현부터 비즈니스 회화까지 단계별 학습 할수 있습니다."
+          memberCount={4}
+          time="토요일 오후 5시"
+          variant="vertical"
+          className=""
+        />
 
+        {/* horizontal + 가로 이미지 + 사이즈 조절 */}
+        <StudyCard
+          imageUrl={defaultThumbnail}
+          title="가로형 카드"
+          description="업무 효율성을 10배 높이고 싶다면! ChatGPT로 문서 작성, 기획서 생성, 
         {/* horizontal + 가로 이미지 + 사이즈 조절 */}
         <StudyCard
           imageUrl={defaultThumbnail}
@@ -67,9 +83,9 @@ const TestModal = ({ isOpen, onClose }: TestModalProps) => {
           className=""
         />
       </div>
-      <EventTag status="진행중" date="~06.17" />
     </>
   )
 }
 
 export default TestModal
+

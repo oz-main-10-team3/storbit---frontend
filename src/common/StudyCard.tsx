@@ -44,19 +44,13 @@ const StudyCard = ({
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.stopPropagation() // 카드 클릭 방지
     setIsBookmarked((prev) => !prev)
+    setIsBookmarked((prev) => !prev)
   }
 
   return (
     <div onClick={onClick} className={cn('block', wrapperClass, className)}>
-      {/* 이미지 영역 */}
-      <div className={cn(imageClass, 'relative rounded-[8px] overflow-hidden')}>
-        {/* 태그 박스 */}
-        <div className="absolute top-[16px] right-[16px] flex gap-[4px] z-10">
-          <StudyTag variant="level" text="초급" />
-          <StudyTag variant="category" text="프로그래밍" />
-        </div>
-
-        {/* 이미지 */}
+      {/* 이미지 */}
+      <div className={cn(imageClass, 'rounded-[8px] overflow-hidden')}>
         <img
           src={imageUrl}
           alt={title}

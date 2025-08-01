@@ -1,5 +1,3 @@
-// src/pages/StudyCreatePage.tsx
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,10 +6,13 @@ export default function StudyCreatePage() {
 
   const [studyName, setStudyName] = useState('')
   const [studyType, setStudyType] = useState('')
+  const [studyIntro, setStudyIntro] = useState('')
+  const [studyCategory, setStudyCategory] = useState('')
   const [isUnlimited, setIsUnlimited] = useState(false)
   const [capacity, setCapacity] = useState('')
   const [selectedTime, setSelectedTime] = useState('')
   const [selectedGender, setSelectedGender] = useState('')
+  const [selectedDays, setSelectedDays] = useState<string[]>([])
   const [error, setError] = useState('')
 
   const studyTypeOptions = [
@@ -27,6 +28,25 @@ export default function StudyCreatePage() {
     '오전 3:00',
     '오전 4:00',
   ]
+
+  const studyCategoryOptions = ['온라인', '오프라인', '혼합']
+
+  const daysOfWeek = [
+    '월요일',
+    '화요일',
+    '수요일',
+    '목요일',
+    '금요일',
+    '토요일',
+    '일요일',
+    '요일별 조율',
+  ]
+
+  const toggleDay = (day: string) => {
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    )
+  }
 
   const validate = () => {
     if (!studyName.trim()) {
@@ -63,19 +83,44 @@ export default function StudyCreatePage() {
               className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
             />
             <button
+              type="button"
               disabled={!studyName}
-              className={`px-4 py-2 rounded text-sm font-medium
-        ${
-          studyName
-            ? 'bg-purple-500 text-white hover:bg-purple-600'
-            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-        }
-      `}
+              className={`px-4 py-2 rounded text-sm font-medium ${
+                studyName
+                  ? 'bg-purple-500 text-white hover:bg-purple-600'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
             >
               중복확인
             </button>
           </div>
           {error && <p className="text-sm text-red-500 mt-1">* {error}</p>}
+        </div>
+
+        {/* 스터디 소개 */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            스터디 소개<span className="text-red-500">*</span>
+          </label>
+          <textarea
+            value={studyIntro}
+            onChange={(e) => setStudyIntro(e.target.value)}
+            placeholder="스터디 소개를 작성해주세요"
+            className="w-full border border-gray-300 rounded px-3 py-2 h-28 resize-none text-sm"
+          />
+        </div>
+
+        {/* 대표 이미지 */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            스터디 대표 이미지
+          </label>
+          <button
+            type="button"
+            className="border border-gray-300 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-sm"
+          >
+            이미지 넣기
+          </button>
         </div>
 
         {/* 스터디 종류 */}
@@ -97,7 +142,26 @@ export default function StudyCreatePage() {
           </select>
         </div>
 
-        {/* 정원 설정 */}
+        {/* 스터디 유형 */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            스터디 유형<span className="text-red-500">*</span>
+          </label>
+          <select
+            value={studyCategory}
+            onChange={(e) => setStudyCategory(e.target.value)}
+            className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm"
+          >
+            <option value="">선택해 주세요</option>
+            {studyCategoryOptions.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* 인원 설정 */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             스터디 인원<span className="text-red-500">*</span>
@@ -112,26 +176,53 @@ export default function StudyCreatePage() {
           />
         </div>
 
-        {/* 인원수 무제한 */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="unlimited"
-              checked={isUnlimited}
-              onChange={() => setIsUnlimited(!isUnlimited)}
-              className="accent-purple-500 w-5 h-5"
-            />
+        {/* 인원 무제한 (토글 왼쪽, 텍스트 오른쪽) */}
+        <div className="mb-6 border border-gray-300 rounded px-4 py-3 bg-purple-50">
+          <div className="flex items-center gap-3">
+            {/* 토글 스위치 */}
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="unlimitedToggle"
+                className="sr-only peer"
+                checked={isUnlimited}
+                onChange={(e) => setIsUnlimited(e.target.checked)}
+              />
+              <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-purple-500 transition-colors duration-300"></div>
+              <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-full"></div>
+            </label>
+
+            {/* 라벨 텍스트 */}
             <label
-              htmlFor="unlimited"
+              htmlFor="unlimitedToggle"
               className="text-sm font-medium text-gray-700"
             >
-              인원수 모두 허용
+              대기자 모드 활성화
             </label>
           </div>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-2">
             정원이 가득 찬 경우 대기자 등록을 허용해요
           </p>
+        </div>
+
+        {/* 스터디 요일 */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            스터디 일정<span className="text-red-500">*</span>
+          </label>
+          <div className="flex flex-wrap gap-3 text-sm">
+            {daysOfWeek.map((day) => (
+              <label key={day} className="flex items-center gap-1">
+                <input
+                  type="checkbox"
+                  checked={selectedDays.includes(day)}
+                  onChange={() => toggleDay(day)}
+                  className="border-gray-300"
+                />
+                {day}
+              </label>
+            ))}
+          </div>
         </div>
 
         {/* 스터디 시간 */}
