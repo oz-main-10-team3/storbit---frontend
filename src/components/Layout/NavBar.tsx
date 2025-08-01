@@ -16,8 +16,10 @@ export default function NavBar() {
 
   const handleCategorySelect = (category: string, item: string) => {
     if (item) {
-      navigate(`/search/${item}`)
+      // 특정 항목 선택 시 - 해당 항목 페이지로 이동 (검색이 아님)
+      navigate(`/study/${item}`)
     } else {
+      // 카테고리 제목 선택 시 - 해당 카테고리 페이지로 이동
       navigate(`/category/${category}`)
     }
     setIsCategoryOpen(false) // 선택 후 바로 닫기
@@ -38,14 +40,19 @@ export default function NavBar() {
     }, 300)
   }
 
-  const navItemClass = 'transition-colors duration-200 hover:text-[#8349FF] hover:font-bold'
+  const navItemClass =
+    'transition-colors duration-200 hover:text-[#8349FF] hover:font-bold'
 
   return (
     <div className="w-full bg-[#212429] text-white relative">
       <div className="flex flex-col gap-[40px] w-full max-w-[1400px] mx-auto h-[224px] justify-center">
         {/* 로고 / 검색 / 로그인/회원가입 */}
         <div className="flex items-center gap-[144px]">
-          <img src={logoWhite} alt="storbitlogo-white" className="w-[240px] h-[80px]" />
+          <img
+            src={logoWhite}
+            alt="storbitlogo-white"
+            className="w-[240px] h-[80px]"
+          />
 
           <div className="relative w-[744px]">
             <input
@@ -87,10 +94,26 @@ export default function NavBar() {
             </button>
           </div>
 
-          <div><Link to="/" className={navItemClass}>홈</Link></div>
-          <div><Link to="/mystudy/applied" className={navItemClass}>나의 스터디</Link></div>
-          <div><Link to="/study/create" className={navItemClass}>스터디 만들기</Link></div>
-          <div><Link to="/event" className={navItemClass}>이벤트</Link></div>
+          <div>
+            <Link to="/" className={navItemClass}>
+              홈
+            </Link>
+          </div>
+          <div>
+            <Link to="/mystudy/applied" className={navItemClass}>
+              나의 스터디
+            </Link>
+          </div>
+          <div>
+            <Link to="/study/create" className={navItemClass}>
+              스터디 만들기
+            </Link>
+          </div>
+          <div>
+            <Link to="/event" className={navItemClass}>
+              이벤트
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -101,7 +124,7 @@ export default function NavBar() {
           onMouseEnter={openCategoryMenu}
           onMouseLeave={closeCategoryMenu}
         >
-          <CategoryMenu 
+          <CategoryMenu
             onCategorySelect={handleCategorySelect}
             onClose={() => setIsCategoryOpen(false)}
           />

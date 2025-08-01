@@ -18,37 +18,26 @@ interface CategoryItem {
   ]
   
   export default function CategoryMenu({ 
-    onCategorySelect = () => {}, 
-    onClose = () => {} 
-  }: CategoryMenuProps = {}) {
+    onCategorySelect, 
+    onClose 
+  }: CategoryMenuProps) {
     const handleItemClick = (categoryTitle: string, item: string) => {
-      if (onCategorySelect) {
-        onCategorySelect(categoryTitle, item)
-      }
-      // 카테고리 선택 후 메뉴 닫기
-      if (onClose) {
-        onClose()
-      }
+      onCategorySelect?.(categoryTitle, item)
+      onClose?.()
     }
   
     const handleCategoryTitleClick = (categoryTitle: string) => {
-      // 카테고리 제목 클릭 시 해당 카테고리 전체 검색
-      if (onCategorySelect) {
-        onCategorySelect(categoryTitle, '')
-      }
-      if (onClose) {
-        onClose()
-      }
+      onCategorySelect?.(categoryTitle, '')
+      onClose?.()
     }
   
     return (
       <div className="w-full bg-[#212429] text-white border-t border-white">
-        <div className="max-w-[1400px] mx-auto p-6 grid grid-cols-6 gap-4">
+        <div className="max-w-[1400px] mx-[124px] grid grid-cols-6 gap-[134px] p-[40px]">
           {categoryData.map((category) => (
             <div key={category.title}>
               <h3 
-                className="font-semibold text-[20px] mb-[24px] cursor-pointer 
-                transition-colors duration-200"
+                className="font-semibold text-[20px] mb-[24px] cursor-pointer"
                 onClick={() => handleCategoryTitleClick(category.title)}
               >
                 {category.title}
@@ -57,7 +46,7 @@ interface CategoryItem {
                 {category.items.map((item) => (
                   <li 
                     key={item} 
-                    className="text-[16px] cursor-pointer"
+                    className="cursor-pointer"
                     onClick={() => handleItemClick(category.title, item)}
                   >
                     {item}
