@@ -13,3 +13,5 @@ export type Message =
       content: string
       sentAt: string
     }
+
+export type CurrentMessagePageType = 'inbox' | 'sent' | 'compose' | null
