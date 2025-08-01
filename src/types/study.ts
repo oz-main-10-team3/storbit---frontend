@@ -1,4 +1,5 @@
 export interface Study {
+  userId: number
   id: number
   title: string
   description: string
