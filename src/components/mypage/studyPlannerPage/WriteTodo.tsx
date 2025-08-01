@@ -1,21 +1,18 @@
 import CommonButton from '@/common/CommonButton'
 import InputField from '@/common/InputField'
-import type { Todos } from '@/types/todos'
+import { useTodoStore } from '@/store/useTodoStore'
 import { useState } from 'react'
 
 export default function WriteTodo({
-  todos,
-  setTodos,
   setIsActive,
 }: {
-  todos: Todos[]
-  setTodos: React.Dispatch<React.SetStateAction<Todos[]>>
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   const [todoInput, setTodoInput] = useState('')
+  const addTodo = useTodoStore((state) => state.addTodo)
 
   const handleSubmit = () => {
-    setTodos([...todos, { id: Number(new Date()), content: todoInput }])
+    addTodo(todoInput)
     setTodoInput('')
   }
 

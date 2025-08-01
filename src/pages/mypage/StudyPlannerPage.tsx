@@ -2,7 +2,7 @@ import CommonButton from '@/common/CommonButton'
 import ProgressBar from '@/components/mypage/studyPlannerPage/ProgressBar'
 import Todo from '@/components/mypage/studyPlannerPage/todo'
 import WriteTodo from '@/components/mypage/studyPlannerPage/WriteTodo'
-import type { Todos } from '@/types/todos'
+import { useTodoStore } from '@/store/useTodoStore'
 import { useState } from 'react'
 import { BsPencil } from 'react-icons/bs'
 import { GoPlus } from 'react-icons/go'
@@ -13,14 +13,9 @@ const goalInProgresses = [
   { goal: 'React로 웹사이트 구현하기', dDay: 365, progressDay: 80 },
 ]
 
-const TodoMockData = [
-  { id: 1, content: 'React 기초 메일 1시간 강의 듣기' },
-  { id: 2, content: '모던 자비스크립트 Deep Dive 10페이지 보기' },
-]
-
 export default function StudyPlannerPage() {
-  const [todos, setTodos] = useState<Todos[]>(TodoMockData)
   const [isActive, setIsActive] = useState(false)
+  const todos = useTodoStore((state) => state.todos)
 
   return (
     <div className="w-[768px] mt-[88px] ml-[160px] pb-[20px]">
@@ -76,13 +71,7 @@ export default function StudyPlannerPage() {
                 </div>
 
                 {/* 동적 입력창 */}
-                {isActive && (
-                  <WriteTodo
-                    todos={todos}
-                    setTodos={setTodos}
-                    setIsActive={setIsActive}
-                  />
-                )}
+                {isActive && <WriteTodo setIsActive={setIsActive} />}
 
                 {/* 할 일 목록 */}
                 {todos.map(({ id, content }) => (
