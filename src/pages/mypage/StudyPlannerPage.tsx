@@ -1,3 +1,4 @@
+import CommonButton from '@/common/CommonButton'
 import ProgressBar from '@/components/mypage/studyPlannerPage/ProgressBar'
 import Todo from '@/components/mypage/studyPlannerPage/todo'
 import WriteTodo from '@/components/mypage/studyPlannerPage/WriteTodo'
@@ -59,25 +60,40 @@ export default function StudyPlannerPage() {
                 ))}
               </div>
             </div>
-            <div className="w-[440px] h-[472px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[24px] overflow-scroll scrollbar-hide">
-              <div className="flex items-center justify-between">
-                <div className="text-text1 text-[20px]">오늘의 할 일</div>
-                <GoPlus
-                  size={25}
-                  className="text-disabled-text cursor-pointer"
-                  onClick={() => setIsActive(true)}
-                />
+            <div className="w-[440px] h-[472px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[24px] flex flex-col">
+              {/* 스크롤 영역 */}
+              <div className="flex-1 overflow-y-scroll scrollbar-hide">
+                {/* 상단 고정 헤더 */}
+                <div className="sticky top-0 bg-white z-10 pb-[12px]">
+                  <div className="flex items-center justify-between">
+                    <div className="text-text1 text-[20px]">오늘의 할 일</div>
+                    <GoPlus
+                      size={25}
+                      className="text-disabled-text cursor-pointer"
+                      onClick={() => setIsActive(true)}
+                    />
+                  </div>
+                </div>
+
+                {/* 동적 입력창 */}
+                {isActive && (
+                  <WriteTodo
+                    todos={todos}
+                    setTodos={setTodos}
+                    setIsActive={setIsActive}
+                  />
+                )}
+
+                {/* 할 일 목록 */}
+                {todos.map(({ id, content }) => (
+                  <Todo key={id} content={content} />
+                ))}
               </div>
-              {isActive && (
-                <WriteTodo
-                  todos={todos}
-                  setTodos={setTodos}
-                  setIsActive={setIsActive}
-                />
-              )}
-              {todos.map(({ id, content }) => (
-                <Todo key={id} content={content} />
-              ))}
+
+              {/* 하단 고정 버튼 */}
+              <CommonButton className="mt-[8px]">
+                완료된 목록 삭제하기
+              </CommonButton>
             </div>
           </div>
           <div className="flex flex-col gap-[16px] w-full">
