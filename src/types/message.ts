@@ -1,5 +1,6 @@
 export type Message =
   | {
+      id: string
       type: 'personal'
       sender: string
       senderImage: string
@@ -7,6 +8,7 @@ export type Message =
       sentAt: string
     }
   | {
+      id: string
       type: 'notice'
       titlePrefix: string
       title: string

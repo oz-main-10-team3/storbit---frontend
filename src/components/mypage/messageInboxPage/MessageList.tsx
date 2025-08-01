@@ -1,11 +1,14 @@
-import { MdKeyboardArrowUp } from 'react-icons/md'
-// import { MdKeyboardArrowDown } from 'react-icons/md'
+import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md'
 import type { Message } from '@/types/message'
 import { useState } from 'react'
 import { cn } from '@/utils/cn'
+import MessageDetail from '@/components/mypage/messageInboxPage/MessageDetail'
 
 export default function MessageList({ messages }: { messages: Message[] }) {
   const [currentPage, setCurrentPage] = useState(1)
+  const [openSelectMessage, setOpenSelectMessage] = useState<string | null>(
+    null
+  )
   const itemsPerPage = 10
 
   const totalPages = Math.ceil(messages.length / itemsPerPage)
@@ -17,15 +20,26 @@ export default function MessageList({ messages }: { messages: Message[] }) {
   return (
     <div className="flex flex-col gap-[50px] pb-[20px]">
       <div>
-        {paginatedMessages.map((message, index) => (
-          <div key={index} className="pt-[16px]">
-            <div className="flex w-[664px] p-[24px] gap-[16px] items-center h-[72px] border-[1px] border-primary rounded-[8px] text-[20px]">
+        {paginatedMessages.map((message) => (
+          <div key={message.id} className="pt-[16px]">
+            <button
+              className="flex w-[664px] p-[24px] gap-[16px] items-center h-[72px] border-[1px] border-primary rounded-[8px] text-[20px] cursor-pointer"
+              onClick={() => {
+                if (openSelectMessage !== message.id) {
+                  setOpenSelectMessage(message.id)
+                } else if (openSelectMessage) {
+                  setOpenSelectMessage(null)
+                } else {
+                  setOpenSelectMessage(message.id)
+                }
+              }}
+            >
               {message.type === 'personal' ? (
                 <>
                   <div className="min-w-[160px] text-left text-text1 font-semibold">
                     {message.sender}
                   </div>
-                  <div className="text-text2 w-[423px] font-light truncate">
+                  <div className="text-text2 w-[423px] font-light truncate text-left">
                     {message.content}
                   </div>
                 </>
@@ -34,16 +48,26 @@ export default function MessageList({ messages }: { messages: Message[] }) {
                   <div className="min-w-[160px] text-left text-text1 font-semibold">
                     [{message.titlePrefix}]
                   </div>
-                  <div className="text-text2 w-[423px] font-light truncate">
+                  <div className="text-text2 w-[423px] font-light truncate text-left">
                     {message.content}
                   </div>
                 </>
               )}
-              <MdKeyboardArrowUp
-                size={40}
-                className="text-disabled-text ml-auto"
-              />
-            </div>
+              {message.id === openSelectMessage ? (
+                <MdKeyboardArrowDown
+                  size={40}
+                  className="text-disabled-text ml-auto"
+                />
+              ) : (
+                <MdKeyboardArrowUp
+                  size={40}
+                  className="text-disabled-text ml-auto"
+                />
+              )}
+            </button>
+            {message.id === openSelectMessage && (
+              <MessageDetail message={message} />
+            )}
           </div>
         ))}
       </div>

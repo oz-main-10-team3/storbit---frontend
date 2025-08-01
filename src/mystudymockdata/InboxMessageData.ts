@@ -2,6 +2,7 @@ import type { Message } from '@/types/message'
 
 export const inboxMockData: Message[] = [
   {
+    id: '1',
     type: 'notice',
     titlePrefix: '업데이트',
     title: '사이트 기능 개선 안내',
@@ -9,6 +10,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-27T17:10:00',
   },
   {
+    id: '2',
     type: 'personal',
     sender: '홍길동',
     senderImage: '/images/users/user1.jpg',
@@ -16,6 +18,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-31T14:25:00',
   },
   {
+    id: '3',
     type: 'notice',
     titlePrefix: '알림',
     title: '출석 체크 이벤트 종료',
@@ -23,6 +26,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-22T20:00:00',
   },
   {
+    id: '4',
     type: 'personal',
     sender: '김영희',
     senderImage: '/images/users/user2.jpg',
@@ -30,6 +34,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-31T10:12:00',
   },
   {
+    id: '5',
     type: 'notice',
     titlePrefix: '신규 기능',
     title: '스터디 챌린지 오픈',
@@ -38,6 +43,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-25T14:55:00',
   },
   {
+    id: '6',
     type: 'personal',
     sender: '이철수',
     senderImage: '/images/users/user3.jpg',
@@ -45,6 +51,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-30T18:47:00',
   },
   {
+    id: '7',
     type: 'personal',
     sender: '박하늘',
     senderImage: '/images/users/user4.jpg',
@@ -52,6 +59,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-30T09:15:00',
   },
   {
+    id: '8',
     type: 'notice',
     titlePrefix: '공지',
     title: '8월 스터디 운영 안내',
@@ -59,6 +67,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-31T08:00:00',
   },
   {
+    id: '9',
     type: 'personal',
     sender: '최민수',
     senderImage: '/images/users/user5.jpg',
@@ -66,6 +75,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-29T16:03:00',
   },
   {
+    id: '10',
     type: 'personal',
     sender: '정유진',
     senderImage: '/images/users/user6.jpg',
@@ -73,6 +83,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-29T12:00:00',
   },
   {
+    id: '11',
     type: 'personal',
     sender: '한서준',
     senderImage: '/images/users/user7.jpg',
@@ -80,6 +91,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-28T22:30:00',
   },
   {
+    id: '12',
     type: 'personal',
     sender: '이지은',
     senderImage: '/images/users/user8.jpg',
@@ -87,6 +99,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-28T17:10:00',
   },
   {
+    id: '13',
     type: 'personal',
     sender: '장도연',
     senderImage: '/images/users/user9.jpg',
@@ -94,6 +107,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-27T08:45:00',
   },
   {
+    id: '14',
     type: 'personal',
     sender: '유재석',
     senderImage: '/images/users/user10.jpg',
@@ -101,6 +115,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-26T19:20:00',
   },
   {
+    id: '15',
     type: 'notice',
     titlePrefix: '필독',
     title: '커뮤니티 이용 수칙 개정 안내',
@@ -109,6 +124,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-30T12:30:00',
   },
   {
+    id: '16',
     type: 'notice',
     titlePrefix: '공지',
     title: '휴가 기간 안내',
@@ -117,6 +133,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-29T15:40:00',
   },
   {
+    id: '17',
     type: 'notice',
     titlePrefix: '이벤트',
     title: '스터디 후기 이벤트 안내',
@@ -124,6 +141,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-28T11:25:00',
   },
   {
+    id: '18',
     type: 'notice',
     titlePrefix: '공지',
     title: '서버 점검 안내',
@@ -131,6 +149,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-26T21:00:00',
   },
   {
+    id: '19',
     type: 'notice',
     titlePrefix: '안내',
     title: '커뮤니티 앱 출시',
@@ -139,6 +158,7 @@ export const inboxMockData: Message[] = [
     sentAt: '2025-07-24T09:20:00',
   },
   {
+    id: '20',
     type: 'notice',
     titlePrefix: '중요',
     title: '개인정보 보호 강화 안내',
