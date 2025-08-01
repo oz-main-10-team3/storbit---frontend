@@ -1,9 +1,9 @@
 import { cn } from '@/utils/cn'
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt } from 'react-icons/fa'
 
 interface EventTagProps {
-  status: string 
-  date: string  
+  status: string
+  date: string
   className?: string
 }
 
