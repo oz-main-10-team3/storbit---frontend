@@ -1,0 +1,148 @@
+import type { Message } from '@/types/message'
+
+export const inboxMockData: Message[] = [
+  {
+    type: 'notice',
+    titlePrefix: '업데이트',
+    title: '사이트 기능 개선 안내',
+    content: '새로운 북마크 기능이 추가되었습니다. 많은 이용 부탁드립니다.',
+    sentAt: '2025-07-27T17:10:00',
+  },
+  {
+    type: 'personal',
+    sender: '홍길동',
+    senderImage: '/images/users/user1.jpg',
+    content: '안녕하세요! 혹시 이번 주 스터디 일정 확정됐나요?',
+    sentAt: '2025-07-31T14:25:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '알림',
+    title: '출석 체크 이벤트 종료',
+    content: '7월 출석 체크 이벤트가 종료되었습니다. 참여해주셔서 감사합니다!',
+    sentAt: '2025-07-22T20:00:00',
+  },
+  {
+    type: 'personal',
+    sender: '김영희',
+    senderImage: '/images/users/user2.jpg',
+    content: '자료 잘 받았습니다. 감사합니다!',
+    sentAt: '2025-07-31T10:12:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '신규 기능',
+    title: '스터디 챌린지 오픈',
+    content:
+      '스터디 챌린지 기능이 새롭게 추가되었습니다. 지금 바로 참여해보세요!',
+    sentAt: '2025-07-25T14:55:00',
+  },
+  {
+    type: 'personal',
+    sender: '이철수',
+    senderImage: '/images/users/user3.jpg',
+    content: '다음 과제 관련해서 질문이 있습니다.',
+    sentAt: '2025-07-30T18:47:00',
+  },
+  {
+    type: 'personal',
+    sender: '박하늘',
+    senderImage: '/images/users/user4.jpg',
+    content: '오프라인 모임 일정 다시 한 번 알려주세요!',
+    sentAt: '2025-07-30T09:15:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '공지',
+    title: '8월 스터디 운영 안내',
+    content: '8월부터 스터디 시간이 오후 7시로 변경됩니다. 참고 바랍니다.',
+    sentAt: '2025-07-31T08:00:00',
+  },
+  {
+    type: 'personal',
+    sender: '최민수',
+    senderImage: '/images/users/user5.jpg',
+    content: '오늘 회의는 몇 시에 시작하나요?',
+    sentAt: '2025-07-29T16:03:00',
+  },
+  {
+    type: 'personal',
+    sender: '정유진',
+    senderImage: '/images/users/user6.jpg',
+    content: '스터디 노션 정리 감사합니다~',
+    sentAt: '2025-07-29T12:00:00',
+  },
+  {
+    type: 'personal',
+    sender: '한서준',
+    senderImage: '/images/users/user7.jpg',
+    content: '코드 리뷰 부탁드립니다!',
+    sentAt: '2025-07-28T22:30:00',
+  },
+  {
+    type: 'personal',
+    sender: '이지은',
+    senderImage: '/images/users/user8.jpg',
+    content: '오늘 강의 내용 정말 유익했어요.',
+    sentAt: '2025-07-28T17:10:00',
+  },
+  {
+    type: 'personal',
+    sender: '장도연',
+    senderImage: '/images/users/user9.jpg',
+    content: '다음주 발표 자료 공유드릴게요.',
+    sentAt: '2025-07-27T08:45:00',
+  },
+  {
+    type: 'personal',
+    sender: '유재석',
+    senderImage: '/images/users/user10.jpg',
+    content: '스터디 장소 변경됐어요. 확인 부탁드려요.',
+    sentAt: '2025-07-26T19:20:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '필독',
+    title: '커뮤니티 이용 수칙 개정 안내',
+    content:
+      '2025년 8월 1일부터 커뮤니티 이용 수칙이 변경됩니다. 자세한 사항은 공지사항 게시판을 참고해주세요.',
+    sentAt: '2025-07-30T12:30:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '공지',
+    title: '휴가 기간 안내',
+    content:
+      '8월 10일부터 14일까지는 담당자가 휴가 중입니다. 쪽지 응답이 다소 늦어질 수 있습니다.',
+    sentAt: '2025-07-29T15:40:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '이벤트',
+    title: '스터디 후기 이벤트 안내',
+    content: '8월 5일까지 후기 작성 시 추첨을 통해 기프티콘을 드립니다!',
+    sentAt: '2025-07-28T11:25:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '공지',
+    title: '서버 점검 안내',
+    content: '7월 30일 오전 2시부터 3시까지 서버 점검이 예정되어 있습니다.',
+    sentAt: '2025-07-26T21:00:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '안내',
+    title: '커뮤니티 앱 출시',
+    content:
+      '이제 모바일에서도 커뮤니티를 편리하게 이용하실 수 있습니다. 앱을 다운로드해보세요!',
+    sentAt: '2025-07-24T09:20:00',
+  },
+  {
+    type: 'notice',
+    titlePrefix: '중요',
+    title: '개인정보 보호 강화 안내',
+    content: '개인정보 관련 법령 변경에 따라 서비스 약관이 수정되었습니다.',
+    sentAt: '2025-07-23T13:30:00',
+  },
+]
