@@ -16,6 +16,9 @@ const goalInProgresses = [
 export default function StudyPlannerPage() {
   const [isActive, setIsActive] = useState(false)
   const todos = useTodoStore((state) => state.todos)
+  const removeCompletedTodos = useTodoStore(
+    (state) => state.removeCompletedTodos
+  )
 
   return (
     <div className="w-[768px] mt-[88px] ml-[160px] pb-[20px]">
@@ -74,13 +77,16 @@ export default function StudyPlannerPage() {
                 {isActive && <WriteTodo setIsActive={setIsActive} />}
 
                 {/* 할 일 목록 */}
-                {todos.map(({ id, content }) => (
-                  <Todo key={id} content={content} />
+                {todos.map((todo) => (
+                  <Todo key={todo.id} {...todo} />
                 ))}
               </div>
 
               {/* 하단 고정 버튼 */}
-              <CommonButton className="mt-[8px]">
+              <CommonButton
+                className="mt-[8px]"
+                onClick={() => removeCompletedTodos()}
+              >
                 완료된 목록 삭제하기
               </CommonButton>
             </div>

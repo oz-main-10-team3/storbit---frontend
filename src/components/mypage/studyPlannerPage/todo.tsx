@@ -1,10 +1,11 @@
 import { cn } from '@/utils/cn'
 import { GoCircle } from 'react-icons/go'
 import { AiOutlineCheckCircle } from 'react-icons/ai'
-import { useState } from 'react'
+import { useTodoStore } from '@/store/useTodoStore'
+import type { TodoType } from '@/types/todo'
 
-export default function Todo({ content }: { content: string }) {
-  const [isActive, setIsActive] = useState(false)
+export default function Todo({ id, content, isActive }: TodoType) {
+  const toggleTodo = useTodoStore((state) => state.toggleTodo)
   return (
     <button
       className={cn(
@@ -13,7 +14,7 @@ export default function Todo({ content }: { content: string }) {
           'bg-secondary border-primary': isActive,
         }
       )}
-      onClick={() => setIsActive((prev) => !prev)}
+      onClick={() => toggleTodo(id)}
     >
       {isActive ? (
         <AiOutlineCheckCircle size={18} className="text-primary" />
