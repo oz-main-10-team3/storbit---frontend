@@ -34,6 +34,8 @@ import NotFound from '@/pages/NotFound'
 import TermsOfServicePage from '@/pages/terms/TermsOfServicePage'
 import PrivacyPolicyPage from '@/pages/privacy/PrivacyPolicyPage'
 import ContactPage from '@/pages/contact/ContactPage'
+import CategoryPage from '@/pages/category/CategoryPage'
+import CategoryDetailPage from '@/pages/category/CategoryDetailPage'
 
 export default function App() {
   return (
@@ -57,6 +59,10 @@ export default function App() {
         />
         <Route path="/auth/account-delete" element={<AccountDeletePage />} />
 
+        {/*카테고리*/}
+        <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/category/:category/:subcategory" element={<CategoryDetailPage />} />
+        
         {/* 스터디 */}
         <Route path="/study/create" element={<StudyCreatePage />} />
         <Route
