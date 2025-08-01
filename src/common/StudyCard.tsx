@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn'
 import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5'
 import { HiOutlineUserGroup } from 'react-icons/hi2'
 import { BsClock } from 'react-icons/bs'
-import StudyTag from '@/common/StudyTag'
+import StudyTag from '@/common/tag/StudyTag'
 
 interface StudyCardProps {
   imageUrl: string
@@ -14,7 +14,7 @@ interface StudyCardProps {
   showBookmarkIcon?: boolean
   className?: string //외부에서 카드 전체 스타일을 확장할 때 사용 (Tailwind 클래스)
   variant?: 'horizontal' | 'vertical'
-  thumbnailRatio?: string //썸네일 이미지 영역의 크기를 커스터마이징할 때 사용 
+  thumbnailRatio?: string //썸네일 이미지 영역의 크기를 커스터마이징할 때 사용
   onClick?: () => void
 }
 

@@ -4,6 +4,7 @@ import ToastMessage from '@/common/ToastMessage'
 import CommonModal from '@/common/CommonModal'
 import StudyCard from '@/common/StudyCard'
 import defaultThumbnail from '@/assets/images/default-thumbnail.png'
+import EventTag from './tag/EventTag'
 
 interface TestModalProps {
   isOpen: boolean
@@ -66,6 +67,7 @@ const TestModal = ({ isOpen, onClose }: TestModalProps) => {
           className=""
         />
       </div>
+      <EventTag status="진행중" date="~06.17" />
     </>
   )
 }
