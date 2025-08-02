@@ -1,11 +1,16 @@
 import CommonButton from '@/common/CommonButton'
+import AttendanceCalendar from '@/components/mypage/studyPlannerPage/AttendanceCalendar'
 import ProgressBar from '@/components/mypage/studyPlannerPage/ProgressBar'
 import Todo from '@/components/mypage/studyPlannerPage/todo'
 import WriteTodo from '@/components/mypage/studyPlannerPage/WriteTodo'
 import { useTodoStore } from '@/store/useTodoStore'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BsPencil } from 'react-icons/bs'
 import { GoPlus } from 'react-icons/go'
+import { generateYearMonthOptions } from '@/utils/generateYearMonthOptions'
+import DropDownCalendar from '@/components/mypage/studyPlannerPage/DropDownCalendar'
+import { useAttendanceCalendar } from '@/store/useAttendance'
+import { studyOptions } from '@/mystudymockdata/studyOptions'
 
 const goalInProgresses = [
   { goal: '2025년 12월 토익 900점 목표', dDay: 365, progressDay: 256 },
@@ -18,6 +23,25 @@ export default function StudyPlannerPage() {
   const todos = useTodoStore((state) => state.todos)
   const removeCompletedTodos = useTodoStore(
     (state) => state.removeCompletedTodos
+  )
+  const [date, setDate] = useState('2025-08')
+  const [study, setStudy] = useState('frontend')
+
+  const [activeStartDate, setActiveStartDate] = useState(new Date()) // 현재 표시중인 달
+
+  const setAttendanceDates = useAttendanceCalendar(
+    (state) => state.setAttendanceDates
+  )
+  useEffect(() => {
+    setAttendanceDates(`${date}-${study}`)
+    const [yearStr, monthStr] = date.split('-')
+    const newDate = new Date(Number(yearStr), Number(monthStr) - 1, 1)
+    setActiveStartDate(newDate)
+  }, [date, study])
+
+  const calendarOptions = generateYearMonthOptions(
+    2020,
+    new Date().getFullYear()
   )
 
   return (
@@ -96,8 +120,44 @@ export default function StudyPlannerPage() {
             </div>
           </div>
           <div className="flex flex-col gap-[16px] w-full">
-            <div className="w-full h-[408px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px]"></div>
-            <div className="w-full h-[312px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px]"></div>
+            <div className="w-full h-[408px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px]">
+              <div className="flex flex-col gap-[8xp]">
+                <div className="text-text1 text-[16px]">이번달 스터디 시간</div>
+                <div className="text-primary text-[72px]">99.99+</div>
+              </div>
+              <div className="flex flex-col gap-[8xp]">
+                <div className="text-text1 text-[16px]">
+                  하루 평균 스터디 시간
+                </div>
+                <div className="text-primary text-[72px]">99.99+</div>
+              </div>
+              <div className="flex flex-col gap-[8xp]">
+                <div className="text-text1 text-[16px]">완료된 목표</div>
+                <div className="text-primary text-[72px]">99.99+</div>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center w-full h-[312px] border-[1px] rounded-[8px] border-[#bdbdbd] p-[20px] gap-[8px]">
+              <div>스터디 출석</div>
+              <div className="flex w-full gap-[4px]">
+                <DropDownCalendar
+                  type="calendar"
+                  options={calendarOptions}
+                  onChange={setDate}
+                />
+                <DropDownCalendar
+                  type="study"
+                  options={studyOptions}
+                  width={150}
+                  onChange={setStudy}
+                />
+              </div>
+              <div className="flex w-full justify-center items-center">
+                <AttendanceCalendar
+                  activeStartDate={activeStartDate}
+                  setActiveStartDate={setActiveStartDate}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
