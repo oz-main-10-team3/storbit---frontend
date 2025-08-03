@@ -19,8 +19,14 @@ export default function DropDownCalendar({
   width,
   onChange,
 }: DropdownProps) {
+  const now = new Date()
+  const currentYearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+
   const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState(options[0].value)
+  const [selected, setSelected] = useState(
+    options.find((opt) => opt.value === currentYearMonth)?.value ||
+      options[0].value
+  )
 
   return (
     <div className="relative">
