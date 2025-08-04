@@ -61,8 +61,11 @@ export default function App() {
 
         {/*카테고리*/}
         <Route path="/category/:category" element={<CategoryPage />} />
-        <Route path="/category/:category/:subcategory" element={<CategoryDetailPage />} />
-        
+        <Route
+          path="/category/:category/:subcategory"
+          element={<CategoryDetailPage />}
+        />
+
         {/* 스터디 */}
         <Route path="/study/create" element={<StudyCreatePage />} />
         <Route
