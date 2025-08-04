@@ -25,9 +25,6 @@ jobs:
       - name: 린트 검사
         run: npm run lint
 
-      - name: Print file list
-        run: find src/mystudymockdata -type f
-
       - name: 타입 검사 (TypeScript 사용시)
         run: npm run type-check
         continue-on-error: false
