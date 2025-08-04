@@ -1,0 +1,49 @@
+/* 일 숫자 사이즈 */
+.react-calendar .react-calendar__tile {
+  color: #cecece;
+  max-width: 30px;
+  aspect-ratio: 1/1;
+  padding: 0px;
+}
+
+/* 년/월 안보이기 */
+.react-calendar.react-calendar .react-calendar__navigation {
+  display: none;
+}
+
+/* 요일안보이기 */
+.react-calendar__month-view__weekdays {
+  display: none !important;
+}
+
+/* 캘린더 전체 스타일 */
+.react-calendar.react-calendar {
+  border: none;
+  width: 250px;
+  height: 200px;
+}
+
+/* 일 숫자 색상 */
+.react-calendar.react-calendar .react-calendar__tile.bg-green-200 {
+  background-color: #f1e8ff;
+  color: #121212;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  padding: 0px;
+}
+
+/* 한줄 7일로 정렬 */
+.react-calendar__month-view__days__day {
+  flex: 0 0 14.2857% !important;
+  max-width: 14.2857% !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+/* .react-calendar__tile.rounded-full {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  padding: 0px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+} */
