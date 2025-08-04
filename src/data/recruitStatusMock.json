@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nickname": "풀이지만못함왕",
+    "level": "왕초급자",
+    "profileImageUrl": "/assets/mockdataimage/profile.png",
+    "description": "안녕하세요! 프론트엔드 개발자로 일하고 있습니다. React와 TypeScript에 관심이 많고, 함께 성장할 수 있는 스터디를 찾고 \n있어요. 열심히 참여하겠습니다! \uD83D\uDD25",
+    "status": "검토중",
+    "createdAt": "2025-08-04 15:23"
+  },
+  {
+    "id": 2,
+    "nickname": "개발자꿈나무",
+    "level": "왕초급자",
+    "profileImageUrl": "/assets/mockdataimage/profile.png",
+    "description": "함께 공부하며 성장하고 싶어요! 열심히 참여하겠습니다! 💪",
+    "status": "신청 확인",
+    "createdAt": "2025-08-04 14:00"
+  },
+  {
+    "id": 3,
+    "nickname": "개발자꿈나무",
+    "level": "초급자",
+    "profileImageUrl": "/assets/mockdataimage/profile.png",
+    "description": "함께 공부하며 성장하고 싶어요! 열심히 참여하겠습니다! 💪",
+    "status": "신청 확인",
+    "createdAt": "2025-08-04 14:00"
+  },
+  {
+    "id": 4,
+    "nickname": "개발자꿈나무",
+    "level": "중급자",
+    "profileImageUrl": "/assets/mockdataimage/profile.png",
+    "description": "함께 공부하며 성장하고 싶어요! 열심히 참여하겠습니다! 💪",
+    "status": "신청 확인",
+    "createdAt": "2025-08-04 14:00"
+  }
+]

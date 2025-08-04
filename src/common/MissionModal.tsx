@@ -143,6 +143,11 @@ export default function MissionModal({
               onClick={() => {
                 onStart()
                 onClose()
+                setMissions(['오늘은 목숨부터 정복할겁니다'])
+                setEditIndex(null)
+                setEditingText('')
+                setNewMission('')
+                setIsTransitionModalOpen(true)
               }}
             >
               완료

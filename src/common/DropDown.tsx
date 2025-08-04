@@ -4,7 +4,7 @@ import { cn } from '@/utils/cn'
 import { AiOutlineLeft } from 'react-icons/ai'
 
 interface DropdownOption<T = string> {
-  label: string
+  label: ReactNode
   value: T
 }
 
