@@ -13,6 +13,7 @@ interface CommonModalProps {
     | 'application'
     | 'dissolution'
     | 'userCancel'
+    | 'messageDelete'
   autoCloseDelay?: number // 초 단위, 기본값은 5초
 }
 
@@ -54,6 +55,11 @@ export default function TransientModal({
       icon: <AiOutlineCheckCircle />,
       title: '신청 취소 완료',
       message: '24시간 후에 다시 신청할 수 있어요.',
+    },
+    messageDelete: {
+      icon: <AiOutlineCheckCircle />,
+      title: '전체 쪽지 삭제 완료',
+      message: '이제 쪽지함이 깨끗해 졌어요!',
     },
   }
 

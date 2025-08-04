@@ -1,10 +1,14 @@
 import CommonButton from '@/common/CommonButton'
-import { useInboxMessageStore } from '@/store/useInboxMessageStore'
-import type { Message } from '@/types/message'
+import { useSentboxMessageStore } from '@/store/useSentboxMessageStore'
+import type { SentMessage } from '@/types/message'
 
-export default function MessageDetail({ message }: { message: Message }) {
-  const deleteInboxMessage = useInboxMessageStore(
-    (state) => state.deleteInboxMessage
+export default function SentboxMessageDetail({
+  message,
+}: {
+  message: SentMessage
+}) {
+  const deleteSentboxMessage = useSentboxMessageStore(
+    (state) => state.deleteSentboxMessage
   )
   return (
     <div className="flex flex-col w-[664px] px-[60px] py-[40px] p-[24px] mt-[16px] h-[312px] border-[1px] border-primary rounded-[8px] text-[20px] cursor-pointer">
@@ -22,7 +26,7 @@ export default function MessageDetail({ message }: { message: Message }) {
         </CommonButton>
         <CommonButton
           variant="primary"
-          onClick={() => deleteInboxMessage(message.id)}
+          onClick={() => deleteSentboxMessage(message.id)}
         >
           삭제
         </CommonButton>

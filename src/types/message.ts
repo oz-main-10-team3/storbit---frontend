@@ -1,4 +1,4 @@
-export type Message =
+export type InboxMessage =
   | {
       id: string
       type: 'personal'
@@ -17,3 +17,11 @@ export type Message =
     }
 
 export type CurrentMessagePageType = 'inbox' | 'sent' | 'compose' | null
+
+export interface SentMessage {
+  id: string
+  nickname: string
+  receiver: string
+  content: string
+  sentAt: string // 'YYYY-MM-DD HH:mm' 형식의 문자열
+}

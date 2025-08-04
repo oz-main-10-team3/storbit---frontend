@@ -5,6 +5,7 @@ import ModalWrapper from '@/common/ModalWrapper'
 interface CommonModalBaseProps {
   isOpen: boolean
   onClose: () => void
+  Icon?: React.ReactElement
   title: string
   subtitle?: ReactNode
   className?: string
@@ -15,6 +16,7 @@ type CommonModalProps = PropsWithChildren<CommonModalBaseProps>
 export default function CommonModal({
   isOpen,
   onClose,
+  Icon,
   title,
   subtitle,
   children,
@@ -31,7 +33,7 @@ export default function CommonModal({
       >
         <IoIosClose />
       </button>
-
+      {Icon}
       {/* 타이틀 */}
       <h2 className="text-center mt-[20px] text-[24px] font-bold text-[#8349FF]">
         {title}

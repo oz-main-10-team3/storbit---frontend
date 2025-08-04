@@ -1,6 +1,6 @@
-import type { Message } from '@/types/message'
+import type { InboxMessage } from '@/types/message'
 
-export const inboxMockData: Message[] = [
+export const inboxMockData: InboxMessage[] = [
   {
     id: '1',
     type: 'notice',
