@@ -40,8 +40,7 @@ export default function NavBar() {
     }, 300)
   }
 
-  const navItemClass =
-    'transition-colors hover:text-[#8349FF] hover:font-bold'
+  const navItemClass = 'transition-colors hover:text-[#8349FF] hover:font-bold'
 
   return (
     <div className="w-full bg-[#212429] text-white relative">
@@ -87,8 +86,8 @@ export default function NavBar() {
             <button
               type="button"
               className={`bg-transparent border-none cursor-pointer transition-colors duration-200 ${
-                isCategoryOpen 
-                  ? 'text-[#8349FF] font-bold' 
+                isCategoryOpen
+                  ? 'text-[#8349FF] font-bold'
                   : 'text-white hover:text-[#8349FF] hover:font-bold'
               }`}
             >
