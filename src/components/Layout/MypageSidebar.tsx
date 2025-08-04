@@ -1,13 +1,23 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import profileImage from '@/assets/images/default-profile.png'
 
-const menuItems = [
+const MENUITEMS = [
   { path: '/mypage/account', label: '계정 설정' },
   { path: '/mypage/planner', label: '스터디 플래너' },
-  { path: '/mypage/messages/inbox', label: '쪽지함' },
-]
+  {
+    path: '/mypage/messages/inbox',
+    label: '쪽지함',
+    matchPaths: [
+      '/mypage/messages/inbox',
+      '/mypage/messages/sent',
+      '/mypage/messages/compose',
+    ],
+  },
+] as const
 
 export default function MypageSidebar() {
+  const location = useLocation()
+  const currentPath = location.pathname
   return (
     <div className="flex flex-col justify-start items-center gap-[45px] w-[272px] ml-[260px] mt-[88px]">
       <div className="flex flex-col items-center gap-[23px] w-full">
@@ -37,19 +47,28 @@ export default function MypageSidebar() {
         </div>
       </div>
       <div className="flex flex-col gap-[40px] text-sm text-text font-medium self-start">
-        {menuItems.map(({ path, label }) => (
-          <NavLink
-            key={path}
-            to={path}
-            className={({ isActive }) =>
-              `text-[20px] transition-colors duration-150 ${
-                isActive ? 'text-primary font-bold' : 'text-[#BDBDBD]'
-              }`
-            }
-          >
-            {label}
-          </NavLink>
-        ))}
+        {MENUITEMS.map((item) => {
+          const { path, label } = item
+
+          const isMatched =
+            ('matchPaths' in item
+              ? item.matchPaths.some((mp) => currentPath.startsWith(mp))
+              : false) || currentPath.startsWith(path)
+
+          return (
+            <NavLink
+              key={path}
+              to={path}
+              className={() =>
+                `text-[20px] transition-colors duration-150 ${
+                  isMatched ? 'text-primary font-bold' : 'text-[#BDBDBD]'
+                }`
+              }
+            >
+              {label}
+            </NavLink>
+          )
+        })}
       </div>
     </div>
   )
