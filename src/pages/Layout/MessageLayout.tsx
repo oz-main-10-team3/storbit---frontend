@@ -130,7 +130,7 @@ export default function MessageLayout() {
       </CommonModal>
       <TransientModal
         isOpen={isTransientModalOpen}
-        type="messageDelete"
+        type="allMessageDelete"
         onClose={() => setIsTransientModalOpen(false)}
         autoCloseDelay={3}
       />

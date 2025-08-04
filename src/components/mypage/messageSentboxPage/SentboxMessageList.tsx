@@ -3,6 +3,7 @@ import type { SentMessage } from '@/types/message'
 import { useState } from 'react'
 import { cn } from '@/utils/cn'
 import SentboxMessageDetail from '@/components/mypage/messageSentboxPage/SentboxMessageDetail'
+import TransientModal from '@/common/TransientModal'
 
 export default function SentboxMessageList({
   messages,
@@ -13,6 +14,8 @@ export default function SentboxMessageList({
   const [openSelectMessage, setOpenSelectMessage] = useState<string | null>(
     null
   )
+  const [isMessageDeleteModal, SetIsMessageDeleteModal] = useState(false)
+
   const itemsPerPage = 10
 
   const totalPages = Math.ceil(messages.length / itemsPerPage)
@@ -58,7 +61,10 @@ export default function SentboxMessageList({
               )}
             </button>
             {message.id === openSelectMessage && (
-              <SentboxMessageDetail message={message} />
+              <SentboxMessageDetail
+                message={message}
+                SetIsMessageDeleteModal={SetIsMessageDeleteModal}
+              />
             )}
           </div>
         ))}
@@ -79,6 +85,12 @@ export default function SentboxMessageList({
           </button>
         ))}
       </div>
+      <TransientModal
+        isOpen={isMessageDeleteModal}
+        onClose={() => SetIsMessageDeleteModal(false)}
+        type="messageDelete"
+        autoCloseDelay={3}
+      />
     </div>
   )
 }

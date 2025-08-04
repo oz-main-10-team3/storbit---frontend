@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { AiOutlineCheckCircle } from 'react-icons/ai'
+import {
+  AiOutlineCheckCircle,
+  AiOutlineExclamationCircle,
+} from 'react-icons/ai'
 import { BiSolidRocket } from 'react-icons/bi'
 
 interface CommonModalProps {
@@ -13,9 +16,59 @@ interface CommonModalProps {
     | 'application'
     | 'dissolution'
     | 'userCancel'
+    | 'allMessageDelete'
+    | 'messageResend'
     | 'messageDelete'
   autoCloseDelay?: number // 초 단위, 기본값은 5초
 }
+
+const MODAL_CONFIG = {
+  cancel: {
+    icon: <AiOutlineCheckCircle />,
+    title: '모집 취소 완료',
+    message: '신청자들에게 알림이 전송되었어요.',
+  },
+  start: {
+    icon: <BiSolidRocket />,
+    title: '스터디 시작',
+    message: '최종 목표를 향해 달려봐요',
+  },
+  leave: {
+    icon: <AiOutlineCheckCircle />,
+    title: '스터디 탈퇴 완료',
+    message: '신청자들에게 알림이 전송되었어요.',
+  },
+  application: {
+    icon: <AiOutlineCheckCircle />,
+    title: '신청 완료',
+    message: '멤버가 되는동안 기다려주세요!',
+  },
+  dissolution: {
+    icon: <AiOutlineCheckCircle />,
+    title: '스터디 해체 완료',
+    message: '신청자들에게 알림이 전송되었어요.',
+  },
+  userCancel: {
+    icon: <AiOutlineCheckCircle />,
+    title: '신청 취소 완료',
+    message: '24시간 후에 다시 신청할 수 있어요.',
+  },
+  allMessageDelete: {
+    icon: <AiOutlineCheckCircle />,
+    title: '전체 쪽지 삭제 완료',
+    message: '이제 쪽지함이 깨끗해 졌어요!',
+  },
+  messageResend: {
+    icon: <AiOutlineCheckCircle />,
+    title: '쪽지 재전송',
+    message: '이전 쪽지와 같은 내용으로 다시 보냈어요',
+  },
+  messageDelete: {
+    icon: <AiOutlineExclamationCircle />,
+    title: '쪽지 삭제완료',
+    message: '한번 삭제되면 다시 되돌릴 수 없어요',
+  },
+} as const
 
 export default function TransientModal({
   isOpen,
@@ -24,44 +77,6 @@ export default function TransientModal({
   autoCloseDelay = 5,
 }: CommonModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
-
-  const MODAL_CONFIG = {
-    cancel: {
-      icon: <AiOutlineCheckCircle />,
-      title: '모집 취소 완료',
-      message: '신청자들에게 알림이 전송되었어요.',
-    },
-    start: {
-      icon: <BiSolidRocket />,
-      title: '스터디 시작',
-      message: '최종 목표를 향해 달려봐요',
-    },
-    leave: {
-      icon: <AiOutlineCheckCircle />,
-      title: '스터디 탈퇴 완료',
-      message: '신청자들에게 알림이 전송되었어요.',
-    },
-    application: {
-      icon: <AiOutlineCheckCircle />,
-      title: '신청 완료',
-      message: '멤버가 되는동안 기다려주세요!',
-    },
-    dissolution: {
-      icon: <AiOutlineCheckCircle />,
-      title: '스터디 해체 완료',
-      message: '신청자들에게 알림이 전송되었어요.',
-    },
-    userCancel: {
-      icon: <AiOutlineCheckCircle />,
-      title: '신청 취소 완료',
-      message: '24시간 후에 다시 신청할 수 있어요.',
-    },
-    messageDelete: {
-      icon: <AiOutlineCheckCircle />,
-      title: '전체 쪽지 삭제 완료',
-      message: '이제 쪽지함이 깨끗해 졌어요!',
-    },
-  }
 
   const { icon, title, message } = MODAL_CONFIG[type]
 
