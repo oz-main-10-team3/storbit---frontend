@@ -45,8 +45,8 @@ export default function StudyRoomPage() {
               </div>
             </div>
           </div>
-          {studyRoomUserCardMockData.map((user) => (
-            <StudyRoomUserCard key={user.id} user={user} />
+          {studyRoomUserCardMockData.map((user, index) => (
+            <StudyRoomUserCard key={`${user.nickname}-${index}`} user={user} />
           ))}
         </div>
       </div>

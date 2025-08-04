@@ -43,7 +43,10 @@ export default function StudyRoomUserCard({ user }: { user: StudyCardData }) {
         <div className="text-[16px] font-semibold">데일리미션</div>
         <div className="flex flex-col gap-[1px]">
           {dailyMissions.map((mission, index) => (
-            <div key={index} className="flex items-center gap-[8px]">
+            <div
+              key={`${mission}-${index}`}
+              className="flex items-center gap-[8px]"
+            >
               <AiOutlineCheckCircle size={12} />
               <div>{mission}</div>
             </div>
