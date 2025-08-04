@@ -16,7 +16,7 @@ export default function NavBar() {
 
   const handleCategorySelect = (category: string, item: string) => {
     if (item) {
-      // 특정 항목 선택 시 - 해당 항목 페이지로 이동 (검색이 아님)
+      // 특정 항목 선택 시 - 해당 항목 페이지로 이동
       navigate(`/study/${item}`)
     } else {
       // 카테고리 제목 선택 시 - 해당 카테고리 페이지로 이동
@@ -41,7 +41,7 @@ export default function NavBar() {
   }
 
   const navItemClass =
-    'transition-colors duration-200 hover:text-[#8349FF] hover:font-bold'
+    'transition-colors hover:text-[#8349FF] hover:font-bold'
 
   return (
     <div className="w-full bg-[#212429] text-white relative">
@@ -86,9 +86,11 @@ export default function NavBar() {
           >
             <button
               type="button"
-              className={`bg-transparent border-none text-inherit cursor-pointer transition-colors duration-200 ${
-                isCategoryOpen ? 'text-[#8349FF]' : ''
-              } hover:text-[#8349FF] hover:font-bold`}
+              className={`bg-transparent border-none cursor-pointer transition-colors duration-200 ${
+                isCategoryOpen 
+                  ? 'text-[#8349FF] font-bold' 
+                  : 'text-white hover:text-[#8349FF] hover:font-bold'
+              }`}
             >
               카테고리
             </button>
