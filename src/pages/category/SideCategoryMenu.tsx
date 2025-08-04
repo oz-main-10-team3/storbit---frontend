@@ -22,6 +22,7 @@ export default function SideCategoryMenu() {
           <li key={item}>
             <NavLink
               to={getLink(item)}
+              end={item === '전체'}
               className={({ isActive }) =>
                 `text-[18px] transition-colors duration-200 cursor-pointer ${
                   isActive

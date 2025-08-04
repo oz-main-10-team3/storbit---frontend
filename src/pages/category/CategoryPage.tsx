@@ -2,7 +2,8 @@ import { useState } from 'react'
 import StudyCard from '@/common/StudyCard'
 import SideCategoryMenu from '@/pages/category/SideCategoryMenu'
 import defaultThumbnail from '@/assets/images/default-thumbnail.png'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import SortTab from '@/common/SortTab'
+import ArrowNavigation from '@/common/ArrowNavigation'
 
 const dummyData = [
   {
@@ -52,6 +53,8 @@ export default function CategoryPage() {
     }
   }
 
+  const [sortOrder, setSortOrder] = useState<'latest' | 'popular'>('latest')
+
   return (
     <div className="w-full mt-[80px]">
       <div className="max-w-[1400px] mx-auto flex gap-[40px] py-[40px]">
@@ -89,22 +92,14 @@ export default function CategoryPage() {
                 신규 STUDY
               </h2>
               <div className="flex gap-[8px] items-center">
-                <button
-                  onClick={handlePrev}
-                  disabled={startIndex === 0}
-                  className={`flex items-center justify-center w-[32px] h-[32px] cursor-pointer transition-colors duration-200
-                    ${startIndex === 0 ? 'text-[#bdbdbd]' : 'text-[#8349FF]'}`}
-                >
-                  <FiChevronLeft className="w-[20px] h-[20px]" />
-                </button>
-                <button
-                  onClick={handleNext}
-                  disabled={startIndex + maxVisible >= newStudyData.length}
-                  className={`flex items-center justify-center w-[32px] h-[32px] cursor-pointer transition-colors duration-200
-                    ${startIndex + maxVisible >= newStudyData.length ? 'text-[#bdbdbd]' : 'text-[#8349FF]'}`}
-                >
-                  <FiChevronRight className="w-[20px] h-[20px]" />
-                </button>
+                <ArrowNavigation
+                  onPrev={handlePrev}
+                  onNext={handleNext}
+                  isPrevDisabled={startIndex === 0}
+                  isNextDisabled={
+                    startIndex + maxVisible >= newStudyData.length
+                  }
+                />
               </div>
             </div>
             <div className="flex flex-wrap gap-x-[40px] gap-y-[40px] transition-all duration-300">
@@ -126,12 +121,19 @@ export default function CategoryPage() {
 
           {/* 전체 STUDY */}
           <div>
-            <h2 className="text-[20px] font-semibold mt-[80px] mb-[24px]">
-              전체 STUDY
-            </h2>
+            <div className="flex justify-between items-center mt-[80px] mb-[24px]">
+              <h2 className="text-[20px] font-semibold flex items-center">
+                전체 STUDY
+              </h2>
+              <SortTab selected={sortOrder} onChange={setSortOrder} />
+            </div>
+
             <div className="flex flex-wrap gap-x-[40px] gap-y-[40px]">
-              {dummyData
-                .concat(dummyData)
+              {/* 정렬 방식에 따라 필터링할 수도 있음 */}
+              {(sortOrder === 'latest'
+                ? dummyData.concat(dummyData)
+                : dummyData.concat(dummyData).reverse()
+              )
                 .slice(0, 4)
                 .map((item, index) => (
                   <StudyCard
