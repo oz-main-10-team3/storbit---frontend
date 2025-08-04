@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { cva } from 'class-variance-authority'
 import { cn } from '@/utils/cn'
 import { AiOutlineLeft } from 'react-icons/ai'
@@ -9,7 +9,7 @@ interface DropdownOption<T = string> {
 }
 
 interface DropdownProps<T = string> {
-  label?: string
+  label?: ReactNode
   options: DropdownOption<T>[]
   selected?: T
   onChange: (value: T) => void
@@ -48,9 +48,26 @@ export default function Dropdown<T = string>({
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false)
   const selectedLabel = options.find((opt) => opt.value === selected)?.label
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
-    <div className={cn('relative w-48', className)}>
+    <div ref={dropdownRef} className={cn('relative w-48', className)}>
       {label && (
         <label className="block mb-1 text-sm font-medium">{label}</label>
       )}
