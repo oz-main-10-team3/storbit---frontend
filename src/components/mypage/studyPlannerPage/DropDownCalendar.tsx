@@ -9,10 +9,6 @@ interface DropdownProps {
   onChange: (value: string) => void
 }
 
-//option 2가지 type으로 정할 수 있게하기
-//onChange(opt.value) 로 데이터 가져오기 set함수 props로 받아오기
-//사이즈 너비를 받아와서 크기 조절하기
-
 export default function DropDownCalendar({
   type,
   options,
