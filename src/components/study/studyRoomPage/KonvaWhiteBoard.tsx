@@ -23,6 +23,7 @@ export default function Whiteboard({
   const tool = useDrawingTool(toolName, color, {
     setLines,
     setCircles,
+    circles,
   })
 
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -62,7 +63,6 @@ export default function Whiteboard({
       >
         {/* <Layer>{tool?.render()}</Layer> */}
         <Layer>
-          {/* 펜 도구가 그린 선 */}
           {lines.map((line, idx) => (
             <Line
               key={idx}
@@ -74,7 +74,6 @@ export default function Whiteboard({
             />
           ))}
 
-          {/* 원 도구가 그린 원 */}
           {circles.map((circle, idx) => (
             <Circle
               key={idx}

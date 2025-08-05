@@ -13,7 +13,11 @@ export class CircleTool implements DrawingTool {
   private circles: Circle[] = []
   private setCircles: React.Dispatch<React.SetStateAction<Circle[]>>
 
-  constructor(setCircles: React.Dispatch<React.SetStateAction<Circle[]>>) {
+  constructor(
+    circles: Circle[],
+    setCircles: React.Dispatch<React.SetStateAction<Circle[]>>
+  ) {
+    this.circles = circles
     this.setCircles = setCircles
   }
 

@@ -10,6 +10,7 @@ export function useDrawingTool(
   sharedState: {
     setLines?: React.Dispatch<React.SetStateAction<Point[][]>>
     setCircles?: React.Dispatch<React.SetStateAction<Circle[]>>
+    circles?: Circle[]
     // 필요한 setState들을 모두 포함
   }
 ) {
@@ -22,8 +23,11 @@ export function useDrawingTool(
         return pen
       }
       case 'circle': {
-        if (!sharedState.setCircles) return
-        const circle = new CircleTool(sharedState.setCircles)
+        if (!sharedState.setCircles || !sharedState.circles) return
+        const circle = new CircleTool(
+          sharedState.circles,
+          sharedState.setCircles
+        )
         circle.setColor?.(color)
         return circle
       }
