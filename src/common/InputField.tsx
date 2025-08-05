@@ -1,8 +1,8 @@
 import { cn } from '@/utils/cn.ts'
-import { type InputHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, ReactNode } from 'react'
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string
+  label?: ReactNode
   error?: string
   success?: string
   type?: 'text' | 'checkbox' | 'email' | 'password' | 'number'

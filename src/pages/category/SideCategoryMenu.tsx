@@ -14,7 +14,9 @@ export default function SideCategoryMenu() {
     if (item === '전체') {
       navigate(`/category/${encodeURIComponent(category || '')}`)
     } else {
-      navigate(`/category/${encodeURIComponent(category || '')}/${encodeURIComponent(item)}`)
+      navigate(
+        `/category/${encodeURIComponent(category || '')}/${encodeURIComponent(item)}`
+      )
     }
   }
 
@@ -22,23 +24,27 @@ export default function SideCategoryMenu() {
     <aside className="w-[200px] flex flex-col gap-[64px]">
       <h2 className="text-[24px] font-semibold">{sideMenu.category}</h2>
       <ul className="flex flex-col gap-[24px]">
-      {sideMenu.items.map((item) => {
-        const isActive =
+        {sideMenu.items.map((item) => {
+          const isActive =
             item === '전체'
-            ? location.pathname === `/category/${encodeURIComponent(category || '')}`
-            : location.pathname === `/category/${encodeURIComponent(category || '')}/${encodeURIComponent(item)}`
+              ? location.pathname ===
+                `/category/${encodeURIComponent(category || '')}`
+              : location.pathname ===
+                `/category/${encodeURIComponent(category || '')}/${encodeURIComponent(item)}`
 
-        return (
+          return (
             <li
-            key={item}
-            className={`cursor-pointer text-[18px] transition-colors duration-200 ${
-                isActive ? 'text-[#8349FF] font-semibold' : 'text-[#D1D1D1] hover:text-[#8349FF]'
-            }`}
-            onClick={() => handleClick(item)}
+              key={item}
+              className={`cursor-pointer text-[18px] transition-colors duration-200 ${
+                isActive
+                  ? 'text-[#8349FF] font-semibold'
+                  : 'text-[#D1D1D1] hover:text-[#8349FF]'
+              }`}
+              onClick={() => handleClick(item)}
             >
-            {item}
+              {item}
             </li>
-        )
+          )
         })}
       </ul>
     </aside>

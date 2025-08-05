@@ -73,7 +73,11 @@ export default function StudyManagePage() {
           {/* 스터디 이름 */}
           <div className="flex gap-2 items-end">
             <InputField
-              label="스터디 이름*"
+              label={
+                <p className="text-sm font-medium text-text mb-2">
+                  스터디 이름<span className="text-alertText ml-1">*</span>
+                </p>
+              }
               placeholder="이름을 입력해주세요"
               value={studyName}
               onChange={(e) => setStudyName(e.target.value)}
@@ -191,7 +195,11 @@ export default function StudyManagePage() {
 
           {/* 시간 / 인원 / 색상 */}
           <Dropdown
-            label="스터디 시간*"
+            label={
+              <p className="text-sm font-medium text-text mb-2">
+                스터디 시간<span className="text-alertText ml-1">*</span>
+              </p>
+            }
             placeholder="선택해 주세요"
             options={studyTimeOptions}
             selected={selectedTime}
@@ -199,7 +207,11 @@ export default function StudyManagePage() {
             className="text-[14px]"
           />
           <Dropdown
-            label="스터디 인원*"
+            label={
+              <p className="text-sm font-medium text-text mb-2">
+                스터디 인원<span className="text-alertText ml-1">*</span>
+              </p>
+            }
             placeholder="선택해 주세요"
             options={studyCapacityOptions}
             selected={capacity}
@@ -207,7 +219,11 @@ export default function StudyManagePage() {
             className="text-[14px]"
           />
           <Dropdown
-            label="스터디 레벨"
+            label={
+              <p className="text-sm font-medium text-text mb-2">
+                스터디 레벨<span className="text-alertText ml-1">*</span>
+              </p>
+            }
             placeholder="선택해 주세요"
             options={levelOptions}
             selected={level}
