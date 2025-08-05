@@ -1,14 +1,21 @@
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md'
-import type { Message } from '@/types/message'
+import type { SentMessage } from '@/types/message'
 import { useState } from 'react'
 import { cn } from '@/utils/cn'
-import MessageDetail from '@/components/mypage/messageInboxPage/MessageDetail'
+import SentboxMessageDetail from '@/components/mypage/messageSentboxPage/SentboxMessageDetail'
+import TransientModal from '@/common/TransientModal'
 
-export default function MessageList({ messages }: { messages: Message[] }) {
+export default function SentboxMessageList({
+  messages,
+}: {
+  messages: SentMessage[]
+}) {
   const [currentPage, setCurrentPage] = useState(1)
   const [openSelectMessage, setOpenSelectMessage] = useState<string | null>(
     null
   )
+  const [isMessageDeleteModal, SetIsMessageDeleteModal] = useState(false)
+
   const itemsPerPage = 10
 
   const totalPages = Math.ceil(messages.length / itemsPerPage)
@@ -34,25 +41,13 @@ export default function MessageList({ messages }: { messages: Message[] }) {
                 }
               }}
             >
-              {message.type === 'personal' ? (
-                <>
-                  <div className="min-w-[160px] text-left text-text1 font-semibold">
-                    {message.sender}
-                  </div>
-                  <div className="text-text2 w-[423px] font-light truncate text-left">
-                    {message.content}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="min-w-[160px] text-left text-text1 font-semibold">
-                    [{message.titlePrefix}]
-                  </div>
-                  <div className="text-text2 w-[423px] font-light truncate text-left">
-                    {message.content}
-                  </div>
-                </>
-              )}
+              <div className="min-w-[160px] text-left text-text1 font-semibold">
+                {message.receiver}
+              </div>
+              <div className="text-text2 w-[423px] font-light truncate text-left">
+                {message.content}
+              </div>
+
               {message.id === openSelectMessage ? (
                 <MdKeyboardArrowDown
                   size={40}
@@ -66,7 +61,10 @@ export default function MessageList({ messages }: { messages: Message[] }) {
               )}
             </button>
             {message.id === openSelectMessage && (
-              <MessageDetail message={message} />
+              <SentboxMessageDetail
+                message={message}
+                SetIsMessageDeleteModal={SetIsMessageDeleteModal}
+              />
             )}
           </div>
         ))}
@@ -87,6 +85,12 @@ export default function MessageList({ messages }: { messages: Message[] }) {
           </button>
         ))}
       </div>
+      <TransientModal
+        isOpen={isMessageDeleteModal}
+        onClose={() => SetIsMessageDeleteModal(false)}
+        type="messageDelete"
+        autoCloseDelay={3}
+      />
     </div>
   )
 }

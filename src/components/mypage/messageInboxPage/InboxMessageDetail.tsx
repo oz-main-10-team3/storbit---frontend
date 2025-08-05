@@ -1,8 +1,12 @@
 import CommonButton from '@/common/CommonButton'
 import { useInboxMessageStore } from '@/store/useInboxMessageStore'
-import type { Message } from '@/types/message'
+import type { InboxMessage } from '@/types/message'
 
-export default function MessageDetail({ message }: { message: Message }) {
+export default function InboxMessageDetail({
+  message,
+}: {
+  message: InboxMessage
+}) {
   const deleteInboxMessage = useInboxMessageStore(
     (state) => state.deleteInboxMessage
   )

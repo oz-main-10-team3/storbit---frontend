@@ -1,9 +1,9 @@
 import { create } from 'zustand'
-import type { Message } from '@/types/message'
-import { inboxMockData } from '@/mystudymockdata/InboxMessageData'
+import type { InboxMessage } from '@/types/message'
+import { inboxMockData } from '@/mystudymockdata/inboxMessageData'
 
 interface InboxMessageState {
-  inboxMessages: Message[]
+  inboxMessages: InboxMessage[]
   deleteInboxMessage: (id: string) => void
   allRemoveInboxMessages: () => void
 }
