@@ -14,13 +14,12 @@ export default function SentboxMessageList({
   const [openSelectMessage, setOpenSelectMessage] = useState<string | null>(
     null
   )
-  const [isMessageDeleteModal, SetIsMessageDeleteModal] = useState(false)
+  const [isMessageDeleteModal, setIsMessageDeleteModal] = useState(false)
 
   const itemsPerPage = 10
 
   const totalPages = Math.ceil(messages.length / itemsPerPage)
   const paginatedMessages = [...messages]
-    .slice()
     .reverse()
     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
@@ -31,15 +30,11 @@ export default function SentboxMessageList({
           <div key={message.id} className="pt-[16px]">
             <button
               className="flex w-[664px] p-[24px] gap-[16px] items-center h-[72px] border-[1px] border-primary rounded-[8px] text-[20px] cursor-pointer"
-              onClick={() => {
-                if (openSelectMessage !== message.id) {
-                  setOpenSelectMessage(message.id)
-                } else if (openSelectMessage) {
-                  setOpenSelectMessage(null)
-                } else {
-                  setOpenSelectMessage(message.id)
-                }
-              }}
+              onClick={() =>
+                setOpenSelectMessage(
+                  openSelectMessage !== message.id ? message.id : null
+                )
+              }
             >
               <div className="min-w-[160px] text-left text-text1 font-semibold">
                 {message.receiver}
@@ -63,7 +58,7 @@ export default function SentboxMessageList({
             {message.id === openSelectMessage && (
               <SentboxMessageDetail
                 message={message}
-                SetIsMessageDeleteModal={SetIsMessageDeleteModal}
+                setIsMessageDeleteModal={setIsMessageDeleteModal}
               />
             )}
           </div>
@@ -87,7 +82,7 @@ export default function SentboxMessageList({
       </div>
       <TransientModal
         isOpen={isMessageDeleteModal}
-        onClose={() => SetIsMessageDeleteModal(false)}
+        onClose={() => setIsMessageDeleteModal(false)}
         type="messageDelete"
         autoCloseDelay={3}
       />
