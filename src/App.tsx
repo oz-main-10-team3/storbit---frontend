@@ -21,7 +21,7 @@ import AccountSettingsPage from '@/pages/mypage/AccountSettingsPage'
 import StudyPlannerPage from '@/pages/mypage/StudyPlannerPage'
 import MessageInboxPage from '@/pages/mypage/MessageInboxPage'
 import MessageSentPage from '@/pages/mypage/MessageSentPage'
-import MessageComposePage from '@/pages/mypage/MessageComposePage'
+import MessageWritePage from '@/pages/mypage/MessageWritePage'
 import SearchResultPage from '@/pages/search/SearchResultPage'
 import EventMainPage from '@/pages/event/EventMainPage'
 import EventDetailPage from '@/pages/event/EventDetailPage'
@@ -99,7 +99,7 @@ export default function App() {
             <Route path="/mypage/messages/sent" element={<MessageSentPage />} />
             <Route
               path="/mypage/messages/compose"
-              element={<MessageComposePage />}
+              element={<MessageWritePage />}
             />
           </Route>
         </Route>
