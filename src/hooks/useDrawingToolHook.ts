@@ -5,8 +5,9 @@ import { CircleTool } from '@/components/study/studyRoomPage/CircleTool'
 import type { Circle } from '@/types/circle'
 
 export function useDrawingTool(
-  toolName: 'pen' | 'circle' | 'rect' | 'triangle' | 'text',
+  toolName: 'pen' | 'circle' | 'fillCircle' | 'rect' | 'triangle' | 'text',
   color: string,
+  shouldFillCircle: boolean,
   sharedState: {
     setLines?: React.Dispatch<React.SetStateAction<Point[][]>>
     setCircles?: React.Dispatch<React.SetStateAction<Circle[]>>
@@ -26,11 +27,23 @@ export function useDrawingTool(
         if (!sharedState.setCircles || !sharedState.circles) return
         const circle = new CircleTool(
           sharedState.circles,
-          sharedState.setCircles
+          sharedState.setCircles,
+          shouldFillCircle
         )
         circle.setColor?.(color)
         return circle
       }
+      case 'fillCircle': {
+        if (!sharedState.setCircles || !sharedState.circles) return
+        const circle = new CircleTool(
+          sharedState.circles,
+          sharedState.setCircles,
+          shouldFillCircle
+        )
+        circle.setColor?.(color)
+        return circle
+      }
+
       // case 'rect': ...
       // case 'text': ...
       default:

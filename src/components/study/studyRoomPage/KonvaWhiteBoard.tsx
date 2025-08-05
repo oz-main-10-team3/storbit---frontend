@@ -15,12 +15,15 @@ export default function Whiteboard({
 }: {
   containerRef: React.RefObject<HTMLDivElement | null>
 }) {
-  const [toolName, setToolName] = useState<'pen' | 'circle'>('pen')
+  const [toolName, setToolName] = useState<'pen' | 'circle' | 'fillCircle'>(
+    'pen'
+  )
   const [color, setColor] = useState('#000000')
   const [lines, setLines] = useState<Point[][]>([])
   const [circles, setCircles] = useState<CircleType[]>([])
+  const [shouldFillCircle, setShouldFillCircle] = useState(false)
 
-  const tool = useDrawingTool(toolName, color, {
+  const tool = useDrawingTool(toolName, color, shouldFillCircle, {
     setLines,
     setCircles,
     circles,
@@ -48,6 +51,7 @@ export default function Whiteboard({
         setToolName={setToolName}
         setColor={setColor}
         color={color}
+        setShouldFillCircle={setShouldFillCircle}
       />
       <Stage
         width={dimensions.width}
@@ -80,7 +84,7 @@ export default function Whiteboard({
               x={circle.x}
               y={circle.y}
               radius={circle.radius}
-              fill={circle.color}
+              fill={circle.isFilled ? circle.color : 'transparent'}
               stroke={circle.color}
               strokeWidth={2}
             />

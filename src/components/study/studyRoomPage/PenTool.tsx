@@ -1,7 +1,7 @@
 import React from 'react'
 import type { DrawingTool } from '@/types/drawingTool'
 import type { Point } from '@/types/point'
-import { Line } from 'react-konva'
+// import { Line } from 'react-konva'
 import type { KonvaEventObject } from 'konva/lib/Node'
 
 // 색상 정보를 포함한 선 타입
@@ -47,7 +47,6 @@ export class PenTool implements DrawingTool {
     lastLine.points.push(point)
 
     // 단순 상태 업데이트용 상위 컴포넌트 상태 업데이트 (호환성 유지)
-    // this.setLines((prev) => [...prev, [point]])
     this.setLines((current) => {
       const newLines = [...current]
       const lastIndex = newLines.length - 1
@@ -66,17 +65,17 @@ export class PenTool implements DrawingTool {
     this.color = color
   }
 
-  render(): React.ReactNode {
-    return this.lines.map((line, idx) => (
-      <Line
-        key={idx}
-        points={line.points.flatMap((p) => [p.x, p.y])}
-        stroke={line.color} // 각 선마다 저장된 색상 사용
-        strokeWidth={2}
-        tension={0.5}
-        lineCap="round"
-        lineJoin="round"
-      />
-    ))
-  }
+  // render(): React.ReactNode {
+  //   return this.lines.map((line, idx) => (
+  //     <Line
+  //       key={idx}
+  //       points={line.points.flatMap((p) => [p.x, p.y])}
+  //       stroke={line.color} // 각 선마다 저장된 색상 사용
+  //       strokeWidth={2}
+  //       tension={0.5}
+  //       lineCap="round"
+  //       lineJoin="round"
+  //     />
+  //   ))
+  // }
 }

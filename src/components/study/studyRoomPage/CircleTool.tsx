@@ -2,7 +2,7 @@
 import React from 'react'
 import type { DrawingTool } from '@/types/drawingTool'
 import type { KonvaEventObject } from 'konva/lib/Node'
-import { Circle as KonvaCircle } from 'react-konva'
+// import { Circle as KonvaCircle } from 'react-konva'
 import type { Circle } from '@/types/circle'
 
 export class CircleTool implements DrawingTool {
@@ -10,15 +10,18 @@ export class CircleTool implements DrawingTool {
   private startX = 0
   private startY = 0
   private color = '#000'
+  private shouldFillCircle = false
   private circles: Circle[] = []
   private setCircles: React.Dispatch<React.SetStateAction<Circle[]>>
 
   constructor(
     circles: Circle[],
-    setCircles: React.Dispatch<React.SetStateAction<Circle[]>>
+    setCircles: React.Dispatch<React.SetStateAction<Circle[]>>,
+    shouldFillCircle: boolean
   ) {
     this.circles = circles
     this.setCircles = setCircles
+    this.shouldFillCircle = shouldFillCircle
   }
 
   onMouseDown(e: KonvaEventObject<MouseEvent>) {
@@ -47,6 +50,7 @@ export class CircleTool implements DrawingTool {
       y: this.startY,
       radius,
       color: this.color,
+      isFilled: this.shouldFillCircle,
     }
 
     this.setCircles([...this.circles, previewCircle])
@@ -68,6 +72,7 @@ export class CircleTool implements DrawingTool {
       y: this.startY,
       radius,
       color: this.color,
+      isFilled: this.shouldFillCircle,
     }
 
     this.circles.push(finalCircle)
@@ -78,17 +83,21 @@ export class CircleTool implements DrawingTool {
     this.color = color
   }
 
-  render(): React.ReactNode {
-    return this.circles.map((circle, idx) => (
-      <KonvaCircle
-        key={idx}
-        x={circle.x}
-        y={circle.y}
-        radius={circle.radius}
-        fill={circle.color}
-        stroke={circle.color}
-        strokeWidth={2}
-      />
-    ))
+  setFillState(isFilled: boolean) {
+    this.shouldFillCircle = isFilled
   }
+
+  // render(): React.ReactNode {
+  //   return this.circles.map((circle, idx) => (
+  //     <KonvaCircle
+  //       key={idx}
+  //       x={circle.x}
+  //       y={circle.y}
+  //       radius={circle.radius}
+  //       fill={circle.color}
+  //       stroke={circle.color}
+  //       strokeWidth={2}
+  //     />
+  //   ))
+  // }
 }

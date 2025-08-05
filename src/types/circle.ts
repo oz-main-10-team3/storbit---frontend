@@ -4,4 +4,5 @@ export interface Circle {
   y: number
   radius: number
   color: string
+  isFilled: boolean
 }
