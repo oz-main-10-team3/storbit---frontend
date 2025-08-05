@@ -1,4 +1,5 @@
 // Whiteboard.tsx
+import StudyRoomToolbox from '@/components/study/studyRoomPage/StudyRoomToolbox'
 import { useDrawingTool } from '@/hooks/useDrawingToolHook'
 import type { Circle as CircleType } from '@/types/circle'
 import React, { useEffect, useState } from 'react'
@@ -42,24 +43,10 @@ export default function Whiteboard({
 
   return (
     <div>
-      <div className="flex gap-[10px] ml-[10px] ">
-        <button
-          className="bg-amber-300 cursor-pointer"
-          onClick={() => setToolName('pen')}
-        >
-          펜
-        </button>
-        <button
-          className="bg-amber-300 cursor-pointer"
-          onClick={() => setToolName('circle')}
-        >
-          원
-        </button>
-      </div>
-      <input
-        type="color"
-        value={color}
-        onChange={(e) => setColor(e.target.value)}
+      <StudyRoomToolbox
+        setToolName={setToolName}
+        setColor={setColor}
+        color={color}
       />
       <Stage
         width={dimensions.width}
