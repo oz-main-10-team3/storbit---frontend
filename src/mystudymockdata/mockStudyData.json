@@ -4,10 +4,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "default",
@@ -31,10 +28,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": false,
     "isApplied": true,
     "status": "매칭 완료",
@@ -51,20 +45,14 @@
     "platform": "줌",
     "isSingleButton": false,
     "startStatus": true,
-    "days": [
-      "화요일",
-      "목요일"
-    ]
+    "days": ["화요일", "목요일"]
   },
   {
     "id": 3,
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "미승인",
@@ -88,10 +76,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "검토중",
@@ -115,10 +100,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "대기",
@@ -143,10 +125,7 @@
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
     "level": "초급",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": false,
     "isApplied": false,
     "status": "default",
@@ -161,11 +140,7 @@
     "isLeader": true,
     "meetingCycle": "주 2회",
     "platform": "구글 미트",
-    "days": [
-      "월요일",
-      "수요일",
-      "금요일"
-    ],
+    "days": ["월요일", "수요일", "금요일"],
     "time": "오전",
     "capacity": "8",
     "isSingleButton": true,
@@ -176,10 +151,7 @@
     "title": "프론트엔드 입문 스터디",
     "description": "HTML/CSS부터 리액트까지 기초를 배우는 프론트엔드 입문 스터디!",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "입문",
-      "프론트엔드"
-    ],
+    "tags": ["입문", "프론트엔드"],
     "isLiked": true,
     "isApplied": false,
     "status": "default",
@@ -188,9 +160,7 @@
     "createdAt": "2024-05-01T09:00:00.000Z",
     "startDate": "2024-05-10T09:00:00.000Z",
     "endDate": "2024-08-10T09:00:00.000Z",
-    "days": [
-      "수요일"
-    ],
+    "days": ["수요일"],
     "time": "오후 8:00",
     "maxMember": 8,
     "currentMember": 3,
@@ -207,10 +177,7 @@
     "title": "면접 준비 스터디",
     "description": "IT 취업 면접 준비, 모의 면접 및 피드백",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "면접",
-      "취업"
-    ],
+    "tags": ["면접", "취업"],
     "isLiked": true,
     "isApplied": false,
     "status": "default",
@@ -234,10 +201,7 @@
     "title": "알고리즘 초급반",
     "description": "코딩테스트 입문자를 위한 알고리즘 풀이 스터디",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "알고리즘",
-      "코딩테스트"
-    ],
+    "tags": ["알고리즘", "코딩테스트"],
     "isLiked": true,
     "isApplied": false,
     "status": "default",
@@ -261,10 +225,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "default",
@@ -288,10 +249,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": false,
     "isApplied": true,
     "status": "매칭 완료",
@@ -308,20 +266,14 @@
     "platform": "줌",
     "isSingleButton": false,
     "startStatus": true,
-    "days": [
-      "화요일",
-      "목요일"
-    ]
+    "days": ["화요일", "목요일"]
   },
   {
     "id": 12,
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "미승인",
@@ -345,10 +297,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "검토중",
@@ -372,10 +321,7 @@
     "title": "코딩테스트 합격반",
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": true,
     "isApplied": true,
     "status": "대기",
@@ -400,10 +346,7 @@
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
     "level": "초급",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": false,
     "isApplied": false,
     "status": "default",
@@ -418,11 +361,7 @@
     "isLeader": true,
     "meetingCycle": "주 2회",
     "platform": "구글 미트",
-    "days": [
-      "월요일",
-      "수요일",
-      "금요일"
-    ],
+    "days": ["월요일", "수요일", "금요일"],
     "time": "오전",
     "capacity": "8",
     "isSingleButton": true,
@@ -434,10 +373,7 @@
     "description": "코딩테스트가 막막하다면? 기초 자료구조부터 고급 알고리즘까지 자극과 동료들과 함께 매일 풀고, 토론하고, 성장하는 합격 보장 스터디예요.",
     "imageUrl": "/assets/mockdataimage/requestedStudy.png",
     "level": "초급",
-    "tags": [
-      "왕초보",
-      "프로그래밍"
-    ],
+    "tags": ["왕초보", "프로그래밍"],
     "isLiked": false,
     "isApplied": false,
     "status": "default",
@@ -452,11 +388,7 @@
     "isLeader": true,
     "meetingCycle": "주 2회",
     "platform": "구글 미트",
-    "days": [
-      "월요일",
-      "수요일",
-      "금요일"
-    ],
+    "days": ["월요일", "수요일", "금요일"],
     "time": "오전",
     "capacity": "8",
     "isSingleButton": true,
