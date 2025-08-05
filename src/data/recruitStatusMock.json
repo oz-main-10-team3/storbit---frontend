@@ -1,38 +1,170 @@
-[
-  {
-    "id": 1,
-    "nickname": "풀이지만못함왕",
-    "level": "왕초급자",
-    "profileImageUrl": "/assets/mockdataimage/profile.png",
-    "description": "안녕하세요! 프론트엔드 개발자로 일하고 있습니다. React와 TypeScript에 관심이 많고, 함께 성장할 수 있는 스터디를 찾고 \n있어요. 열심히 참여하겠습니다! \uD83D\uDD25",
-    "status": "검토중",
-    "createdAt": "2025-08-04 15:23"
-  },
-  {
-    "id": 2,
-    "nickname": "개발자꿈나무",
-    "level": "왕초급자",
-    "profileImageUrl": "/assets/mockdataimage/profile.png",
-    "description": "함께 공부하며 성장하고 싶어요! 열심히 참여하겠습니다! 💪",
-    "status": "신청 확인",
-    "createdAt": "2025-08-04 14:00"
-  },
-  {
-    "id": 3,
-    "nickname": "개발자꿈나무",
-    "level": "초급자",
-    "profileImageUrl": "/assets/mockdataimage/profile.png",
-    "description": "함께 공부하며 성장하고 싶어요! 열심히 참여하겠습니다! 💪",
-    "status": "신청 확인",
-    "createdAt": "2025-08-04 14:00"
-  },
-  {
-    "id": 4,
-    "nickname": "개발자꿈나무",
-    "level": "중급자",
-    "profileImageUrl": "/assets/mockdataimage/profile.png",
-    "description": "함께 공부하며 성장하고 싶어요! 열심히 참여하겠습니다! 💪",
-    "status": "신청 확인",
-    "createdAt": "2025-08-04 14:00"
-  }
-]
+{
+  "1": [
+    {
+      "id": 1,
+      "nickname": "코딩입문러",
+      "level": "왕초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "개발 처음 시작했어요! 같이 배우고 싶어요!",
+      "status": "검토중",
+      "createdAt": "2025-08-04 15:23"
+    },
+    {
+      "id": 2,
+      "nickname": "JS초보",
+      "level": "초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "자바스크립트 더 잘하고 싶습니다.",
+      "status": "신청 확인",
+      "createdAt": "2025-08-04 14:12"
+    },
+    {
+      "id": 3,
+      "nickname": "프론트마스터",
+      "level": "중급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "프론트엔드 실무 경험 있어요! 도와드릴게요.",
+      "status": "검토중",
+      "createdAt": "2025-08-03 13:45"
+    },
+    {
+      "id": 4,
+      "nickname": "꾸준한사람",
+      "level": "초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "꾸준함이 장점입니다. 함께 성장해요!",
+      "status": "검토중",
+      "createdAt": "2025-08-03 17:22"
+    },
+    {
+      "id": 5,
+      "nickname": "데이터사랑",
+      "level": "중급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "데이터분석을 좋아해요. 새로운 도전 환영!",
+      "status": "신청 확인",
+      "createdAt": "2025-08-02 09:50"
+    },
+    {
+      "id": 6,
+      "nickname": "챌린지맨",
+      "level": "왕초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "도전을 좋아하는 신입입니다!",
+      "status": "검토중",
+      "createdAt": "2025-08-01 11:30"
+    }
+  ],
+  "2": [
+    {
+      "id": 7,
+      "nickname": "비전공개발자",
+      "level": "왕초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "비전공이지만 열정은 가득!",
+      "status": "검토중",
+      "createdAt": "2025-08-05 09:10"
+    },
+    {
+      "id": 8,
+      "nickname": "리액트배우자",
+      "level": "초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "리액트 독학 중, 궁금한 것 많아요.",
+      "status": "신청 확인",
+      "createdAt": "2025-08-04 20:30"
+    },
+    {
+      "id": 9,
+      "nickname": "백엔드희망",
+      "level": "초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "백엔드지만 프론트에도 관심 많아요.",
+      "status": "검토중",
+      "createdAt": "2025-08-03 17:22"
+    },
+    {
+      "id": 10,
+      "nickname": "상상코더",
+      "level": "중급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "상상을 현실로! 즐겁게 배우고 싶어요.",
+      "status": "검토중",
+      "createdAt": "2025-08-02 13:11"
+    },
+    {
+      "id": 11,
+      "nickname": "웹기초정복",
+      "level": "초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "HTML, CSS에 자신감 붙이고 싶습니다.",
+      "status": "신청 확인",
+      "createdAt": "2025-08-01 16:00"
+    },
+    {
+      "id": 12,
+      "nickname": "드림코더",
+      "level": "중급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "개발자로 꿈을 이루고 싶어요!",
+      "status": "검토중",
+      "createdAt": "2025-07-31 10:01"
+    }
+  ],
+  "3": [
+    {
+      "id": 13,
+      "nickname": "매일배우자",
+      "level": "왕초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "매일 조금씩 성장하고 싶어요.",
+      "status": "검토중",
+      "createdAt": "2025-08-05 08:09"
+    },
+    {
+      "id": 14,
+      "nickname": "노력하는신입",
+      "level": "초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "아직은 부족하지만 열심히 하겠습니다.",
+      "status": "신청 확인",
+      "createdAt": "2025-08-04 12:33"
+    },
+    {
+      "id": 15,
+      "nickname": "UI디자이너출신",
+      "level": "중급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "UI/UX 출신이라 디자인에 도움 줄 수 있어요.",
+      "status": "검토중",
+      "createdAt": "2025-08-03 15:16"
+    },
+    {
+      "id": 16,
+      "nickname": "팀플고수",
+      "level": "중급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "팀 프로젝트 경험 많아요. 잘 부탁해요.",
+      "status": "검토중",
+      "createdAt": "2025-08-02 14:19"
+    },
+    {
+      "id": 17,
+      "nickname": "에러해결러",
+      "level": "초급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "에러만 보면 기운이 납니다.",
+      "status": "신청 확인",
+      "createdAt": "2025-08-01 18:45"
+    },
+    {
+      "id": 18,
+      "nickname": "이직준비생",
+      "level": "중급자",
+      "profileImageUrl": "/assets/mockdataimage/profile.png",
+      "description": "이직을 위해 준비 중입니다.",
+      "status": "검토중",
+      "createdAt": "2025-07-30 22:33"
+    }
+  ]
+}

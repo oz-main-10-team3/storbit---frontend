@@ -1,9 +1,9 @@
-import { useState } from 'react' // 추가
 import { FiSettings } from 'react-icons/fi'
 import { AiFillHeart } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import CommonButton from '@/common/CommonButton.tsx'
 import type { Study } from '@/types/study.ts'
+import { useEffect, useState } from 'react'
 
 interface StudyCardProps {
   study: Study
@@ -15,20 +15,30 @@ interface StudyCardProps {
   rightButtonDisabled?: boolean
   showHeart?: boolean
   isFullWidthSingleButton?: boolean
+  onHeartClick?: (id: number, liked: boolean) => void
 }
 
 export default function MyStudyCard({
   study,
   onLeftButtonClick,
   onRightButtonClick,
-  leftButtonText = '왼쪽 버튼',
-  rightButtonText = '오른쪽 버튼',
+  leftButtonText,
+  rightButtonText,
   leftButtonDisabled = false,
   rightButtonDisabled = false,
   showHeart = true,
   isFullWidthSingleButton = false,
+  onHeartClick,
 }: StudyCardProps) {
-  const [liked, setLiked] = useState(study.isLiked) // 하트 상태
+  // Only one of the two buttons is present
+  const onlyOneButton =
+    (leftButtonText && !rightButtonText) || (!leftButtonText && rightButtonText)
+
+  const [liked, setLiked] = useState(study.isLiked)
+
+  useEffect(() => {
+    setLiked(study.isLiked)
+  }, [study.isLiked])
 
   return (
     <div className="w-[360px] rounded-lg p-4 border-none shadow-none">
@@ -57,7 +67,14 @@ export default function MyStudyCard({
         <h3 className="text-sm font-semibold text-black">{study.title}</h3>
         {showHeart ? (
           <button
-            onClick={() => setLiked((prev) => !prev)}
+            onClick={() => {
+              const newLiked = !liked
+              setLiked(newLiked)
+              if (!newLiked) {
+                // 바로 회색으로 변하고 찜 목록에서 제거되도록
+                onHeartClick?.(study.id, newLiked)
+              }
+            }}
             className="focus:outline-none"
           >
             <AiFillHeart
@@ -77,15 +94,31 @@ export default function MyStudyCard({
         {study.description}
       </div>
       <div className="mt-4">
-        {isFullWidthSingleButton ? (
-          <CommonButton
-            className="text-sm w-full"
-            variant="primary"
-            onClick={onLeftButtonClick}
-            disabled={leftButtonDisabled}
-          >
-            {leftButtonText}
-          </CommonButton>
+        {isFullWidthSingleButton || onlyOneButton ? (
+          (rightButtonText || leftButtonText) && (
+            <CommonButton
+              className="text-sm w-full"
+              variant={
+                isFullWidthSingleButton
+                  ? rightButtonDisabled || leftButtonDisabled
+                    ? 'disabled'
+                    : 'primary'
+                  : rightButtonText
+                    ? rightButtonDisabled
+                      ? 'disabled'
+                      : 'primary'
+                    : leftButtonDisabled
+                      ? 'disabled'
+                      : 'secondary'
+              }
+              onClick={rightButtonText ? onRightButtonClick : onLeftButtonClick}
+              disabled={
+                rightButtonText ? rightButtonDisabled : leftButtonDisabled
+              }
+            >
+              {rightButtonText || leftButtonText}
+            </CommonButton>
+          )
         ) : (
           <div className="flex gap-2">
             {leftButtonText && (

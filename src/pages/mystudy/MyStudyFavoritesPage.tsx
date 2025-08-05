@@ -1,48 +1,88 @@
 import { useState } from 'react'
-import Joi from 'joi'
-import InputField from '@/common/InputField.tsx'
+import { myLikedStudies } from '@/data/mockData'
+import MyStudyCard from '@/common/mystudy/MyStudyCard'
+import StudyApplyModal from '@/common/StudyApplyModal'
+import type { Study } from '@/types/study'
+import TransientModal from '@/common/TransientModal.tsx'
+
+// 닉네임은 로그인 유저 정보에서 받아야 하지만 지금은 하드코딩
+const userNickname = '몽치면주먹밥'
 
 export default function MyStudyFavoritesPage() {
-  const [birthdate, setBirthdate] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+  // Initialize with all studies, not just filtered ones
+  const [likedStudies, setLikedStudies] = useState(myLikedStudies)
 
-  // Joi schema: 8-digit string matching date format
-  const birthdateSchema = Joi.string()
-    .pattern(/^\d{8}$/)
-    .required()
-    .messages({
-      'string.pattern.base': '8자리 숫자 형식이 아닙니다.',
-      'string.empty': '생년월일을 입력해주세요.',
-    })
+  const [selectedStudy, setSelectedStudy] = useState<Study | null>(null)
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false)
+  const [isTransitionModalOpen, setIsTransitionModalOpen] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setBirthdate(value)
+  const handleHeartClick = (id: number, liked: boolean) => {
+    setLikedStudies((prev) =>
+      prev.map((study) =>
+        study.id === id ? { ...study, isLiked: liked } : study
+      )
+    )
+  }
 
-    const { error: validationError } = birthdateSchema.validate(value)
-    if (validationError) {
-      setError(validationError.message)
-      setSuccess('')
-    } else {
-      setError('')
-      setSuccess('올바른 형식입니다.')
-    }
+  const handleApplyClick = (study: Study) => {
+    const isFull = study.currentMember >= study.maxMember
+    if (isFull) return // 대기자 신청이면 무시
+    setSelectedStudy(study)
+    setIsApplyModalOpen(true)
+  }
+
+  const handleSubmit = () => {
+    setIsApplyModalOpen(false)
+    setSelectedStudy(null)
   }
 
   return (
-    <div className="p-6">
-      <form className="space-y-6">
-        <InputField
-          className="w-[300px] h-12"
-          label="생년월일"
-          placeholder="8자리 입력해주세요 (ex.20001004)"
-          value={birthdate}
-          onChange={handleChange}
-          error={error}
-          success={success}
+    <div className="flex flex-col gap-[40px] mt-[72px] pl-[60px] pr-[40px]">
+      <div className="grid grid-cols-3 gap-[2px]">
+        {likedStudies.filter((study) => study.isLiked).length === 0 ? (
+          <div className="m-auto col-span-3 flex justify-center items-center h-[300px] text-gray-400 text-center">
+            찜한 스터디가 없습니다.
+          </div>
+        ) : (
+          likedStudies
+            .filter((study) => study.isLiked)
+            .map((study) => {
+              const isFull = study.currentMember >= study.maxMember
+              return (
+                <MyStudyCard
+                  key={study.id}
+                  study={study}
+                  showHeart
+                  onHeartClick={handleHeartClick}
+                  rightButtonText={isFull ? '대기자 신청' : '스터디 신청'}
+                  onRightButtonClick={() => handleApplyClick(study)}
+                  isFullWidthSingleButton
+                />
+              )
+            })
+        )}
+      </div>
+
+      {selectedStudy && (
+        <StudyApplyModal
+          isOpen={isApplyModalOpen}
+          onClose={() => setIsApplyModalOpen(false)}
+          onSubmit={handleSubmit}
+          userNickname={userNickname}
+          study={selectedStudy}
+          onNext={() => {
+            setIsTransitionModalOpen(true)
+          }}
         />
-      </form>
+      )}
+
+      {isTransitionModalOpen && (
+        <TransientModal
+          isOpen={isTransitionModalOpen}
+          onClose={() => setIsTransitionModalOpen(false)}
+          type="application"
+        />
+      )}
     </div>
   )
 }

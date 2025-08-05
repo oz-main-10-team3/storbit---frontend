@@ -1,11 +1,20 @@
-import { recruitApplicants } from '@/data/recruitStatusData.ts'
 import CommonModal from '@/common/CommonModal'
 import CommonButton from '@/common/CommonButton'
-import { useState } from 'react'
+
+interface RecruitApplicant {
+  id: number
+  nickname: string
+  profileImageUrl?: string
+  level: string
+  status: string
+  createdAt: string
+  description: string
+}
 
 interface RecruitStatusModalProps {
   isOpen: boolean
   onClose: () => void
+  applicants: RecruitApplicant[]
   onReject: (id: number) => void
   onAccept: (id: number) => void
   onConfirm: (id: number) => void
@@ -16,13 +25,13 @@ interface RecruitStatusModalProps {
 export default function RecruitStatusModal({
   isOpen,
   onClose,
+  applicants,
   onReject,
   onAccept,
   onConfirm,
   onAcceptAll,
   onRejectAll,
 }: RecruitStatusModalProps) {
-  const [applicants, setApplicants] = useState(recruitApplicants)
   return (
     <CommonModal
       isOpen={isOpen}
@@ -87,9 +96,6 @@ export default function RecruitStatusModal({
                     className="text-sm px-4 py-1 w-[112px]"
                     onClick={() => {
                       onReject(applicant.id)
-                      setApplicants((prev) =>
-                        prev.filter((a) => a.id !== applicant.id)
-                      )
                     }}
                   >
                     거절
@@ -99,9 +105,6 @@ export default function RecruitStatusModal({
                     className="text-sm px-4 py-1 w-[112px]"
                     onClick={() => {
                       onAccept(applicant.id)
-                      setApplicants((prev) =>
-                        prev.filter((a) => a.id !== applicant.id)
-                      )
                     }}
                   >
                     멤버확정
@@ -114,9 +117,6 @@ export default function RecruitStatusModal({
                     className="text-sm px-4 py-1 w-[112px]"
                     onClick={() => {
                       onReject(applicant.id)
-                      setApplicants((prev) =>
-                        prev.filter((a) => a.id !== applicant.id)
-                      )
                     }}
                   >
                     거절
@@ -126,11 +126,6 @@ export default function RecruitStatusModal({
                     className="text-sm px-4 py-1 w-[112px]"
                     onClick={() => {
                       onConfirm(applicant.id)
-                      setApplicants((prev) =>
-                        prev.map((a) =>
-                          a.id === applicant.id ? { ...a, status: '검토중' } : a
-                        )
-                      )
                     }}
                   >
                     확인
@@ -147,7 +142,6 @@ export default function RecruitStatusModal({
               applicants.forEach((applicant) => {
                 onReject(applicant.id)
               })
-              setApplicants([])
               onRejectAll()
             }}
             variant="secondary"
@@ -160,7 +154,6 @@ export default function RecruitStatusModal({
               applicants.forEach((applicant) => {
                 onAccept(applicant.id)
               })
-              setApplicants([])
               onAcceptAll()
             }}
             variant="primary"
