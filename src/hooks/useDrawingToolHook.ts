@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { PenTool } from '@/components/study/studyRoomPage/PenTool'
-import type { Point } from '@/types/point'
+import type { ColoredLine } from '@/types/point'
 import { CircleTool } from '@/components/study/studyRoomPage/CircleTool'
 import type { Circle } from '@/types/circle'
 
@@ -9,7 +9,7 @@ export function useDrawingTool(
   color: string,
   shouldFillCircle: boolean,
   sharedState: {
-    setLines?: React.Dispatch<React.SetStateAction<Point[][]>>
+    setLines?: React.Dispatch<React.SetStateAction<ColoredLine[]>>
     setCircles?: React.Dispatch<React.SetStateAction<Circle[]>>
     circles?: Circle[]
     // 필요한 setState들을 모두 포함
@@ -23,16 +23,7 @@ export function useDrawingTool(
         pen.setColor?.(color)
         return pen
       }
-      case 'circle': {
-        if (!sharedState.setCircles || !sharedState.circles) return
-        const circle = new CircleTool(
-          sharedState.circles,
-          sharedState.setCircles,
-          shouldFillCircle
-        )
-        circle.setColor?.(color)
-        return circle
-      }
+      case 'circle':
       case 'fillCircle': {
         if (!sharedState.setCircles || !sharedState.circles) return
         const circle = new CircleTool(

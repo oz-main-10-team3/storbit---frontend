@@ -17,11 +17,11 @@ export class CircleTool implements DrawingTool {
   constructor(
     circles: Circle[],
     setCircles: React.Dispatch<React.SetStateAction<Circle[]>>,
-    shouldFillCircle: boolean
+    shouldFill: boolean
   ) {
     this.circles = circles
     this.setCircles = setCircles
-    this.shouldFillCircle = shouldFillCircle
+    this.shouldFillCircle = shouldFill
   }
 
   onMouseDown(e: KonvaEventObject<MouseEvent>) {

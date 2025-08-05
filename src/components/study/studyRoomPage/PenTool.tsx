@@ -1,22 +1,15 @@
 import React from 'react'
 import type { DrawingTool } from '@/types/drawingTool'
-import type { Point } from '@/types/point'
-// import { Line } from 'react-konva'
 import type { KonvaEventObject } from 'konva/lib/Node'
-
-// 색상 정보를 포함한 선 타입
-interface ColoredLine {
-  points: Point[]
-  color: string
-}
+import type { ColoredLine } from '@/types/point'
 
 export class PenTool implements DrawingTool {
   private isDrawing = false
   private color = '#000'
   private lines: ColoredLine[] = [] // 색상 정보 포함
-  private setLines: React.Dispatch<React.SetStateAction<Point[][]>>
+  private setLines: React.Dispatch<React.SetStateAction<ColoredLine[]>>
 
-  constructor(setLines: React.Dispatch<React.SetStateAction<Point[][]>>) {
+  constructor(setLines: React.Dispatch<React.SetStateAction<ColoredLine[]>>) {
     this.setLines = setLines
   }
 
@@ -31,7 +24,13 @@ export class PenTool implements DrawingTool {
         color: this.color,
       })
       // 상위 컴포넌트 상태도 업데이트 (호환성 유지)
-      this.setLines((prev) => [...prev, [point]])
+      this.setLines((prev) => [
+        ...prev,
+        {
+          points: [point],
+          color: this.color,
+        },
+      ])
     }
   }
 
@@ -51,7 +50,11 @@ export class PenTool implements DrawingTool {
       const newLines = [...current]
       const lastIndex = newLines.length - 1
       if (lastIndex >= 0) {
-        newLines[lastIndex] = [...newLines[lastIndex], point]
+        const updatedLine = {
+          ...newLines[lastIndex],
+          points: [...newLines[lastIndex].points, point],
+        }
+        newLines[lastIndex] = updatedLine
       }
       return newLines
     })

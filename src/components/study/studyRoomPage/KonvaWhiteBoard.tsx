@@ -2,13 +2,9 @@
 import StudyRoomToolbox from '@/components/study/studyRoomPage/StudyRoomToolbox'
 import { useDrawingTool } from '@/hooks/useDrawingToolHook'
 import type { Circle as CircleType } from '@/types/circle'
+import type { ColoredLine } from '@/types/point'
 import React, { useEffect, useState } from 'react'
 import { Stage, Layer, Line, Circle } from 'react-konva'
-
-interface Point {
-  x: number
-  y: number
-}
 
 export default function Whiteboard({
   containerRef,
@@ -19,7 +15,7 @@ export default function Whiteboard({
     'pen'
   )
   const [color, setColor] = useState('#000000')
-  const [lines, setLines] = useState<Point[][]>([])
+  const [lines, setLines] = useState<ColoredLine[]>([])
   const [circles, setCircles] = useState<CircleType[]>([])
   const [shouldFillCircle, setShouldFillCircle] = useState(false)
 
@@ -70,11 +66,12 @@ export default function Whiteboard({
           {lines.map((line, idx) => (
             <Line
               key={idx}
-              points={line.flatMap((p) => [p.x, p.y])}
-              stroke={color}
+              points={line.points.flatMap((p) => [p.x, p.y])}
+              stroke={line.color}
               strokeWidth={2}
               tension={0.5}
               lineCap="round"
+              lineJoin="round"
             />
           ))}
 
