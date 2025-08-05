@@ -9,7 +9,7 @@ const menuItems = [
 
 export default function MyStudySidebar() {
   return (
-    <div className="flex flex-col gap-[40px] text-sm text-text font-medium ml-[130px] mt-[88px]">
+    <div className="flex flex-col gap-[40px] text-sm text-text font-medium ml-[45px] mt-[88px]">
       {menuItems.map(({ path, label }) => (
         <NavLink
           key={path}

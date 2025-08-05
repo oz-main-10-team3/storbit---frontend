@@ -7,13 +7,13 @@ const sideMenu = {
 
 export default function SideCategoryMenu() {
   const { category } = useParams()
-
+  
   const getLink = (item: string) => {
     return item === '전체'
       ? `/category/${encodeURIComponent(category || '')}`
       : `/category/${encodeURIComponent(category || '')}/${encodeURIComponent(item)}`
   }
-
+  
   return (
     <aside className="w-[200px] flex flex-col gap-[64px]">
       <h2 className="text-[24px] font-semibold">{sideMenu.category}</h2>

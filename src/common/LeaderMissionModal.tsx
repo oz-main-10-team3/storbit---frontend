@@ -27,6 +27,8 @@ export default function LeaderMissionModal({
     if (saved) {
       onClose()
       onNext()
+      setGoal('')
+      setSaved(false)
     }
   }
 

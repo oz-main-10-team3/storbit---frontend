@@ -26,13 +26,13 @@ export default function StudyLeaveModal({
   onSubmit,
   onLeave,
 }: StudyLeaveModalProps) {
-  const [reason, setReason] = useState<string>()
+  const [reason2, setReason2] = useState<string>()
   const [description, setDescription] = useState('')
 
   const handleSubmit = () => {
-    if (!reason || !description.trim()) return
-    onSubmit(reason, description.trim())
-    setReason(undefined)
+    if (!reason2 || !description.trim()) return
+    onSubmit(reason2, description.trim())
+    setReason2(undefined)
     setDescription('')
     onLeave()
     onClose()
@@ -58,8 +58,8 @@ export default function StudyLeaveModal({
           </>
         }
         options={REASON_OPTIONS}
-        selected={reason}
-        onChange={(value) => setReason(value)}
+        selected={reason2}
+        onChange={(value) => setReason2(value)}
         placeholder="선택해 주세요"
         className="mb-6 w-[276px]"
       />
@@ -78,9 +78,9 @@ export default function StudyLeaveModal({
 
       <CommonButton
         onClick={handleSubmit}
-        disabled={!reason || description.trim() === ''}
+        disabled={!reason2 || description.trim() === ''}
         className="w-full"
-        variant={!reason || description.trim() === '' ? 'disabled' : 'primary'}
+        variant={!reason2 || description.trim() === '' ? 'disabled' : 'primary'}
       >
         탈퇴 하기
       </CommonButton>

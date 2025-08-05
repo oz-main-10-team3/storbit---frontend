@@ -36,6 +36,7 @@ import PrivacyPolicyPage from '@/pages/privacy/PrivacyPolicyPage'
 import ContactPage from '@/pages/contact/ContactPage'
 import CategoryPage from '@/pages/category/CategoryPage'
 import CategoryDetailPage from '@/pages/category/CategoryDetailPage'
+import StudyManagePage from '@/pages/mystudy/StudyManagePage.tsx'
 
 export default function App() {
   return (
@@ -83,6 +84,7 @@ export default function App() {
           <Route path="/mystudy/joined" element={<MyStudyJoinedPage />} />
           <Route path="/mystudy/created" element={<MyStudyCreatedPage />} />
           <Route path="/mystudy/favorites" element={<MyStudyFavoritesPage />} />
+          <Route path="/study/manage/:studyId" element={<StudyManagePage />} />
         </Route>
 
         {/* 마이페이지 */}
