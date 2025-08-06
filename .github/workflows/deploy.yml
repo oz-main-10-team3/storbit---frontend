@@ -1,0 +1,40 @@
+name: Deploy To S3 And Invalidate Cloudfront
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy: # job 의 이름을 작성 아무이름 작성가능
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github Repository 파일 불러오기
+        uses: actions/checkout@v4 # githubmarketplace 라이브러리 사용
+
+      - name: VITE_API_MAIN_URL 값을 .env.production 파일로 만들기
+        run: |
+          echo "VITE_API_MAIN_URL=${{ secrets.VITE_API_MAIN_URL }}" > .env.production
+
+      - name: 의존성 설치
+        run: npm i
+
+      - name: 빌드하기
+        run: npm run build
+
+      - name: AWS Resource에 접근할 수 있게 AWS 인증 설정 # 라이브러리 사용
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ap-us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: S3 기존 파일들 전체 삭제
+        run: |
+          aws s3 rm --recursive s3://storbit
+
+      - name: S3 에 빌드된 파일 업로드하기
+        run: aws s3 cp ./dist s3://storbit/ --recursive
+
+      - name: Cloudfront 캐시 무효화
+        run: aws cloudfront create-invalidation --distribution-id E2YEVL0ASNB0W5 --path "/*"
