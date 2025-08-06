@@ -25,8 +25,6 @@ export default function MyStudyFavoritesPage() {
   }
 
   const handleApplyClick = (study: Study) => {
-    const isFull = study.currentMember >= study.maxMember
-    if (isFull) return // 대기자 신청이면 무시
     setSelectedStudy(study)
     setIsApplyModalOpen(true)
   }
