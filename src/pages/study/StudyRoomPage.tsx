@@ -1,11 +1,14 @@
 // import { useParams } from 'react-router-dom'
 import userProfile from '@/assets/images/default-profile.png'
+import Whiteboard from '@/components/study/studyRoomPage/KonvaWhiteBoard'
 import StudyRoomUserCard from '@/components/study/studyRoomPage/StudyRoomUserCard'
 import { studyRoomUserCardMockData } from '@/mystudymockdata/studyRoomMockData'
+import { useRef } from 'react'
 import { CiMail } from 'react-icons/ci'
 import { IoIosLogOut } from 'react-icons/io'
 
 export default function StudyRoomPage() {
+  const containerRef = useRef<HTMLDivElement>(null)
   return (
     <div>
       <div className="flex text-[32px] h-[136px] w-full items-center justify-between px-[72px] border-b-[1px] border-b-[#e6e6e6]">
@@ -13,7 +16,7 @@ export default function StudyRoomPage() {
         <div className="flex gap-[16px] items-center">
           <img
             src={userProfile}
-            alt="유저프로피이미지"
+            alt="유저프로필이미지"
             className="rounded-full w-[64px]"
           />
           <div className="flex gap-[8px] items-center">
@@ -25,12 +28,15 @@ export default function StudyRoomPage() {
       </div>
       <div className="relative ">
         <div
+          ref={containerRef}
           className="absolute left-0 top-0 w-full h-[944px] z-0"
           style={{
             backgroundImage: 'radial-gradient(#ccc 1px, transparent 1px)',
             backgroundSize: '20px 20px',
           }}
-        ></div>
+        >
+          <Whiteboard containerRef={containerRef} />
+        </div>
         <div className="flex flex-col gap-[24px] absolute right-[72px] top-[40px] z-10 overflow-scroll h-[850px] scrollbar-hide">
           <div className="flex flex-col gap-[16px] w-[272px] h-[150px] rounded-[10px] border-[1px] bg-white border-primary p-[16px] text-[12px] text-text2">
             <div className="flex flex-col gap-[2px]">
