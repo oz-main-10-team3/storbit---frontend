@@ -1,14 +1,52 @@
 import { FaComment } from 'react-icons/fa'
 import InputField from '@/common/InputField'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CommonButton from '@/common/CommonButton'
+import type { UserDataWithToken } from '@/types/userData'
+import { api } from '@/api/mainApi'
+import { useUserInfo } from '@/store/userInfoStore'
+import type { AxiosError } from 'axios'
+
+interface ErrorMessage {
+  status: number
+  message: string
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const setUserInfo = useUserInfo((state) => state.setUserInfo)
+  const [errorMessage, setErrorMessage] = useState<ErrorMessage | null>(null)
+  const navigate = useNavigate()
 
-  // console.log(!!emailSchema.validate(email), emailSchema.validate(email).error)
+  const handleLogin = async () => {
+    try {
+      const res = await api.post('/api/v1/auth/login/', {
+        email,
+        password,
+      })
+
+      if (!!res && res.status === 200) {
+        const userData: UserDataWithToken = res.data
+
+        setUserInfo(userData)
+        navigate('/')
+        return
+      } else {
+        return
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<{ detail: string }>
+      if (!axiosError.status) return
+      setErrorMessage({
+        status: axiosError.status,
+        message:
+          axiosError.response?.data.detail ?? '알 수 없는 오류가 발생했습니다.',
+      })
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center bg-white h-[856px]">
       <div className="flex flex-col items-center justify-center gap-[32px]">
@@ -34,16 +72,18 @@ export default function LoginPage() {
               placeholder="example@onstudy.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              // error={error}
-              // success={success}
+              error={
+                errorMessage?.status === 404 ? errorMessage?.message : undefined
+              }
             />
             <InputField
               className="w-full h-12 placeholder:text-text4"
               placeholder="비밀번호(6~15자의 영문 대소문자, 숫자, 특수문자 포함)"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              // error={error}
-              // success={success}
+              error={
+                errorMessage?.status === 401 ? errorMessage?.message : undefined
+              }
             />
             <div className="flex text-[14px] text-text2 gap-[8px] font-normal">
               <Link className="" to="/auth/find-email">
@@ -56,7 +96,7 @@ export default function LoginPage() {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center gap-[24px] w-full">
-            <CommonButton>로그인</CommonButton>
+            <CommonButton onClick={handleLogin}>로그인</CommonButton>
             <Link
               className="flex text-[14px] text-text2 gap-[8px] font-normal"
               to="/auth/signup"

@@ -11,6 +11,7 @@ import { generateYearMonthOptions } from '@/utils/generateYearMonthOptions'
 import DropDownCalendar from '@/components/mypage/studyPlannerPage/DropDownCalendar'
 import { useAttendanceCalendar } from '@/store/useAttendance'
 import { studyOptions } from '@/mystudymockdata/studyOptions'
+import { useUserInfo } from '@/store/userInfoStore'
 
 const goalInProgresses = [
   { goal: '2025년 12월 토익 900점 목표', dDay: 365, progressDay: 256 },
@@ -19,6 +20,7 @@ const goalInProgresses = [
 ]
 
 export default function StudyPlannerPage() {
+  const userName = useUserInfo((state) => state.userInfo?.user.name)
   const [isActive, setIsActive] = useState(false)
   const todos = useTodoStore((state) => state.todos)
   const removeCompletedTodos = useTodoStore(
@@ -47,7 +49,7 @@ export default function StudyPlannerPage() {
   return (
     <div className="w-[768px] mt-[88px] ml-[160px] pb-[20px]">
       <div className="text-[#121212] text-[24px]">
-        뭉치면주먹밥님의 스터디플랜
+        {`${userName}님의 스터디플랜`}
       </div>
       <div className="flex flex-col gap-[16px] mt-[16px]">
         <div className="flex p-[20px] items-center justify-between w-full h-[64px] border-[1px] rounded-[8px] border-[#bdbdbd] font-light">

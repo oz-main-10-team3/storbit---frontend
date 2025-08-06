@@ -1,11 +1,13 @@
 import InputField from '@/common/InputField'
 import CommonButton from '@/common/CommonButton'
 import { Link, useNavigate } from 'react-router-dom'
-import profileImage from '@/assets/images/default-profile.png'
 import { FaComment } from 'react-icons/fa'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
+import { useUserInfo } from '@/store/userInfoStore'
 
 export default function AccountSettingsPage() {
+  const user = useUserInfo((state) => state.userInfo?.user)
+
   const navigate = useNavigate()
 
   const handleSubmit = (_e: React.FormEvent<HTMLFormElement>) => {
@@ -18,7 +20,7 @@ export default function AccountSettingsPage() {
     <div className="flex flex-col items-center justify-start bg-white mt-[88px] ml-[160px] pb-[20px]">
       <div className="flex flex-col items-center justify-center gap-[72px] self-start">
         <img
-          src={profileImage}
+          src={user?.profile_image_url}
           alt="유저프로필이미지"
           className="rounded-full w-[96px] self-start"
         />
@@ -31,14 +33,14 @@ export default function AccountSettingsPage() {
             <div className="flex flex-col pace-y-3 gap-[16px] w-full">
               <InputField
                 className="w-full h-[48px] bg-disabled-fill placeholder:text-text4"
-                placeholder="스토빗"
+                placeholder={user?.name}
                 type="text"
                 disabled
               />
 
               <InputField
                 className="w-full h-[48px] placeholder:text-text4 bg-disabled-fill"
-                placeholder="storbit@example.com"
+                placeholder={user?.email}
                 type="email"
                 disabled
               />
@@ -46,7 +48,7 @@ export default function AccountSettingsPage() {
               <div className="flex w-full gap-[4px]">
                 <InputField
                   className="w-[284px] h-[48px] placeholder:text-text4"
-                  placeholder="닉네임"
+                  placeholder={user?.nickname}
                   type="text"
                 />
 
@@ -61,7 +63,7 @@ export default function AccountSettingsPage() {
               <div className="flex w-full gap-[4px]">
                 <InputField
                   className="w-[284px] h-[48px] placeholder:text-text4 bg-disabled-fill"
-                  placeholder="010-1234-5678"
+                  placeholder={user?.phone}
                   type="number"
                   disabled
                 />
