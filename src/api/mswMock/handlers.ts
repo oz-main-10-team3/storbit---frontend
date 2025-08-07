@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw'
 import { mockUsers } from '@/api/mswMock/MockData'
+import type { SignupForm } from '@/types/signupForm'
 
 const MOCK_ACCESS_TOKEN = 'abcdefg1234' //테스트용 토큰
 const MOCK_REFRESH_TOKEN = 'aabbcddwecqw123'
@@ -7,8 +8,6 @@ const MOCK_REFRESH_TOKEN = 'aabbcddwecqw123'
 export const handlers = [
   //////////////////////////////////////////////////////////////////////////////////////////////////////////// 로그인
   http.post(`/api/v1/auth/login/`, async ({ request }) => {
-    // const data = await request.clone().json();
-    // console.log(data);
     const { email, password } = await request.clone().json()
 
     const matchedUserEmail = mockUsers.find((user) => user.email === email)
@@ -41,8 +40,83 @@ export const handlers = [
   }),
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 로그아웃
   http.post('/api/v1/auth/logout', async () => {
-    // const data = request
-    // console.log(data);
     return HttpResponse.json({ status: 200 })
+  }),
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 회원가입
+  http.post('/api/v1/users/signup/', async ({ request }) => {
+    const {
+      fullname,
+      email,
+      nickname,
+      phone_number,
+      password,
+      gender,
+    }: SignupForm = await request.clone().json()
+
+    if (
+      !fullname ||
+      !email ||
+      !nickname ||
+      !phone_number ||
+      !password ||
+      !gender
+    ) {
+      return HttpResponse.json(
+        { detail: '모든 필수 항목을 입력해야 합니다.' },
+        { status: 400 }
+      )
+    }
+    const nicknameExists = mockUsers.some((user) => user.nickname === nickname)
+    if (nicknameExists) {
+      return HttpResponse.json(
+        { detail: '이미 사용 중인 닉네임입니다.' },
+        { status: 400 }
+      )
+    }
+
+    const emailExists = mockUsers.some((user) => user.email === email)
+
+    const phoneExists = mockUsers.some((user) => user.phone === phone_number)
+
+    if (emailExists) {
+      return HttpResponse.json(
+        { detail: '이미 등록된 이메일 입니다.' },
+        { status: 409 }
+      )
+    }
+
+    if (phoneExists) {
+      return HttpResponse.json(
+        { detail: '이미 등록된 전화번호입니다.' },
+        { status: 409 }
+      )
+    }
+
+    const phoneRegex = /^\d+$/
+    if (!phoneRegex.test(phone_number)) {
+      return HttpResponse.json(
+        { detail: '휴대폰 번호 형식이 올바르지 않습니다.' },
+        { status: 422 }
+      )
+    }
+
+    const newUser = {
+      user_id: mockUsers.length + 1,
+      email,
+      password,
+      nickname,
+      name: fullname,
+      phone: phone_number,
+      birthday: '1990-01-01',
+      profile_image_url: null,
+    }
+
+    mockUsers.push(newUser)
+
+    return HttpResponse.json(
+      { message: '회원가입이 완료되었습니다.' },
+      { status: 201 }
+    )
   }),
 ]

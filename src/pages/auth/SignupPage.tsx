@@ -5,9 +5,16 @@ import type { SignupForm } from '@/types/signupForm'
 import { useForm, Controller } from 'react-hook-form'
 import { joiResolver } from '@hookform/resolvers/joi'
 import signupFormSchema from '@/schemas/signupFormSchema'
+import { api } from '@/api/mainApi'
+import type { AxiosError } from 'axios'
+import { useState } from 'react'
+import type { ErrorMessage } from '@/types/errorMessage'
 
 export default function SignupPage() {
   const navigate = useNavigate()
+  const [apiErrorMessage, setApiErrorMessage] = useState<ErrorMessage | null>(
+    null
+  )
 
   const {
     control,
@@ -16,20 +23,31 @@ export default function SignupPage() {
   } = useForm<SignupForm>({
     resolver: joiResolver(signupFormSchema), // Joi를 React Hook Form과 연결
     defaultValues: {
-      name: '',
+      fullname: '',
       email: '',
       nickname: '',
-      phone: '',
+      phone_number: '',
       password: '',
       gender: '남', // 또는 '남'/'여' 중 기본값
     },
     mode: 'onChange', // 입력값이 변경될 때마다 유효성 검사
   })
 
-  const onSubmit = (_data: SignupForm) => {
-    // console.log('Form Data:', data)
-    // 여기에 회원가입 로직을 추가하세요
-    navigate('/auth/signup/terms') // 회원가입 성공 페이지로 이동
+  const onSubmit = async (data: SignupForm) => {
+    try {
+      const res = await api.post('/api/v1/users/signup/', data)
+      if (res.status === 201) {
+        navigate('/auth/signup/terms') // 회원가입 성공 페이지 이동
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<{ detail: string }>
+      if (!axiosError.status) return
+      setApiErrorMessage({
+        status: axiosError.status,
+        message:
+          axiosError.response?.data.detail ?? '알 수 없는 오류가 발생했습니다.',
+      })
+    }
   }
 
   return (
@@ -44,7 +62,7 @@ export default function SignupPage() {
         >
           <div className="flex flex-col pace-y-3 gap-[16px]">
             <Controller
-              name="name"
+              name="fullname"
               control={control}
               rules={{ required: '이름은 필수입니다' }}
               render={({ field, fieldState }) => (
@@ -96,7 +114,7 @@ export default function SignupPage() {
             </div>
             <div className="flex w-full gap-[4px]">
               <Controller
-                name="phone"
+                name="phone_number"
                 control={control}
                 rules={{ required: '휴대전화는 필수입니다' }}
                 render={({ field, fieldState }) => (
@@ -160,7 +178,7 @@ export default function SignupPage() {
               />
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center gap-[24px] w-full">
+          <div className="flex flex-col gap-1.5 w-full">
             <CommonButton
               variant="disabled"
               disabled={!isValid}
@@ -168,6 +186,11 @@ export default function SignupPage() {
             >
               다음
             </CommonButton>
+            {apiErrorMessage && (
+              <p className="text-xs text-alertText font-medium mt-1">
+                * {apiErrorMessage.message}
+              </p>
+            )}
           </div>
         </form>
       </div>

@@ -1,8 +1,8 @@
 export interface SignupForm {
-  name: string
+  fullname: string
   email: string
   nickname: string
-  phone: string
+  phone_number: string
   password: string
   gender: '남' | '여'
 }

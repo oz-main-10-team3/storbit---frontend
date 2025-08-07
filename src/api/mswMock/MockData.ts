@@ -1,4 +1,15 @@
-export const mockUsers = [
+interface MockData {
+  email: string
+  password: string
+  user_id: number
+  nickname: string
+  name: string
+  phone: string
+  birthday: string
+  profile_image_url: string | null
+}
+
+export const mockUsers: MockData[] = [
   {
     email: 'yongar@example.com',
     password: '1234',
