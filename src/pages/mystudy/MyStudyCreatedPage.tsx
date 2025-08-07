@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import ToastMessage from '@/common/ToastMessage'
-import { recruitApplicants } from '@/data/recruitStatusData.ts'
+import { recruitApplicantsByStudy } from '@/data/recruitStatusData.ts'
 import { myCreatedStudies } from '@/data/mockData'
 import type { Study } from '@/types/study'
 import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
@@ -16,13 +16,19 @@ export default function MyStudyCreatedPage() {
   const [isTransitionModalOpen, setIsTransitionModalOpen] = useState(false)
   const [isTransitionLeaveModalOpen, setIsTransitionLeaveModalOpen] =
     useState(false)
-  const [isRecruitModalOpen, setIsRecruitModalOpen] = useState(false)
+  // 모집 현황 모달: 열려있는 studyId (없으면 null)
+  const [recruitModalStudyId, setRecruitModalStudyId] = useState<number | null>(
+    null
+  )
   // 스터디 해체 모달 상태
   const [isDismantleModalOpen, setIsDismantleModalOpen] = useState(false)
   // 추가: 모집 취소 모달 상태
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false)
   // Toast for member acceptance/rejection
   const [toastMessage, setToastMessage] = useState('')
+  // 모집 지원자 상태 관리 (깊은 복사)
+  const [recruitApplicantsByStudyState, setRecruitApplicantsByStudyState] =
+    useState(() => ({ ...recruitApplicantsByStudy }))
   return (
     <div className="flex flex-col gap-[40px] mt-[72px] pl-[60px] pr-[40px]">
       <div className="grid grid-cols-3 gap-[2px]">
@@ -67,7 +73,7 @@ export default function MyStudyCreatedPage() {
               }}
               onRightButtonClick={
                 rightText === '모집 현황'
-                  ? () => setIsRecruitModalOpen(true)
+                  ? () => setRecruitModalStudyId(study.id)
                   : undefined
               }
               isFullWidthSingleButton={isFullWidthSingleButton}
@@ -101,40 +107,58 @@ export default function MyStudyCreatedPage() {
           type="start"
         />
       )}
-      <RecruitStatusModal
-        isOpen={isRecruitModalOpen}
-        onClose={() => setIsRecruitModalOpen(false)}
-        onReject={(id) => {
-          const index = recruitApplicants.findIndex((item) => item.id === id)
-          if (index !== -1) {
-            recruitApplicants.splice(index, 1)
+      {/* 모집 현황 모달: recruitModalStudyId가 있을 때만 렌더링 */}
+      {recruitModalStudyId !== null && (
+        <RecruitStatusModal
+          isOpen
+          onClose={() => setRecruitModalStudyId(null)}
+          applicants={recruitApplicantsByStudyState[recruitModalStudyId] || []}
+          onReject={(id) => {
+            setRecruitApplicantsByStudyState((prev) => {
+              const newArr = (prev[recruitModalStudyId!] ?? []).filter(
+                (item) => item.id !== id
+              )
+              return { ...prev, [recruitModalStudyId!]: newArr }
+            })
             setToastMessage('멤버로 거절되었어요! 다른 요청을 확인해보세요')
-          }
-        }}
-        onAccept={(id) => {
-          const index = recruitApplicants.findIndex((item) => item.id === id)
-          if (index !== -1) {
-            recruitApplicants.splice(index, 1)
+          }}
+          onAccept={(id) => {
+            setRecruitApplicantsByStudyState((prev) => {
+              const newArr = (prev[recruitModalStudyId!] ?? []).filter(
+                (item) => item.id !== id
+              )
+              return { ...prev, [recruitModalStudyId!]: newArr }
+            })
             setToastMessage(
               '멤버로 확정 되었어요! 이제 함께 스터디를 시작할 수 있어요'
             )
-          }
-        }}
-        onConfirm={(id) => {
-          const target = recruitApplicants.find((item) => item.id === id)
-          if (target && target.status === '신청 확인') {
-            target.status = '검토중'
-          }
-        }}
-        onAcceptAll={() => {
-          recruitApplicants.splice(0, recruitApplicants.length)
-          setToastMessage('전체 멤버가 확정되었어요! 함께 시작해봐요')
-        }}
-        onRejectAll={() => {
-          recruitApplicants.splice(0, recruitApplicants.length)
-          setToastMessage('전체 신청자가 거절되었어요!')
-        }}
-      />
+          }}
+          onConfirm={(id) => {
+            setRecruitApplicantsByStudyState((prev) => {
+              const newArr = (prev[recruitModalStudyId!] ?? []).map((item) =>
+                item.id === id && item.status === '신청 확인'
+                  ? { ...item, status: '검토중' }
+                  : item
+              )
+              return { ...prev, [recruitModalStudyId!]: newArr }
+            })
+          }}
+          onAcceptAll={() => {
+            setRecruitApplicantsByStudyState((prev) => ({
+              ...prev,
+              [recruitModalStudyId!]: [],
+            }))
+            setToastMessage('전체 멤버가 확정되었어요! 함께 시작해봐요')
+          }}
+          onRejectAll={() => {
+            setRecruitApplicantsByStudyState((prev) => ({
+              ...prev,
+              [recruitModalStudyId!]: [],
+            }))
+            setToastMessage('전체 신청자가 거절되었어요!')
+          }}
+        />
+      )}
       {/* 모집 취소 TransientModal 추가 */}
       {isCancelModalOpen && (
         <TransientModal

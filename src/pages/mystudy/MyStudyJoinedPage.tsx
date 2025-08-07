@@ -4,7 +4,7 @@ import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
 import MissionModal from '@/common/MissionModal.tsx'
 import TransientModal from '@/common/TransientModal.tsx'
 import StudyLeaveModal from '@/common/StudyLeaveModal'
-import { studyData } from '@/data/mockData.ts'
+import { myJoinedStudies } from '@/data/mockData.ts'
 
 export default function MyStudyJoinedPage() {
   const [studies, setStudies] = useState<Study[]>([])
@@ -16,7 +16,7 @@ export default function MyStudyJoinedPage() {
   const [selectedStudy, setSelectedStudy] = useState<Study | null>(null)
 
   useEffect(() => {
-    setStudies(studyData)
+    setStudies(myJoinedStudies)
   }, [])
 
   return (

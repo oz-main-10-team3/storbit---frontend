@@ -1,39 +1,61 @@
 import rawData from '@/mystudymockdata/mockStudyData.json' assert { type: 'json' }
 import type { Study } from '@/types/study'
 
-// 현재 로그인한 유저 ID (전역 상태 또는 context 등으로 대체 가능)
+// 현재 로그인된 사용자 ID (하드코딩 상태)
 const currentUserId = 123
 
-// Study 타입으로 변환 (상태 유효성 검사 포함)
+// 스터디 status 값이 유효한지 체크하는 타입 가드 함수
 const isValidStatus = (status: string): status is Study['status'] =>
   ['default', '매칭 완료', '미승인', '검토중', '대기'].includes(status)
 
+// rawData를 가공하여 유효한 스터디 데이터만 필터링 후 정리
 export const studyData: Study[] = rawData
-  .filter((item) => isValidStatus(item.status))
-  .map((item) => {
-    return {
-      ...item,
-      status: item.status as Study['status'],
-      isSingleButton: item.isSingleButton ?? false,
-      startStatus: item.startStatus ?? false,
-      waitingMode: 'waitingMode' in item ? item.waitingMode : false,
-      days: item.days ?? [],
-      time: item.time ?? '',
-      capacity: item.capacity ?? '',
-      level: item.level ?? '',
-    } as Study
-  })
+  .filter((item) => isValidStatus(item.status)) // status가 유효한 것만 추림
+  .map(
+    (item) =>
+      ({
+        ...item,
+        status: item.status as Study['status'],
+        isSingleButton: item.isSingleButton ?? false,
+        startStatus: item.startStatus ?? false,
+        waitingMode: 'waitingMode' in item ? item.waitingMode : false,
+        days: item.days ?? [],
+        time: item.time ?? '',
+        capacity: item.capacity ?? '',
+        level: item.level ?? '',
+        isLiked: item.isLiked ?? false,
+        isApplied: item.isApplied ?? false,
+      }) as Study
+  )
 
-// 방장이 만든 스터디 목록
+//  내가 만든 스터디 목록 (방장 스터디)
 export const myCreatedStudies: Study[] = studyData.filter(
   (study) => study.userId === currentUserId
 )
 
-// 방장이 만든 스터디 ID 목록만 추출
+//내가 신청한 스터디만 필터링
+export const myAppliedStudies: Study[] = studyData.filter(
+  (study) => study.isApplied && study.userId !== currentUserId
+)
+
+// 내가 참여한 스터디 목록 (내가 만든 스터디 + 내가 신청한 스터디)
+export const myJoinedStudies: Study[] = studyData.filter(
+  (study) => study.isApplied || study.userId === currentUserId
+)
+
+// 내가 방장으로 만든 스터디들의 ID 목록
 export const createdStudyIdsByLeader: number[] = myCreatedStudies.map(
   (study) => study.id
 )
 
-// 스터디 ID로 단일 스터디 데이터 가져오기
+//  찜한 스터디 목록 (내가 만든 스터디와 내가 신청한 스터디는 제외)
+export const myLikedStudies: Study[] = studyData.filter(
+  (study) =>
+    study.isLiked && // 찜한 것 중에서
+    study.userId !== currentUserId && // 내가 만든 게 아니고
+    !study.isApplied // 내가 신청한 것도 아닌 것
+)
+
+// 특정 ID로 스터디 찾는 유틸 함수
 export const getStudyById = (id: number): Study | undefined =>
   studyData.find((study) => study.id === id)
