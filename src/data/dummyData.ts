@@ -1,11 +1,11 @@
 import defaultThumbnail from '@/assets/images/default-thumbnail.png'
 
-export interface StudyCardData {
+export type StudyCardData = {
   imageUrl: string
   title: string
   description: string
   memberCount?: number
-  time?: string
+  time: string
 }
 
 export const dummyData: StudyCardData[] = [
