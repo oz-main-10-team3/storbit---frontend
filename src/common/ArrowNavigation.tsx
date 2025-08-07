@@ -18,7 +18,7 @@ export default function ArrowNavigation({
       <button
         onClick={onPrev}
         disabled={isPrevDisabled}
-        className="flex items-center justify-center w-[32px] h-[32px] text-[#bdbdbd] disabled:opacity-30
+        className="flex items-center justify-center w-[32px] h-[32px] text-[#8349FF] disabled:opacity-30
           cursor-pointer"
       >
         <FiChevronLeft className="w-[20px] h-[20px]" />
