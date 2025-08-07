@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import profileImage from '@/assets/images/default-profile.png'
+import { useUserInfo } from '@/store/userInfoStore'
 
 const MENUITEMS = [
   { path: '/mypage/account', label: '계정 설정' },
@@ -18,18 +18,20 @@ const MENUITEMS = [
 export default function MypageSidebar() {
   const location = useLocation()
   const currentPath = location.pathname
+  const user = useUserInfo((state) => state.userInfo?.user)
+
   return (
     <div className="flex flex-col justify-start items-center gap-[45px] w-[272px] ml-[260px] mt-[88px]">
       <div className="flex flex-col items-center gap-[23px] w-full">
         <div className="w-full flex justify-between gap-[20px]">
           <img
-            src={profileImage}
+            src={user?.profile_image_url}
             alt="유저프로필이미지"
             className="rounded-full w-[80px]"
           />
           <div className="flex flex-col justify-center text-left w-full">
-            <div className="text-[20px]">뭉치면 주먹밥</div>
-            <div className="text-[15px] text-text4">example@onstudy.com</div>
+            <div className="text-[20px]">{user?.nickname}</div>
+            <div className="text-[15px] text-text4">{user?.email}</div>
           </div>
         </div>
         <div className="flex w-full justify-around items-center text-[12px] h-[64px] border-primary border-[1px] px-[31px] rounded-[4px]">

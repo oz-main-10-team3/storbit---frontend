@@ -1,26 +1,27 @@
 // import { useParams } from 'react-router-dom'
-import userProfile from '@/assets/images/default-profile.png'
 import Whiteboard from '@/components/study/studyRoomPage/KonvaWhiteBoard'
 import StudyRoomUserCard from '@/components/study/studyRoomPage/StudyRoomUserCard'
 import { studyRoomUserCardMockData } from '@/mystudymockdata/studyRoomMockData'
 import { useRef } from 'react'
+import { useUserInfo } from '@/store/userInfoStore'
 import { CiMail } from 'react-icons/ci'
 import { IoIosLogOut } from 'react-icons/io'
 
 export default function StudyRoomPage() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const user = useUserInfo((state) => state.userInfo?.user)
   return (
     <div>
       <div className="flex text-[32px] h-[136px] w-full items-center justify-between px-[72px] border-b-[1px] border-b-[#e6e6e6]">
         <div>알고리즘 마스터 스터디</div>
         <div className="flex gap-[16px] items-center">
           <img
-            src={userProfile}
-            alt="유저프로필이미지"
+            src={user?.profile_image_url}
+            alt="유저프로피이미지"
             className="rounded-full w-[64px]"
           />
           <div className="flex gap-[8px] items-center">
-            <div className="text-[18px] text-text1">흩어지면볶음밥</div>
+            <div className="text-[18px] text-text1">{user?.nickname}</div>
             <CiMail size={20} className="text-[#bdbdbd] cursor-pointer" />
             <IoIosLogOut size={20} className="text-[#bdbdbd] cursor-pointer" />
           </div>
