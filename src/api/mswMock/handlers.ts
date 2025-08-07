@@ -5,6 +5,8 @@ import type { SignupForm } from '@/types/signupForm'
 const MOCK_ACCESS_TOKEN = 'abcdefg1234' //테스트용 토큰
 const MOCK_REFRESH_TOKEN = 'aabbcddwecqw123'
 
+const verificationCodes = new Map<string, string>() // 휴대폰 6자리 인증번호 저장용
+
 export const handlers = [
   //////////////////////////////////////////////////////////////////////////////////////////////////////////// 로그인
   http.post(`/api/v1/auth/login/`, async ({ request }) => {
@@ -137,5 +139,49 @@ export const handlers = [
       { detail: '사용 가능한 닉네임입니다' },
       { status: 200 }
     )
+  }),
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 휴대폰 인증번호 전송
+
+  http.post('/api/v1/auth/send-code', async ({ request }) => {
+    const { phoneNumber } = await request.clone().json()
+
+    if (!phoneNumber) {
+      return HttpResponse.json(
+        { detail: '휴대폰 번호는 필수입니다.' },
+        { status: 400 }
+      )
+    }
+    const generateCode = () =>
+      Math.floor(100000 + Math.random() * 900000).toString()
+    const code = generateCode()
+    verificationCodes.set(phoneNumber, code)
+
+    return HttpResponse.json(
+      { detail: `휴대폰 인증번호는 [${code}] 입니다.` },
+      { status: 200 }
+    )
+  }),
+  http.post('/api/v1/auth/verify-code', async ({ request }) => {
+    const { phoneNumber, code }: { phoneNumber: string; code: string } =
+      await request.clone().json()
+
+    if (!phoneNumber || !code) {
+      return HttpResponse.json(
+        { detail: '휴대폰 번호와 인증번호는 필수입니다.' },
+        { status: 400 }
+      )
+    }
+
+    const storedCode = verificationCodes.get(phoneNumber)
+
+    if (storedCode === code) {
+      verificationCodes.delete(phoneNumber) // 일회용
+      return HttpResponse.json({ detail: '인증 성공' }, { status: 200 })
+    } else {
+      return HttpResponse.json(
+        { detail: '인증번호가 일치하지 않습니다.' },
+        { status: 400 }
+      )
+    }
   }),
 ]
