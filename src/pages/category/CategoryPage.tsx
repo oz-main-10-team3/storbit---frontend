@@ -66,7 +66,7 @@ export default function CategoryPage() {
           {/* 주간 인기 스터디 */}
           <div>
             <h2 className="text-[20px] font-semibold mb-[24px]">
-              주간 인기 STUDY
+              주간 인기 STUDY 3
             </h2>
             <div className="flex flex-wrap gap-x-[40px] gap-y-[40px]">
               {dummyData.map((item, index) => (
