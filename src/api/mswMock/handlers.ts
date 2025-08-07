@@ -119,4 +119,23 @@ export const handlers = [
       { status: 201 }
     )
   }),
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 닉네임 중복확인
+
+  http.post('/api/v1/users/nickname/duplication', async ({ request }) => {
+    const { nickname } = await request.clone().json()
+
+    const nicknameExists = mockUsers.some((user) => user.nickname === nickname)
+
+    if (nicknameExists) {
+      return HttpResponse.json(
+        { detail: '이미 사용 중인 닉네임입니다' },
+        { status: 409 }
+      )
+    }
+
+    return HttpResponse.json(
+      { detail: '사용 가능한 닉네임입니다' },
+      { status: 200 }
+    )
+  }),
 ]

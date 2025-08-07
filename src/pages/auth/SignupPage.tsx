@@ -15,9 +15,12 @@ export default function SignupPage() {
   const [apiErrorMessage, setApiErrorMessage] = useState<ErrorMessage | null>(
     null
   )
+  const [nicknameCheckMessage, setNicknameCheckMessage] =
+    useState<ErrorMessage | null>(null)
 
   const {
     control,
+    getValues,
     handleSubmit,
     formState: { isValid },
   } = useForm<SignupForm>({
@@ -32,6 +35,29 @@ export default function SignupPage() {
     },
     mode: 'onChange', // 입력값이 변경될 때마다 유효성 검사
   })
+
+  const handleDuplicateNicknameCheck = async () => {
+    try {
+      const nickname = getValues('nickname')
+      const res = await api.post('/api/v1/users/nickname/duplication', {
+        nickname,
+      })
+      if (res.status === 200) {
+        setNicknameCheckMessage({
+          status: res.status,
+          message: res.data.detail,
+        })
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<{ detail: string }>
+      if (!axiosError.status) return
+      setNicknameCheckMessage({
+        status: axiosError.status,
+        message:
+          axiosError.response?.data.detail ?? '알 수 없는 오류가 발생했습니다.',
+      })
+    }
+  }
 
   const onSubmit = async (data: SignupForm) => {
     try {
@@ -100,7 +126,16 @@ export default function SignupPage() {
                     className="w-[224px] h-[48px] placeholder:text-text4"
                     placeholder="닉네임"
                     type="text"
-                    error={fieldState.error?.message}
+                    error={
+                      nicknameCheckMessage?.status === 409
+                        ? nicknameCheckMessage?.message
+                        : fieldState.error?.message
+                    }
+                    success={
+                      nicknameCheckMessage?.status === 200
+                        ? nicknameCheckMessage?.message
+                        : undefined
+                    }
                   />
                 )}
               />
@@ -108,6 +143,7 @@ export default function SignupPage() {
                 type="button"
                 variant="grayStyle"
                 className="w-full text-[16px]"
+                onClick={handleDuplicateNicknameCheck}
               >
                 중복확인
               </CommonButton>
