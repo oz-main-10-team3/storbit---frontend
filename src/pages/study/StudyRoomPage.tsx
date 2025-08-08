@@ -12,6 +12,7 @@ import CommonButton from '@/common/CommonButton'
 import MissionModal from '@/common/MissionModal'
 import { useParams } from 'react-router-dom'
 import defaultPrfileImag from '@/assets/images/default-profile.png'
+import StudyRoomMessageInboxModal from '@/components/study/studyRoomPage/StudyRoomMessageInboxModal'
 
 const reportModalDropdownOption = [
   { label: '부적절한 스터디 내용', value: '1' },
@@ -26,9 +27,10 @@ const reportModalDropdownOption = [
 export default function StudyRoomPage() {
   const [isOpenTitleMenuModal, setIsOpenTitleMenuModal] = useState(false)
   const [isReprotModalOpen, setReportModalOpen] = useState(false)
+  const [isDailyModalOpen, setIsDailyModalOpen] = useState(false)
+  const [isMessageInboxModalOpen, setIsMessageInboxModalOpen] = useState(false)
   const [selectReportModalDropdownOption, setSelectReportModalDropdownOption] =
     useState('')
-  const [isDailyModalOpen, setIsDailyModalOpen] = useState(false)
   const { roomId } = useParams()
   const containerRef = useRef<HTMLDivElement>(null)
   const user = useUserInfo((state) => state.userInfo?.user)
@@ -118,6 +120,12 @@ export default function StudyRoomPage() {
                 }
               />
             )}
+            <StudyRoomMessageInboxModal
+              isOpen={isMessageInboxModalOpen}
+              onClose={() => setIsMessageInboxModalOpen(false)}
+              title="쪽지함"
+              className="p-[30px] w-[488px] max-h-[712px] justify-start"
+            ></StudyRoomMessageInboxModal>
           </div>
         </div>
         <div className="flex gap-[16px] items-center">
@@ -128,7 +136,11 @@ export default function StudyRoomPage() {
           />
           <div className="flex gap-[8px] items-center">
             <div className="text-[18px] text-text1">{user?.nickname}</div>
-            <CiMail size={20} className="text-[#bdbdbd] cursor-pointer" />
+            <CiMail
+              size={20}
+              className="text-[#bdbdbd] cursor-pointer"
+              onClick={() => setIsMessageInboxModalOpen((prev) => !prev)}
+            />
             <IoIosLogOut size={20} className="text-[#bdbdbd] cursor-pointer" />
           </div>
         </div>
