@@ -72,7 +72,10 @@ const MainBanner = () => {
               <FiChevronRight />
             </button>
             <div />
-            <button onClick={() => setIsPlaying((prev) => !prev)} className="cursor-pointer">
+            <button
+              onClick={() => setIsPlaying((prev) => !prev)}
+              className="cursor-pointer"
+            >
               {isPlaying ? <BsPauseFill /> : <BsPlayFill />}
             </button>
           </div>

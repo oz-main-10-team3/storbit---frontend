@@ -39,6 +39,8 @@ import CategoryDetailPage from '@/pages/category/CategoryDetailPage'
 import StudyManagePage from '@/pages/mystudy/StudyManagePage.tsx'
 import CreateEventPage from '@/admin/events/CreateEvent.tsx'
 import UpdateEventPage from '@/admin/events/UpdateEvent.tsx'
+import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
+
 
 export default function App() {
   return (
@@ -68,6 +70,7 @@ export default function App() {
           path="/category/:category/:subcategory"
           element={<CategoryDetailPage />}
         />
+        <Route path="/studies" element={<CategoryShortcutPage />} />
 
         {/* 스터디 */}
         <Route path="/study/create" element={<StudyCreatePage />} />
