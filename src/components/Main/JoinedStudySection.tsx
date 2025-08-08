@@ -21,7 +21,7 @@ const JoinedStudySection = ({ nickname, studies }: JoinedStudySectionProps) => {
   const VISIBLE = 3
   const CARD_WIDTH = 440
   const GAP = 40
-  const maxIndex = studies.length - VISIBLE
+  const maxIndex = Math.max(0, studies.length - VISIBLE)
 
   if (studies.length === 0) return null
 
