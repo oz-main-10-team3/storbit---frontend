@@ -13,22 +13,26 @@ const decodePath = (s?: string) =>
   s ? decodeURIComponent(s).replace(/-/g, ' ') : ''
 
 export default function CategoryDetailPage() {
-  const { category: rawCat, subcategory: rawSub } = useParams()
+  const { category: rawCat } = useParams()
   const category = decodePath(rawCat)
-  const subcategory = decodePath(rawSub)
 
   const [sortOrder, setSortOrder] = useState<'latest' | 'popular'>('latest')
 
-  // ✅ 전역 dummyData 기반으로 목록 구성 (인기순/최신순)
+  // 전역 dummyData 기반으로 목록 구성 (카테고리 필터 + 정렬)
   const list = useMemo<Study[]>(() => {
-    const base = dummyData
+    const base = category
+      ? dummyData.filter(
+          (d) => (d.category ?? '').toLowerCase() === category.toLowerCase()
+        )
+      : dummyData
+
     if (sortOrder === 'popular') {
       return [...base].sort(
         (a, b) => (b.memberCount ?? 0) - (a.memberCount ?? 0)
       )
     }
     return base
-  }, [sortOrder])
+  }, [category, sortOrder])
 
   // 상단 타이틀 고정
   const title = '전체 스터디'
