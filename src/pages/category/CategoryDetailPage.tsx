@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useMemo, useState } from 'react'
 import SideCategoryMenu from '@/pages/category/SideCategoryMenu'
 import SortTab from '@/common/SortTab'
 import StudyCard from '@/common/StudyCard'
@@ -24,36 +25,53 @@ const dummyData = [
   {
     imageUrl: defaultThumbnail,
     title: '알고리즘 문제풀이 매일 챌린지',
-    description:
-      '코테 준비하는 사람들 모여라! 백준, 프로그래머스 문제 매일 1개씩 풀고 서로 풀이 공유해요. 어려운 문제는 함께 토론하면서 실력 늘려봐요.',
+    description: '코테 준비 OK! 매일 1문제 풀고 풀이 공유/토론으로 실력 상승!',
     memberCount: 5,
     time: '수요일 오후 3시',
   },
 ]
 
+const decodePath = (s?: string) =>
+  s ? decodeURIComponent(s).replace(/-/g, ' ') : ''
+
 export default function CategoryDetailPage() {
+  const { category: rawCat, subcategory: rawSub } = useParams()
+  const category = decodePath(rawCat)
+  const subcategory = decodePath(rawSub)
+
   const [sortOrder, setSortOrder] = useState<'latest' | 'popular'>('latest')
+
+  const list = useMemo(() => {
+    if (sortOrder === 'popular') {
+      return [...dummyData].sort(
+        (a, b) => (b.memberCount ?? 0) - (a.memberCount ?? 0)
+      )
+    }
+    return dummyData
+  }, [sortOrder])
+
+  const title =
+    category && subcategory
+      ? `${category} > ${subcategory} 스터디`
+      : category
+        ? `${category} 스터디`
+        : '전체 스터디'
 
   return (
     <div className="w-full mt-[80px]">
       <div className="max-w-[1400px] mx-auto flex gap-[40px] py-[40px]">
-        {/* 사이드 메뉴 */}
         <aside className="w-[200px] flex-shrink-0">
           <SideCategoryMenu />
         </aside>
 
-        {/* 콘텐츠 영역 */}
         <section className="flex-1">
           <div className="flex justify-between items-center mb-[24px]">
-            <h2 className="text-[20px] font-semibold">전체 스터디</h2>
+            <h2 className="text-[20px] font-semibold">{title}</h2>
             <SortTab selected={sortOrder} onChange={setSortOrder} />
           </div>
 
           <div className="flex flex-wrap gap-x-[40px] gap-y-[40px]">
-            {(sortOrder === 'latest'
-              ? dummyData
-              : [...dummyData].reverse()
-            ).map((item, index) => (
+            {list.map((item, index) => (
               <StudyCard
                 key={index}
                 imageUrl={item.imageUrl}

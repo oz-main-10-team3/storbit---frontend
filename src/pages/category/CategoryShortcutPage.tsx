@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import CategoryBanner from '@/components/Category/CategoryBanner'
 import { dummyData } from '@/data/dummyData'
 import StudyCard from '@/common/StudyCard'
@@ -31,9 +31,8 @@ const majorCategories = [
 ]
 
 const CategoryShortcutPage = () => {
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  const filter = queryParams.get('filter') ?? 'best'
+  const [searchParams] = useSearchParams()
+  const filter = searchParams.get('filter') ?? 'best'
 
   const sectionTitle = sectionTitles[filter] || ''
   const sliderSuffix = getSliderSuffix(filter)
@@ -42,7 +41,7 @@ const CategoryShortcutPage = () => {
   const rest = dummyData.slice(3)
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* 배너 */}
       <CategoryBanner filter={filter} />
 

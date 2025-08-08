@@ -23,15 +23,21 @@ const bannerImageMap: Record<string, string> = {
 }
 
 const CategoryBanner = ({ filter }: CategoryBannerProps) => {
-  const banner = bannerImageMap[filter ?? 'best']
-  if (!banner) return null
+  // 잘못된 filter 값이 들어오면 기본값 best로 폴백
+  const key = filter && bannerImageMap[filter] ? filter : 'best'
+  const banner = bannerImageMap[key]
 
   return (
     <div className="w-full">
       <img
         src={banner}
-        alt={`${filter} 배너`}
-        className="w-full object-cover"
+        alt={`${key} 배너`}
+        className="w-full h-[256px] object-cover" // 높이 고정 + 비율 유지
+        loading="eager"
+        onError={(e) => {
+          // 이미지 로딩 실패 시 기본 배너로 변경
+          ;(e.currentTarget as HTMLImageElement).src = bestImg
+        }}
       />
     </div>
   )
