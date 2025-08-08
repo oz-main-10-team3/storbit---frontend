@@ -4,6 +4,9 @@ import { dummyData } from '@/data/dummyData'
 import MainBanner from '@/components/Main/MainBanner'
 import CategoryShortcutTabs from '@/components/Main/CategoryShortcutTabs'
 import ArrowNavigation from '@/common/ArrowNavigation'
+import JoinedStudySection from '@/components/Main/JoinedStudySection'
+
+const isLoggedIn = false // 추후 로그인 구현 시 교체 예정
 
 const MainPage = () => {
   // 슬라이드 인덱스 상태
@@ -26,10 +29,21 @@ const MainPage = () => {
   const maxNewIndex = Math.max(0, newData.length - NEW_VISIBLE)
   const maxSteadyIndex = Math.max(0, steadyData.length - STEADY_VISIBLE)
 
+  const user = {
+    nickname: '뭉치면주먹밥',
+    joinedStudies: dummyData.slice(0, 6),
+  }
+
   return (
     <>
       <MainBanner />
       <CategoryShortcutTabs />
+      {isLoggedIn && (
+        <JoinedStudySection
+          nickname={user.nickname}
+          studies={user.joinedStudies}
+        />
+      )}
 
       {/* HOT STUDY */}
       <section className="py-6 px-4">

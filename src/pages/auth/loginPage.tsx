@@ -7,11 +7,7 @@ import type { UserDataWithToken } from '@/types/userData'
 import { api } from '@/api/mainApi'
 import { useUserInfo } from '@/store/userInfoStore'
 import type { AxiosError } from 'axios'
-
-interface ErrorMessage {
-  status: number
-  message: string
-}
+import type { ErrorMessage } from '@/types/errorMessage'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -80,6 +76,7 @@ export default function LoginPage() {
               className="w-full h-12 placeholder:text-text4"
               placeholder="비밀번호(6~15자의 영문 대소문자, 숫자, 특수문자 포함)"
               value={password}
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
               error={
                 errorMessage?.status === 401 ? errorMessage?.message : undefined
