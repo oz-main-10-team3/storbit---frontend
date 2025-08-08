@@ -4,8 +4,20 @@ import { PiCrownSimpleFill } from 'react-icons/pi'
 import type { StudyCardData } from '@/mystudymockdata/studyRoomMockData'
 import { cn } from '@/utils/cn'
 
-export default function StudyRoomUserCard({ user }: { user: StudyCardData }) {
+export default function StudyRoomUserCard({
+  user,
+  setMessageSender,
+  setIsMessageSendModal,
+}: {
+  user: StudyCardData
+  setMessageSender: React.Dispatch<React.SetStateAction<string | null>>
+  setIsMessageSendModal: React.Dispatch<React.SetStateAction<boolean>>
+}) {
   const { userProfile, nickname, dailyMissions, isMe, isLeader } = user
+  const handleSendMessageModalOpen = () => {
+    setMessageSender(nickname)
+    setIsMessageSendModal(true)
+  }
   return (
     <div
       className={cn(
@@ -34,7 +46,12 @@ export default function StudyRoomUserCard({ user }: { user: StudyCardData }) {
             />
           </div>
           <div className="flex gap-[8px] text-[#a2a2a2]">
-            <button className="cursor-pointer">쪽지보내기</button>
+            <button
+              className="cursor-pointer"
+              onClick={handleSendMessageModalOpen}
+            >
+              쪽지보내기
+            </button>
             <button className="cursor-pointer">프로필 보기</button>
           </div>
         </div>

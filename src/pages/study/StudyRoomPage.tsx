@@ -12,6 +12,8 @@ import CommonButton from '@/common/CommonButton'
 import MissionModal from '@/common/MissionModal'
 import { useParams } from 'react-router-dom'
 import defaultPrfileImag from '@/assets/images/default-profile.png'
+import StudyRoomMessageInboxModal from '@/components/study/studyRoomPage/StudyRoomMessageInboxModal'
+import StudyRoomSendMessageModal from '@/components/study/studyRoomPage/StudyRoomSendMessageModal'
 
 const reportModalDropdownOption = [
   { label: '부적절한 스터디 내용', value: '1' },
@@ -26,9 +28,12 @@ const reportModalDropdownOption = [
 export default function StudyRoomPage() {
   const [isOpenTitleMenuModal, setIsOpenTitleMenuModal] = useState(false)
   const [isReprotModalOpen, setReportModalOpen] = useState(false)
+  const [isDailyModalOpen, setIsDailyModalOpen] = useState(false)
+  const [isMessageInboxModalOpen, setIsMessageInboxModalOpen] = useState(false)
   const [selectReportModalDropdownOption, setSelectReportModalDropdownOption] =
     useState('')
-  const [isDailyModalOpen, setIsDailyModalOpen] = useState(false)
+  const [isMessageSendModal, setIsMessageSendModal] = useState(false)
+  const [messageSender, setMessageSender] = useState<string | null>(null)
   const { roomId } = useParams()
   const containerRef = useRef<HTMLDivElement>(null)
   const user = useUserInfo((state) => state.userInfo?.user)
@@ -118,6 +123,19 @@ export default function StudyRoomPage() {
                 }
               />
             )}
+            <StudyRoomMessageInboxModal
+              isOpen={isMessageInboxModalOpen}
+              onClose={() => setIsMessageInboxModalOpen(false)}
+              title="쪽지함"
+              className="p-[30px] w-[488px] max-h-[712px] justify-start"
+            />
+            <StudyRoomSendMessageModal
+              isOpen={isMessageSendModal}
+              onClose={() => setIsMessageSendModal(false)}
+              title="쪽지 보내기"
+              messageSender={messageSender ?? ''}
+              className="w-[560px] p-[40px]"
+            />
           </div>
         </div>
         <div className="flex gap-[16px] items-center">
@@ -128,7 +146,11 @@ export default function StudyRoomPage() {
           />
           <div className="flex gap-[8px] items-center">
             <div className="text-[18px] text-text1">{user?.nickname}</div>
-            <CiMail size={20} className="text-[#bdbdbd] cursor-pointer" />
+            <CiMail
+              size={20}
+              className="text-[#bdbdbd] cursor-pointer"
+              onClick={() => setIsMessageInboxModalOpen((prev) => !prev)}
+            />
             <IoIosLogOut size={20} className="text-[#bdbdbd] cursor-pointer" />
           </div>
         </div>
@@ -159,7 +181,12 @@ export default function StudyRoomPage() {
             </div>
           </div>
           {studyRoomUserCardMockData.map((user, index) => (
-            <StudyRoomUserCard key={`${user.nickname}-${index}`} user={user} />
+            <StudyRoomUserCard
+              key={`${user.nickname}-${index}`}
+              user={user}
+              setMessageSender={setMessageSender}
+              setIsMessageSendModal={setIsMessageSendModal}
+            />
           ))}
         </div>
       </div>
