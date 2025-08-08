@@ -78,7 +78,7 @@ export default function MyStudyCard({
             className="focus:outline-none"
           >
             <AiFillHeart
-              className={`h-5 w-5 ${liked ? 'text-purple-500' : 'text-gray-300'}`}
+              className={`h-5 w-5 ${liked ? 'text-purple-500' : 'text-gray-300'} cursor-pointer`}
             />
           </button>
         ) : study.isLeader ? (

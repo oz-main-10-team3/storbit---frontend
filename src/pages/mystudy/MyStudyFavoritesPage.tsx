@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { myLikedStudies } from '@/data/mockData'
 import MyStudyCard from '@/common/mystudy/MyStudyCard'
-import StudyApplyModal from '@/common/StudyApplyModal'
+import { StudyApplyModal } from '@/common/StudyApplyModal'
 import type { Study } from '@/types/study'
 import TransientModal from '@/common/TransientModal.tsx'
 

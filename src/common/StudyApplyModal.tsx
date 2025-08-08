@@ -14,7 +14,7 @@ interface StudyApplyModalProps {
   onNext: () => void
 }
 
-export default function StudyApplyModal({
+export function StudyApplyModal({
   isOpen,
   onClose,
   onSubmit,
@@ -31,9 +31,9 @@ export default function StudyApplyModal({
       isOpen={isOpen}
       onClose={onClose}
       title="스터디 신청서"
-      className="w-[504px] h-[680px] p-8"
+      className="w-[504px] h-[680px]"
     >
-      <div className="flex flex-col ml-[50px] gap-5 w-[368px] h-[680px]">
+      <div className="flex flex-col ml-[50px] gap-5 w-[368px] h-full">
         {/* 닉네임 */}
         <div className="flex justify-between items-center text-sm text-text4">
           <span>닉네임</span>

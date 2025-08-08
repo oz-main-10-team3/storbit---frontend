@@ -99,4 +99,14 @@ export const mockUsers = [
     birthday: '1990-04-17',
     profile_image_url: 'https://randomuser.me/api/portraits/men/99.jpg',
   },
+  {
+    email: 'admin@admin.com',
+    password: 'admin123',
+    user_id: 0,
+    nickname: '관리자',
+    name: '관리자',
+    phone: '01012345678',
+    birthday: '1990-01-25',
+    profile_image_url: 'https://randomuser.me/api/portraits/women/40.jpg',
+  },
 ]
