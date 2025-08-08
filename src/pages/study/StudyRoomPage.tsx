@@ -2,13 +2,16 @@
 import Whiteboard from '@/components/study/studyRoomPage/KonvaWhiteBoard'
 import StudyRoomUserCard from '@/components/study/studyRoomPage/StudyRoomUserCard'
 import { studyRoomUserCardMockData } from '@/mystudymockdata/studyRoomMockData'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useUserInfo } from '@/store/userInfoStore'
 import { CiMail } from 'react-icons/ci'
 import { IoIosLogOut, IoMdMore } from 'react-icons/io'
 import CommonModal from '@/common/CommonModal'
 import Dropdown from '@/common/DropDown'
 import CommonButton from '@/common/CommonButton'
+import MissionModal from '@/common/MissionModal'
+import { useParams } from 'react-router-dom'
+import defaultPrfileImag from '@/assets/images/default-profile.png'
 
 const reportModalDropdownOption = [
   { label: '부적절한 스터디 내용', value: '1' },
@@ -25,8 +28,17 @@ export default function StudyRoomPage() {
   const [isReprotModalOpen, setReportModalOpen] = useState(false)
   const [selectReportModalDropdownOption, setSelectReportModalDropdownOption] =
     useState('')
+  const [isDailyModalOpen, setIsDailyModalOpen] = useState(false)
+  const { roomId } = useParams()
   const containerRef = useRef<HTMLDivElement>(null)
   const user = useUserInfo((state) => state.userInfo?.user)
+
+  useEffect(() => {
+    if (roomId) {
+      setIsDailyModalOpen(true)
+    }
+  }, [roomId])
+
   return (
     <div>
       <div className="flex text-[32px] h-[136px] w-full items-center justify-between px-[72px] border-b-[1px] border-b-[#e6e6e6]">
@@ -93,11 +105,24 @@ export default function StudyRoomPage() {
                 </CommonButton>
               </div>
             </CommonModal>
+            {isDailyModalOpen && (
+              <MissionModal
+                isOpen={isDailyModalOpen}
+                onClose={() => setIsDailyModalOpen(false)}
+                title="데일리 미션"
+                subtitle={
+                  <p className="whitespace-pre-line text-sm text-text4 text-center">
+                    내가 오늘 꼭 달성하고 싶은 목표를 설정해주세요!
+                    {'\n'}최대 5개까지 설정할 수 있습니다.
+                  </p>
+                }
+              />
+            )}
           </div>
         </div>
         <div className="flex gap-[16px] items-center">
           <img
-            src={user?.profile_image_url}
+            src={user?.profile_image_url ?? defaultPrfileImag}
             alt="유저프로피이미지"
             className="rounded-full w-[64px]"
           />

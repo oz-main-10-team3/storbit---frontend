@@ -117,7 +117,7 @@ export default function App() {
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Route>
-      <Route path="/study/:roomid" element={<StudyRoomPage />} />
+      <Route path="/study/:roomId" element={<StudyRoomPage />} />
     </Routes>
   )
 }
