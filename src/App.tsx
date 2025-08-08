@@ -38,6 +38,7 @@ import CategoryPage from '@/pages/category/CategoryPage'
 import CategoryDetailPage from '@/pages/category/CategoryDetailPage'
 import StudyManagePage from '@/pages/mystudy/StudyManagePage.tsx'
 import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
+import CustomRecommendPage from '@/pages/category/CustomRecommendPage'
 
 export default function App() {
   return (
@@ -68,6 +69,7 @@ export default function App() {
           element={<CategoryDetailPage />}
         />
         <Route path="/studies" element={<CategoryShortcutPage />} />
+        <Route path="/studies/custom" element={<CustomRecommendPage />} />
 
         {/* 스터디 */}
         <Route path="/study/create" element={<StudyCreatePage />} />

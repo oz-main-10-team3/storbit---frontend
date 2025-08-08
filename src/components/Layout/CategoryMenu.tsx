@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 interface CategoryItem {
   title: string
   items: string[]
@@ -17,17 +19,24 @@ const categoryData: CategoryItem[] = [
   { title: '취미', items: ['영화', '독서'] },
 ]
 
+// 한글/공백 안전 경로 변환
+const toPath = (s: string) => encodeURIComponent(s.replace(/\s+/g, '-'))
+
 export default function CategoryMenu({
   onCategorySelect,
   onClose,
 }: CategoryMenuProps) {
-  const handleItemClick = (categoryTitle: string, item: string) => {
-    onCategorySelect?.(categoryTitle, item)
+  const navigate = useNavigate()
+
+  const goCategory = (categoryTitle: string) => {
+    onCategorySelect?.(categoryTitle, '')
+    navigate(`/category/${toPath(categoryTitle)}`)
     onClose?.()
   }
 
-  const handleCategoryTitleClick = (categoryTitle: string) => {
-    onCategorySelect?.(categoryTitle, '')
+  const goSubcategory = (categoryTitle: string, item: string) => {
+    onCategorySelect?.(categoryTitle, item)
+    navigate(`/category/${toPath(categoryTitle)}/${toPath(item)}`)
     onClose?.()
   }
 
@@ -38,7 +47,7 @@ export default function CategoryMenu({
           <div key={category.title}>
             <h3
               className="font-semibold text-[20px] mb-[24px] cursor-pointer"
-              onClick={() => handleCategoryTitleClick(category.title)}
+              onClick={() => goCategory(category.title)}
             >
               {category.title}
             </h3>
@@ -47,7 +56,7 @@ export default function CategoryMenu({
                 <li
                   key={item}
                   className="cursor-pointer"
-                  onClick={() => handleItemClick(category.title, item)}
+                  onClick={() => goSubcategory(category.title, item)}
                 >
                   {item}
                 </li>
