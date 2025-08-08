@@ -1,24 +1,26 @@
 import { NavLink, useParams } from 'react-router-dom'
-
-const sideMenu = {
-  category: 'IT · 프로그래밍',
-  items: ['전체', '웹 개발', '게임 개발'],
-}
+import { categoryData, fromPath, toPath } from '@/data/categoryData'
 
 export default function SideCategoryMenu() {
-  const { category } = useParams()
+  const { category: rawCategory } = useParams()
+  const categoryTitle = fromPath(rawCategory)
 
-  const getLink = (item: string) => {
-    return item === '전체'
-      ? `/category/${encodeURIComponent(category || '')}`
-      : `/category/${encodeURIComponent(category || '')}/${encodeURIComponent(item)}`
-  }
+  // 현재 대분류 찾기 (없으면 첫 번째로 fallback)
+  const currentCategory =
+    categoryData.find((c) => c.title === categoryTitle) ?? categoryData[0]
+
+  const menuItems = ['전체', ...currentCategory.items]
+
+  const getLink = (item: string) =>
+    item === '전체'
+      ? `/category/${toPath(currentCategory.title)}`
+      : `/category/${toPath(currentCategory.title)}/${toPath(item)}`
 
   return (
     <aside className="w-[200px] flex flex-col gap-[64px]">
-      <h2 className="text-[24px] font-semibold">{sideMenu.category}</h2>
+      <h2 className="text-[24px] font-semibold">{currentCategory.title}</h2>
       <ul className="flex flex-col gap-[24px]">
-        {sideMenu.items.map((item) => (
+        {menuItems.map((item) => (
           <li key={item}>
             <NavLink
               to={getLink(item)}
