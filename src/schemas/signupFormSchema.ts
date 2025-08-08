@@ -1,7 +1,7 @@
 import Joi from 'joi'
 
 const signupFormSchema = Joi.object({
-  name: Joi.string().required().messages({
+  fullname: Joi.string().required().messages({
     'string.empty': '이름을 입력해주세요.',
   }),
 
@@ -21,7 +21,7 @@ const signupFormSchema = Joi.object({
       'string.pattern.base': '닉네임은 특수문자를 포함할 수 없습니다.',
     }),
 
-  phone: Joi.string().pattern(/^\d+$/).required().messages({
+  phone_number: Joi.string().pattern(/^\d+$/).required().messages({
     'string.empty': '휴대전화를 입력해주세요.',
     'string.pattern.base': '휴대전화는 숫자만 입력 가능합니다.',
   }),

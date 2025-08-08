@@ -53,7 +53,7 @@ export default function InputField({
         <p className="text-xs text-alertText font-medium mt-1">* {error}</p>
       )}
       {!error && success && (
-        <p className="text-xs text-alertText font-medium mt-1">* {success}</p>
+        <p className="text-xs text-green-500 font-medium mt-1">* {success}</p>
       )}
     </div>
   )
