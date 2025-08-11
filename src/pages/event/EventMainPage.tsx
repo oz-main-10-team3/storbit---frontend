@@ -1,3 +1,9 @@
+import EventListPage from '@/pages/event/EventListPage.tsx'
+
 export default function EventMainPage() {
-  return <div className="text-2xl">이벤트 페이지</div>
+  return (
+    <div>
+      <EventListPage />
+    </div>
+  )
 }

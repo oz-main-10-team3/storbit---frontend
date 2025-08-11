@@ -18,7 +18,7 @@ interface DropdownProps<T = string> {
 }
 
 const triggerVariants = cva(
-  'w-full px-4 py-2.5 rounded-md border text-sm text-left transition bg-white',
+  'w-full h-[48px]  rounded-md border text-sm text-left transition bg-white',
   {
     variants: {
       isOpen: {
@@ -29,7 +29,7 @@ const triggerVariants = cva(
   }
 )
 
-const itemVariants = cva('px-4 py-2 text-sm cursor-pointer transition', {
+const itemVariants = cva('text-sm cursor-pointer transition', {
   variants: {
     isActive: {
       true: 'text-primary',

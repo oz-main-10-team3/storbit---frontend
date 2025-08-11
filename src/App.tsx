@@ -37,8 +37,11 @@ import ContactPage from '@/pages/contact/ContactPage'
 import CategoryPage from '@/pages/category/CategoryPage'
 import CategoryDetailPage from '@/pages/category/CategoryDetailPage'
 import StudyManagePage from '@/pages/mystudy/StudyManagePage.tsx'
+import CreateEventPage from '@/admin/events/CreateEvent.tsx'
+import UpdateEventPage from '@/admin/events/UpdateEvent.tsx'
 import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
 import CustomRecommendPage from '@/pages/category/CustomRecommendPage'
+
 
 export default function App() {
   return (
@@ -112,6 +115,11 @@ export default function App() {
         <Route path="/search/:query" element={<SearchResultPage />} />
         <Route path="/event" element={<EventMainPage />} />
         <Route path="/event/:eventid" element={<EventDetailPage />} />
+        <Route path="/admin/events/create" element={<CreateEventPage />} />
+        <Route
+          path="/admin/events/update/:eventid"
+          element={<UpdateEventPage />}
+        />
         <Route path="*" element={<NotFound />} />
 
         {/* 약관, 개인정보처리방침, 문의하기 */}
