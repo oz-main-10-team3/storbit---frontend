@@ -27,6 +27,7 @@ export default function Whiteboard({
 
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
+  //화이트보드 사이즈 부모 사이즈 기준으로 적용
   useEffect(() => {
     if (!containerRef.current) return
     const updateSize = () => {

@@ -8,7 +8,7 @@ import TransientModal from '@/common/TransientModal.tsx'
 interface MissionModalProps {
   isOpen: boolean
   onClose: () => void
-  onStart: () => void
+  onStart?: () => void
   title: string
   subtitle: ReactNode | string
 }
@@ -141,7 +141,9 @@ export default function MissionModal({
               className="h-[48px] text-base"
               variant="primary"
               onClick={() => {
-                onStart()
+                if (onStart) {
+                  onStart()
+                }
                 onClose()
                 setMissions(['오늘은 목숨부터 정복할겁니다'])
                 setEditIndex(null)
