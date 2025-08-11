@@ -7,7 +7,6 @@ export type StudyCardData = {
   memberCount?: number
   time: string
   category: string
-
 }
 
 export const dummyData: StudyCardData[] = [
