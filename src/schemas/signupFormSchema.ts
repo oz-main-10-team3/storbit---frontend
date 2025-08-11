@@ -1,6 +1,7 @@
+import type { SignupForm } from '@/types/signupForm'
 import Joi from 'joi'
 
-const signupFormSchema = Joi.object({
+const signupFormSchema = Joi.object<SignupForm>({
   fullname: Joi.string().required().messages({
     'string.empty': '이름을 입력해주세요.',
   }),
