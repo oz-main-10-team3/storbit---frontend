@@ -18,7 +18,7 @@ interface DropdownProps<T = string> {
 }
 
 const triggerVariants = cva(
-  'w-full h-[48px]  rounded-md border text-sm text-left transition bg-white',
+  'w-full h-[48px] cursor-pointer rounded-[4px] border text-sm text-left transition bg-white',
   {
     variants: {
       isOpen: {
@@ -29,14 +29,17 @@ const triggerVariants = cva(
   }
 )
 
-const itemVariants = cva('text-sm cursor-pointer transition', {
-  variants: {
-    isActive: {
-      true: 'text-primary',
-      false: 'text-text2 hover:bg-dropDown-hover hover:text-primary',
+const itemVariants = cva(
+  'flex items-center text-text2 text-sm cursor-pointer transition h-[32px] px-[4px] py-[7.5] rounded-[2px] hover:bg-dropDown-hover hover:text-primary',
+  {
+    variants: {
+      isActive: {
+        true: 'text-primary',
+        false: '',
+      },
     },
-  },
-})
+  }
+)
 
 export default function Dropdown<T = string>({
   label,
@@ -76,7 +79,7 @@ export default function Dropdown<T = string>({
         className={triggerVariants({ isOpen })}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span className="flex justify-between items-center w-full">
+        <span className="flex justify-between items-center w-full px-[16px] py-[10px]">
           {selectedLabel ?? <span className="text-text4">{placeholder}</span>}
           <span className="ml-2 text-text4">
             <AiOutlineLeft className="rotate-270" />
@@ -84,7 +87,7 @@ export default function Dropdown<T = string>({
         </span>
       </button>
       {isOpen && (
-        <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md max-h-60 overflow-y-auto">
+        <ul className="absolute flex flex-col gap-[4px] text-[14px] text-text2 px-[8px] py-[8px] z-10 w-full bg-white border border-disabled-text rounded-[4px] mt-[4px]">
           {options.map((opt) => (
             <li
               key={String(opt.value)}
@@ -92,7 +95,7 @@ export default function Dropdown<T = string>({
                 onChange(opt.value)
                 setIsOpen(false)
               }}
-              className={itemVariants({ isActive: selected === opt.value })}
+              className={cn(itemVariants({ isActive: selected === opt.value }))}
             >
               {opt.label}
             </li>

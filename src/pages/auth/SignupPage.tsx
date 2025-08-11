@@ -195,7 +195,7 @@ export default function SignupPage() {
               <CommonButton
                 type="button"
                 variant="grayStyle"
-                className="w-full text-[16px]"
+                className="text-[16px]"
                 onClick={handleDuplicateNicknameCheck}
               >
                 중복확인

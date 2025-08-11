@@ -1,3 +1,8 @@
+import CommonButton from '@/common/CommonButton'
+import Dropdown from '@/common/DropDown'
+import InputField from '@/common/InputField'
+import SwitchToggle from '@/common/SwitchToggle'
+import { cn } from '@/utils/cn'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,20 +21,24 @@ export default function StudyCreatePage() {
   const [error, setError] = useState('')
 
   const studyTypeOptions = [
-    'IT · 프로그래밍 > 개발 교육과정',
-    'IT · 프로그래밍 > 커리어 개발',
-    'IT · 프로그래밍 > 개발 프로젝트',
+    { label: 'IT · 프로그래밍 > 개발 교육과정', value: '1' },
+    { label: 'IT · 프로그래밍 > 커리어 개발', value: '2' },
+    { label: 'IT · 프로그래밍 > 개발 프로젝트', value: '3' },
   ]
 
   const timeOptions = [
-    '오전 12:00',
-    '오전 1:00',
-    '오전 2:00',
-    '오전 3:00',
-    '오전 4:00',
+    { label: '오전 12:00', value: '1' },
+    { label: '오전 1:00', value: '2' },
+    { label: '오전 2:00', value: '3' },
+    { label: '오전 3:00', value: '4' },
+    { label: '오전 4:00', value: '5' },
   ]
 
-  const studyCategoryOptions = ['온라인', '오프라인', '혼합']
+  const studyCategoryOptions = [
+    { label: '온라인', value: '1' },
+    { label: '오프라인', value: '2' },
+    { label: '혼합', value: '3' },
+  ]
 
   const daysOfWeek = [
     '월요일',
@@ -63,206 +72,207 @@ export default function StudyCreatePage() {
     }
   }
 
+  const handleCapacityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value
+    if (rawValue === '') {
+      // 미 입력 시 숫자 0 입력되고 추가 입력 시 ex) 03 으로 입력 되는 오류 제거
+      setCapacity('')
+      return
+    }
+    const numValue = Math.floor(Number(rawValue))
+
+    if (isNaN(numValue)) {
+      // 마이너스 입력 시 input 에 NaN 입력 오류 제거
+      setCapacity('')
+      return
+    }
+
+    let value = numValue
+    if (value > 10) value = 10
+    if (value < 0) value = 0
+    setCapacity(value.toString())
+  }
+
   return (
-    <div className="min-h-screen bg-white px-6 py-12">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-10">
+    <div className="flex justify-center w-full h-full px-6 py-[104px] bg-white text-text">
+      <div className="flex flex-col w-[480px] gap-[40px]">
+        <h1 className="text-[32px] font-semibold text-center">
           나만의 스터디를 만들어 보세요!
         </h1>
 
         {/* 스터디 이름 */}
-        <div className="mb-4">
-          <label className="text-sm font-medium text-gray-700">
-            스터디 이름<span className="text-red-500">*</span>
+        <div className="flex flex-col gap-[16px] mt-[40px] w-full">
+          <label className="text-[16px]">
+            스터디 이름<span className="text-alertText">*</span>
           </label>
-          <div className="flex gap-2 mt-1">
-            <input
-              value={studyName}
+          <div className="flex gap-[8px] w-full">
+            <InputField
+              className="w-[362px] h-[48px] placeholder:text-text4"
               onChange={(e) => setStudyName(e.target.value)}
+              error={error}
               placeholder="이름을 입력해주세요"
-              className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
             />
-            <button
-              type="button"
-              disabled={!studyName}
-              className={`px-4 py-2 rounded text-sm font-medium ${
-                studyName
-                  ? 'bg-purple-500 text-white hover:bg-purple-600'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
+            <CommonButton variant="grayStyle" className="text-[16px]">
               중복확인
-            </button>
+            </CommonButton>
           </div>
-          {error && <p className="text-sm text-red-500 mt-1">* {error}</p>}
         </div>
 
         {/* 스터디 소개 */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            스터디 소개<span className="text-red-500">*</span>
+        <div className="flex flex-col gap-[16px] w-full">
+          <label className="text-[16px]">
+            스터디 소개<span className="text-alertText">*</span>
           </label>
           <textarea
             value={studyIntro}
             onChange={(e) => setStudyIntro(e.target.value)}
             placeholder="스터디 소개를 작성해주세요"
-            className="w-full border border-gray-300 rounded px-3 py-2 h-28 resize-none text-sm"
+            className="w-full border border-[#bdbdbd] rounded-[4px] px-[16px] py-[10px] h-[160px] resize-none text-sm"
           />
         </div>
 
         {/* 대표 이미지 */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            스터디 대표 이미지
+        <div className="flex flex-col gap-[16px]">
+          <label className="text-[16px]">
+            스터디 대표 이미지 <span className="text-alertText">*</span>
           </label>
-          <button
-            type="button"
-            className="border border-gray-300 px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-sm"
-          >
-            이미지 넣기
-          </button>
+          <CommonButton variant="grayStyle" className="text-[16px] w-[112px]">
+            이미지 찾기
+          </CommonButton>
         </div>
 
         {/* 스터디 종류 */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="flex flex-col gap-[16px]">
+          <label className="block text-sm font-semibold">
             스터디 종류<span className="text-red-500">*</span>
           </label>
-          <select
-            value={studyType}
-            onChange={(e) => setStudyType(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm"
-          >
-            <option value="">선택해 주세요</option>
-            {studyTypeOptions.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
+          <Dropdown
+            options={studyTypeOptions}
+            placeholder="선택해 주세요"
+            selected={studyType}
+            onChange={setStudyType}
+            className="w-full"
+          />
         </div>
 
         {/* 스터디 유형 */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="flex flex-col gap-[16px]">
+          <label className="block mb-1 text-sm font-semibold ">
             스터디 유형<span className="text-red-500">*</span>
           </label>
-          <select
-            value={studyCategory}
-            onChange={(e) => setStudyCategory(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm"
-          >
-            <option value="">선택해 주세요</option>
-            {studyCategoryOptions.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
+          <Dropdown
+            options={studyCategoryOptions}
+            placeholder="선택해 주세요"
+            selected={studyCategory}
+            onChange={setStudyCategory}
+            className="w-full"
+          />
         </div>
 
         {/* 인원 설정 */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="flex flex-col gap-[16px]">
+          <label className="block mb-1 text-sm font-semibold">
             스터디 인원<span className="text-red-500">*</span>
           </label>
-          <input
-            type="number"
-            disabled={isUnlimited}
+          <InputField
+            type="text"
+            className="h-[48px] placeholder:text-text4 w-full"
             value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
+            disabled={isUnlimited}
+            onChange={handleCapacityChange}
+            error={error}
             placeholder="최대 10명까지 등록 가능해요"
-            className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm disabled:bg-gray-100"
+            min={0}
+            max={10}
+            step={1}
           />
         </div>
 
         {/* 인원 무제한 (토글 왼쪽, 텍스트 오른쪽) */}
-        <div className="mb-6 border border-gray-300 rounded px-4 py-3 bg-purple-50">
+        <div className="flex flex-col gap-[16px] justify-center px-[16px] py-3 border border-primary bg-secondary rounded-[16px] h-[112px] text-[16px]">
           <div className="flex items-center gap-3">
             {/* 토글 스위치 */}
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                id="unlimitedToggle"
-                className="sr-only peer"
-                checked={isUnlimited}
-                onChange={(e) => setIsUnlimited(e.target.checked)}
-              />
-              <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-purple-500 transition-colors duration-300"></div>
-              <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-full"></div>
-            </label>
+            <SwitchToggle
+              checked={isUnlimited}
+              onChange={() => setIsUnlimited((prev) => !prev)}
+            />
 
             {/* 라벨 텍스트 */}
-            <label
-              htmlFor="unlimitedToggle"
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="unlimitedToggle" className="text-text">
               대기자 모드 활성화
             </label>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-text2">
             정원이 가득 찬 경우 대기자 등록을 허용해요
           </p>
         </div>
 
         {/* 스터디 요일 */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            스터디 일정<span className="text-red-500">*</span>
-          </label>
           <div className="flex flex-wrap gap-3 text-sm">
-            {daysOfWeek.map((day) => (
-              <label key={day} className="flex items-center gap-1">
-                <input
-                  type="checkbox"
-                  checked={selectedDays.includes(day)}
-                  onChange={() => toggleDay(day)}
-                  className="border-gray-300"
-                />
-                {day}
-              </label>
-            ))}
+            {daysOfWeek.map((day) => {
+              const isChecked = selectedDays.includes(day)
+              return (
+                <label
+                  key={day}
+                  className="relative flex items-center gap-2 cursor-pointer select-none"
+                >
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => toggleDay(day)}
+                    className="w-4 h-4 appearance-none"
+                  />
+                  <span
+                    className={cn(
+                      'block rounded-full w-4 h-4 bg-[#bdbdbd] box-border',
+                      {
+                        'border-2 border-[#0068FB]': isChecked,
+                        'border-none': !isChecked,
+                      }
+                    )}
+                  >
+                    {isChecked && (
+                      <span className="absolute rounded-full w-[10px] h-[10px] bg-[#0068FB] top-[5px] left-[27px]" />
+                    )}
+                  </span>
+                  <span>{day}</span>
+                </label>
+              )
+            })}
           </div>
         </div>
 
         {/* 스터디 시간 */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="flex flex-col gap-[16px] mt-[2px]">
+          <label className="block mb-1 text-sm font-medium text-gray-700">
             스터디 시간<span className="text-red-500">*</span>
           </label>
-          <select
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm"
-          >
-            <option value="">선택해 주세요</option>
-            {timeOptions.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
-            ))}
-          </select>
+          <Dropdown
+            options={timeOptions}
+            selected={selectedTime}
+            onChange={setSelectedTime}
+          />
         </div>
 
         {/* 성별 선택 */}
-        <div className="mb-8">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="flex flex-col gap-[16px]">
+          <label className="block mb-1 text-sm font-medium text-gray-700">
             성별 설정<span className="text-red-500">*</span>
           </label>
-          <div className="flex gap-3">
-            {['남자', '여자', '무관'].map((gender) => (
-              <button
-                key={gender}
+          <div className="flex gap-[4px]">
+            {['남', '여', '무관'].map((genderOption) => (
+              <CommonButton
                 type="button"
-                onClick={() => setSelectedGender(gender)}
-                className={`flex-1 border rounded-md py-2 text-sm font-semibold transition ${
-                  selectedGender === gender
-                    ? 'bg-purple-500 text-white border-transparent'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-purple-100'
-                }`}
+                key={genderOption}
+                variant={
+                  selectedGender === genderOption ? 'primary' : 'secondary'
+                }
+                className="text-[16px] font-light border-primary border-[1px]"
+                onClick={() => setSelectedGender(genderOption)}
               >
-                {gender}
-              </button>
+                {genderOption}
+              </CommonButton>
             ))}
           </div>
         </div>
@@ -272,7 +282,7 @@ export default function StudyCreatePage() {
           type="button"
           onClick={handleSubmit}
           disabled={!studyName.trim()}
-          className={`w-full py-3 rounded-md font-semibold text-sm transition ${
+          className={`w-full py-3 rounded-md font-semibold text-sm transition mt-[8px] ${
             studyName.trim()
               ? 'bg-purple-500 text-white hover:opacity-90'
               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
