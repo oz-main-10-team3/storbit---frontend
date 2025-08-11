@@ -1,9 +1,10 @@
-import { type PropsWithChildren, type ReactNode } from 'react'
+import { useRef, type PropsWithChildren, type ReactNode } from 'react'
 import { IoIosClose } from 'react-icons/io'
 import ModalWrapper from '@/common/ModalWrapper'
 import { useInboxMessageStore } from '@/store/useInboxMessageStore'
 import StudyRoomInboxMessage from '@/components/study/studyRoomPage/StudyRoomInboxMessage'
 import CommonButton from '@/common/CommonButton'
+import useClickOutside from '@/hooks/useClickOutside'
 
 interface CommonModalBaseProps {
   isOpen: boolean
@@ -25,6 +26,12 @@ export default function StudyRoomMessageInboxModal({
   className,
 }: CommonModalProps) {
   const inboxMessages = useInboxMessageStore((state) => state.inboxMessages)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  useClickOutside(dropdownRef, () => {
+    if (isOpen) {
+      onClose()
+    }
+  })
 
   if (!isOpen) return null
 
@@ -33,7 +40,7 @@ export default function StudyRoomMessageInboxModal({
   }
 
   return (
-    <ModalWrapper className={className}>
+    <ModalWrapper className={className} ref={dropdownRef}>
       {/* X 버튼 */}
       <button
         className="absolute top-4 right-4 text-[#BDBDBD] text-xl cursor-pointer"

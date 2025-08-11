@@ -1,4 +1,3 @@
-// import { useParams } from 'react-router-dom'
 import Whiteboard from '@/components/study/studyRoomPage/KonvaWhiteBoard'
 import StudyRoomUserCard from '@/components/study/studyRoomPage/StudyRoomUserCard'
 import { studyRoomUserCardMockData } from '@/mystudymockdata/studyRoomMockData'
@@ -11,9 +10,11 @@ import Dropdown from '@/common/DropDown'
 import CommonButton from '@/common/CommonButton'
 import MissionModal from '@/common/MissionModal'
 import { useParams } from 'react-router-dom'
-import defaultPrfileImag from '@/assets/images/default-profile.png'
+import defaultUserImg from '@/assets/images/default-profile.png'
 import StudyRoomMessageInboxModal from '@/components/study/studyRoomPage/StudyRoomMessageInboxModal'
 import StudyRoomSendMessageModal from '@/components/study/studyRoomPage/StudyRoomSendMessageModal'
+import StudyRoomUserProfileModal from '@/components/study/studyRoomPage/StudyRoomUserProfileModal'
+import type { StudyCardDataType } from '@/types/StudyCardDataType'
 
 const reportModalDropdownOption = [
   { label: '부적절한 스터디 내용', value: '1' },
@@ -36,6 +37,10 @@ export default function StudyRoomPage() {
   const [messageSender, setMessageSender] = useState<string | null>(null)
   const { roomId } = useParams()
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false)
+  const [selectedUserProfile, setSelectedUserProfile] =
+    useState<StudyCardDataType | null>(null)
+
   const user = useUserInfo((state) => state.userInfo?.user)
 
   useEffect(() => {
@@ -140,7 +145,7 @@ export default function StudyRoomPage() {
         </div>
         <div className="flex gap-[16px] items-center">
           <img
-            src={user?.profile_image_url ?? defaultPrfileImag}
+            src={user?.profile_image_url ?? defaultUserImg}
             alt="유저프로피이미지"
             className="rounded-full w-[64px]"
           />
@@ -186,10 +191,19 @@ export default function StudyRoomPage() {
               user={user}
               setMessageSender={setMessageSender}
               setIsMessageSendModal={setIsMessageSendModal}
+              setIsUserProfileModalOpen={setIsUserProfileModalOpen}
+              setSelectedUserProfile={setSelectedUserProfile}
             />
           ))}
         </div>
       </div>
+      <StudyRoomUserProfileModal
+        title="프로필 보기"
+        isOpen={isUserProfileModalOpen}
+        onClose={() => setIsUserProfileModalOpen(false)}
+        selectedUserProfile={selectedUserProfile}
+        className="w-[400px] h-[544px] p-[44px]"
+      />
     </div>
   )
 }

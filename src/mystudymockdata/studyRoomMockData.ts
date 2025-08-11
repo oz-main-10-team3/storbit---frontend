@@ -1,13 +1,6 @@
-export interface StudyCardData {
-  id: number
-  userProfile: string
-  nickname: string
-  dailyMissions: string[]
-  isMe: boolean
-  isLeader: boolean
-}
+import type { StudyCardDataType } from '@/types/StudyCardDataType'
 
-export const studyRoomUserCardMockData: StudyCardData[] = [
+export const studyRoomUserCardMockData: StudyCardDataType[] = [
   {
     id: 1,
     userProfile: '/images/user1.jpg',
