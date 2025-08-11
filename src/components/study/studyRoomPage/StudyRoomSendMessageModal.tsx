@@ -1,7 +1,8 @@
-import { type PropsWithChildren } from 'react'
+import { useRef, type PropsWithChildren } from 'react'
 import { IoIosClose } from 'react-icons/io'
 import ModalWrapper from '@/common/ModalWrapper'
 import CommonButton from '@/common/CommonButton'
+import useClickOutside from '@/hooks/useClickOutside'
 
 interface CommonModalBaseProps {
   isOpen: boolean
@@ -20,10 +21,16 @@ export default function StudyRoomSendMessageModal({
   className,
   messageSender,
 }: CommonModalProps) {
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  useClickOutside(dropdownRef, () => {
+    if (isOpen) {
+      onClose()
+    }
+  })
   if (!isOpen) return null
 
   return (
-    <ModalWrapper className={className}>
+    <ModalWrapper className={className} ref={dropdownRef}>
       {/* X 버튼 */}
       <button
         className="absolute top-4 right-4 text-[#BDBDBD] text-xl cursor-pointer"

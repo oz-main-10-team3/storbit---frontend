@@ -42,7 +42,6 @@ import UpdateEventPage from '@/admin/events/UpdateEvent.tsx'
 import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
 import CustomRecommendPage from '@/pages/category/CustomRecommendPage'
 
-
 export default function App() {
   return (
     <Routes>

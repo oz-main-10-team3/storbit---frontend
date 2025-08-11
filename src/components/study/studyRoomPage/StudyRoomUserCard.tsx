@@ -1,15 +1,22 @@
 import { AiOutlineCheckCircle } from 'react-icons/ai'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { PiCrownSimpleFill } from 'react-icons/pi'
-import type { StudyCardData } from '@/mystudymockdata/studyRoomMockData'
 import { cn } from '@/utils/cn'
+import defaultUserImg from '@/assets/images/default-profile.png'
+import type { StudyCardDataType } from '@/types/StudyCardDataType'
 
 export default function StudyRoomUserCard({
   user,
+  setIsUserProfileModalOpen,
+  setSelectedUserProfile,
   setMessageSender,
   setIsMessageSendModal,
 }: {
-  user: StudyCardData
+  user: StudyCardDataType
+  setIsUserProfileModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setSelectedUserProfile: React.Dispatch<
+    React.SetStateAction<StudyCardDataType | null>
+  >
   setMessageSender: React.Dispatch<React.SetStateAction<string | null>>
   setIsMessageSendModal: React.Dispatch<React.SetStateAction<boolean>>
 }) {
@@ -27,9 +34,18 @@ export default function StudyRoomUserCard({
     >
       <div className="flex gap-[16px]">
         <img
-          src={userProfile}
+          src={userProfile ?? defaultUserImg}
           alt="스터티개인프로필이미지"
-          className="h-[41px] rounded-full"
+          className="h-[41px] rounded-full cursor-pointer"
+          onError={(e) => {
+            if (e.currentTarget.src !== defaultUserImg) {
+              e.currentTarget.src = defaultUserImg
+            }
+          }}
+          onClick={() => {
+            setSelectedUserProfile(user)
+            setIsUserProfileModalOpen((prev) => !prev)
+          }}
         />
         <div className="flex flex-col gap-[2px] w-full">
           <div className="flex w-full items-center justify-between">
@@ -52,7 +68,12 @@ export default function StudyRoomUserCard({
             >
               쪽지보내기
             </button>
-            <button className="cursor-pointer">프로필 보기</button>
+            <button
+              className="cursor-pointer"
+              onClick={() => setIsUserProfileModalOpen(true)}
+            >
+              프로필 보기
+            </button>
           </div>
         </div>
       </div>
