@@ -74,14 +74,19 @@ export default function Dropdown<T = string>({
   return (
     <div ref={dropdownRef} className={cn('relative w-48', className)}>
       {label && (
-        <label className="block mb-1 text-sm font-medium">{label}</label>
+        <label className="block mb-1 text-sm font-medium text-text">
+          {label}
+        </label>
       )}
       <button
         type="button"
-        className={triggerVariants({ isOpen })}
+        className={cn(
+          triggerVariants({ isOpen }),
+          selectedLabel && 'border-text'
+        )}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span className="flex justify-between items-center w-full px-[16px] py-[10px]">
+        <span className="flex justify-between items-center w-full px-[16px] py-[10px] text-text">
           {selectedLabel ?? <span className="text-text4">{placeholder}</span>}
           <span className="ml-2 text-text2">
             <AiOutlineLeft className="rotate-270" />

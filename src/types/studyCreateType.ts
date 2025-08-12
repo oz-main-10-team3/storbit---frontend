@@ -10,3 +10,8 @@ export interface StudyCreateType {
   studyTime: string
   gender: '남' | '여' | '무관'
 }
+
+export interface study extends StudyCreateType {
+  id: number
+  createdAt: string
+}

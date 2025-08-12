@@ -1,21 +1,29 @@
-export const studyTypeOptions = [
-  { label: 'IT · 프로그래밍 > 개발 교육과정', value: '1' },
-  { label: 'IT · 프로그래밍 > 커리어 개발', value: '2' },
-  { label: 'IT · 프로그래밍 > 개발 프로젝트', value: '3' },
-]
-
-export const timeOptions = [
-  { label: '오전 12:00', value: '1' },
-  { label: '오전 1:00', value: '2' },
-  { label: '오전 2:00', value: '3' },
-  { label: '오전 3:00', value: '4' },
-  { label: '오전 4:00', value: '5' },
-]
+export const timeOptions = Array.from({ length: 24 }, (_, i) => {
+  const period = i < 12 ? '오전' : '오후'
+  const hour = i % 12 === 0 ? 12 : i % 12
+  const time = `${period} ${hour}:00`
+  return { value: time, label: time }
+})
 
 export const studyCategoryOptions = [
-  { label: '온라인', value: '1' },
-  { label: '오프라인', value: '2' },
-  { label: '혼합', value: '3' },
+  { value: '온라인', label: '온라인' },
+  { value: '오프라인', label: '오프라인' },
+  { value: '혼합', label: '혼합' },
+]
+
+export const studyTypeOptions = [
+  {
+    value: 'IT · 프로그래밍 > 개발 교육과정',
+    label: 'IT · 프로그래밍 > 개발 교육과정',
+  },
+  {
+    value: 'IT · 프로그래밍 > 커리어 개발',
+    label: 'IT · 프로그래밍 > 커리어 개발',
+  },
+  {
+    value: 'IT · 프로그래밍 > 개발 프로젝트',
+    label: 'IT · 프로그래밍 > 개발 프로젝트',
+  },
 ]
 
 export const daysOfWeek = [

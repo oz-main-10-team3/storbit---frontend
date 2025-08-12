@@ -12,13 +12,13 @@ export default function StudyCreateSuccess() {
 
       <div className="flex gap-4 mt-8">
         <Link
-          to="/study/list"
+          to="/"
           className="px-6 py-2 border border-purple-500 text-purple-500 rounded-[5px] hover:bg-purple-50 transition"
         >
           다른 스터디 둘러보기
         </Link>
         <Link
-          to="/study/members"
+          to="/mystudy/created"
           className="px-6 py-2 bg-purple-500 text-white rounded-[5px] hover:bg-purple-600 transition"
         >
           멤버 현황 보기

@@ -11,20 +11,42 @@ import {
   studyCategoryOptions,
   daysOfWeek,
 } from '@/mystudymockdata/studyCreateOptionsData'
+import { api } from '@/api/mainApi'
+import { useNavigate } from 'react-router-dom'
+import type { AxiosError } from 'axios'
+import type { ErrorMessage } from '@/types/errorMessage'
+import { cn } from '@/utils/cn'
 
 export default function StudyCreatePage() {
   const [isUnlimited, setIsUnlimited] = useState(false)
+  const [submitErrorMessage, setSubmitErrorMessage] =
+    useState<ErrorMessage | null>(null)
+  const navigate = useNavigate()
 
   const {
     register,
     handleSubmit,
     setValue,
     control,
+    watch,
     formState: { isValid, errors },
   } = useForm<StudyCreateType>({ mode: 'onChange' })
 
-  const onSubmit = (_data: StudyCreateType) => {
-    // 스터디 만들기 제출하기
+  const onSubmit = async (data: StudyCreateType) => {
+    try {
+      const res = await api.post('/api/v1/studies', data)
+      if (res.status === 201) {
+        navigate('/study/create/success')
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<{ detail: string }>
+      if (!axiosError.status) return
+      setSubmitErrorMessage({
+        status: axiosError.status,
+        message:
+          axiosError.response?.data.detail ?? '알 수 없는 오류가 발생했습니다.',
+      })
+    }
   }
 
   const handleCapacityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +94,12 @@ export default function StudyCreatePage() {
           </label>
           <div className="flex gap-[8px] w-full">
             <InputField
-              className="w-[362px] h-[48px] placeholder:text-text4"
+              className={cn(
+                'w-[362px] h-[48px] placeholder:text-text4',
+                !errors.studyName &&
+                  watch('studyName')?.trim() !== '' &&
+                  'border-text text-text'
+              )}
               error={errors.studyName?.message}
               placeholder="이름을 입력해주세요"
               {...register('studyName', {
@@ -96,13 +123,19 @@ export default function StudyCreatePage() {
           </label>
           <textarea
             placeholder="스터디 소개를 작성해주세요"
-            className="w-full mt-[10px] border border-[#bdbdbd] rounded-[4px] px-[16px] py-[10px] h-[160px] resize-none text-sm"
+            className={cn(
+              'w-full mt-[10px] border border-[#bdbdbd] rounded-[4px] px-[16px] py-[10px] h-[160px] resize-none text-sm',
+              !errors.studyIntroduction &&
+                watch('studyIntroduction')?.trim() !== '' &&
+                'border-text',
+              errors.studyIntroduction && 'border-alertText'
+            )}
             {...register('studyIntroduction', {
               required: '스터디 소개를 입력해주세요',
             })}
           />
           {errors.studyIntroduction && (
-            <p className="text-xs text-alertText font-medium mt-1">
+            <p className="mt-1 text-xs font-medium text-alertText">
               * {errors.studyIntroduction?.message}
             </p>
           )}
@@ -129,7 +162,7 @@ export default function StudyCreatePage() {
             이미지 찾기
           </label>
           {errors.image && (
-            <p className="text-xs text-alertText font-medium mt-1">
+            <p className="mt-1 text-xs font-medium text-alertText">
               * {errors.image?.message}
             </p>
           )}
@@ -186,7 +219,12 @@ export default function StudyCreatePage() {
           </label>
           <InputField
             type="text"
-            className="h-[48px] placeholder:text-text4 w-full mt-[10px]"
+            className={cn(
+              'w-[362px] h-[48px] placeholder:text-text4',
+              !errors.capacity &&
+                watch('capacity')?.trim() !== '' &&
+                'border-text text-text'
+            )}
             disabled={isUnlimited}
             placeholder="최대 10명까지 등록 가능해요"
             min={0}
@@ -244,7 +282,7 @@ export default function StudyCreatePage() {
             ))}
           </div>
           {errors.dayOfWeek && (
-            <p className="text-xs text-alertText font-medium mt-1">
+            <p className="mt-1 text-xs font-medium text-alertText">
               * {errors.dayOfWeek?.message}
             </p>
           )}
@@ -300,7 +338,7 @@ export default function StudyCreatePage() {
             )}
           />
           {errors.gender && (
-            <p className="text-xs text-alertText font-medium mt-1">
+            <p className="mt-1 text-xs font-medium text-alertText">
               * {errors.gender?.message}
             </p>
           )}
@@ -309,7 +347,7 @@ export default function StudyCreatePage() {
         {/* 제출 버튼 */}
         <button
           type="submit"
-          // disabled={!isValid}
+          disabled={!isValid}
           className={`w-full py-3 rounded-md font-semibold text-sm transition mt-[8px] cursor-pointer ${
             isValid
               ? 'bg-purple-500 text-white hover:opacity-90'
@@ -318,6 +356,7 @@ export default function StudyCreatePage() {
         >
           스터디 만들기
         </button>
+        {submitErrorMessage && <div>{submitErrorMessage.message}</div>}
       </form>
     </div>
   )
