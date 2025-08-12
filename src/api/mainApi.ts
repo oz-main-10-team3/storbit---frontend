@@ -31,7 +31,7 @@ api.interceptors.request.use(
         }
       }
     } catch (_error) {
-      //ignore
+      void 0
     }
 
     // multipart/form-data 시 Content-Type 제거 (axios가 자동 설정하게)
