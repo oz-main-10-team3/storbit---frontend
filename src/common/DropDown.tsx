@@ -15,6 +15,7 @@ interface DropdownProps<T = string> {
   onChange: (value: T) => void
   placeholder?: string
   className?: string
+  error?: string
 }
 
 const triggerVariants = cva(
@@ -48,6 +49,7 @@ export default function Dropdown<T = string>({
   onChange,
   placeholder = '선택해 주세요',
   className,
+  error,
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false)
   const selectedLabel = options.find((opt) => opt.value === selected)?.label
@@ -81,11 +83,14 @@ export default function Dropdown<T = string>({
       >
         <span className="flex justify-between items-center w-full px-[16px] py-[10px]">
           {selectedLabel ?? <span className="text-text4">{placeholder}</span>}
-          <span className="ml-2 text-text4">
+          <span className="ml-2 text-text2">
             <AiOutlineLeft className="rotate-270" />
           </span>
         </span>
       </button>
+      {error && (
+        <p className="text-xs text-alertText font-medium mt-1">* {error}</p>
+      )}
       {isOpen && (
         <ul className="absolute flex flex-col gap-[4px] text-[14px] text-text2 px-[8px] py-[8px] z-10 w-full bg-white border border-disabled-text rounded-[4px] mt-[4px]">
           {options.map((opt) => (
