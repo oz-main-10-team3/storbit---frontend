@@ -187,6 +187,9 @@ export const handlers = [
   }),
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 스터디 만들기
   http.post('/api/v1/studies', async ({ request }) => {
+    // console.log(await request.clone().json())
+    // const authHeader = request.headers.get('authorization')
+    // console.log('MSW received Authorization:', authHeader)
     function validateStudyPayload(payload: Partial<StudyCreateType>): string[] {
       const errors: string[] = []
 
