@@ -49,7 +49,7 @@ const MainPage = () => {
       <section className="py-6 px-4">
         <div className="max-w-[1400px] mx-auto mb-[88px]">
           <div className="flex items-center justify-between mb-[32px]">
-            <h2 className="text-[20px]] font-semibold">오늘의 HOT STUDY 10</h2>
+            <h2 className="text-[20px] font-semibold">오늘의 HOT STUDY 10</h2>
             <ArrowNavigation
               onPrev={() => setHotIndex((prev) => Math.max(prev - 1, 0))}
               onNext={() =>
@@ -91,7 +91,7 @@ const MainPage = () => {
       <section className="py-6 px-4">
         <div className="max-w-[1400px] mx-auto mb-[88px]">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[20px]] font-semibold">NEW STUDY</h2>
+            <h2 className="text-[20px] font-semibold">NEW STUDY</h2>
             <ArrowNavigation
               onPrev={() => setNewIndex((prev) => Math.max(prev - 1, 0))}
               onNext={() =>
