@@ -1,3 +1,5 @@
+import type { study } from '@/types/studyCreateType'
+
 interface MockData {
   email: string
   password: string
@@ -121,3 +123,5 @@ export const mockUsers: MockData[] = [
     profile_image_url: 'https://randomuser.me/api/portraits/women/40.jpg',
   },
 ]
+
+export const mockStudies: study[] = []

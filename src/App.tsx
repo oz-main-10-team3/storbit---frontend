@@ -41,6 +41,7 @@ import CreateEventPage from '@/admin/events/CreateEvent.tsx'
 import UpdateEventPage from '@/admin/events/UpdateEvent.tsx'
 import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
 import CustomRecommendPage from '@/pages/category/CustomRecommendPage'
+import ProtectedRoute from '@/pages/Layout/ProtectedRoute'
 
 export default function App() {
   return (
@@ -74,7 +75,14 @@ export default function App() {
         <Route path="/studies/custom" element={<CustomRecommendPage />} />
 
         {/* 스터디 */}
-        <Route path="/study/create" element={<StudyCreatePage />} />
+        <Route
+          path="/study/create"
+          element={
+            <ProtectedRoute>
+              <StudyCreatePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/study/create/success"
           element={<StudyCreateSuccessPage />}
