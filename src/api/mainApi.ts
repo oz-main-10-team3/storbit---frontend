@@ -3,7 +3,7 @@ import axios from 'axios'
 // import { localStorageUtils } from '../utilities/localStorage'
 
 const BASE_URL = 'http://localhost:5173'
-// const API_MAIN_URL = import.meta.env.VITE_API_MAIN_URL
+const API_MAIN_URL = import.meta.env.VITE_API_MAIN_URL
 
 export const api = axios.create({
   baseURL: BASE_URL,
@@ -15,7 +15,7 @@ export const api = axios.create({
 })
 
 export const mainApi = axios.create({
-  baseURL: '/api',
+  baseURL: API_MAIN_URL,
   timeout: 15000,
   withCredentials: true,
   headers: {
