@@ -54,7 +54,7 @@ export default function LoginPage() {
 
   const getKakaoUserInfo = async (authorizationCode: string) => {
     mainApi
-      .post<KakaoUserData>(`/auth/kakao/login/`, {
+      .post<KakaoUserData>(`api/auth/kakao/login/`, {
         code: authorizationCode,
       })
       .then((res: AxiosResponse<KakaoUserData>) => {

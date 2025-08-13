@@ -43,7 +43,6 @@ import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
 import CustomRecommendPage from '@/pages/category/CustomRecommendPage'
 import ProtectedRoute from '@/pages/Layout/ProtectedRoute'
 
-
 export default function App() {
   return (
     <Routes>
