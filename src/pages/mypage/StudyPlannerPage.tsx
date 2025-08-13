@@ -39,7 +39,7 @@ export default function StudyPlannerPage() {
     const [yearStr, monthStr] = date.split('-')
     const newDate = new Date(Number(yearStr), Number(monthStr) - 1, 1)
     setActiveStartDate(newDate)
-  }, [date, study])
+  }, [date, study, setAttendanceDates])
 
   const calendarOptions = generateYearMonthOptions(
     2020,

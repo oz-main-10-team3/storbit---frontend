@@ -2,7 +2,7 @@ export interface Study {
   level: string
   capacity: string
   time: string
-  days: []
+  days: string[]
   waitingMode: boolean
   isSingleButton: boolean
   userId: number
@@ -25,4 +25,5 @@ export interface Study {
   meetingCycle: string
   platform: string
   startStatus?: boolean
+  isLeft?: boolean
 }

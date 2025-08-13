@@ -24,7 +24,7 @@ const triggerVariants = cva(
     variants: {
       isOpen: {
         true: 'border-black text-text',
-        false: 'border-gray-300 text-text4',
+        false: 'border-gray-300 text-text2',
       },
     },
   }

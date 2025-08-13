@@ -40,7 +40,8 @@ export const myAppliedStudies: Study[] = studyData.filter(
 
 // 내가 참여한 스터디 목록 (내가 만든 스터디 + 내가 신청한 스터디)
 export const myJoinedStudies: Study[] = studyData.filter(
-  (study) => study.isApplied || study.userId === currentUserId
+  (study) =>
+    (study.isApplied || study.userId === currentUserId) && !study.isLeft
 )
 
 // 내가 방장으로 만든 스터디들의 ID 목록
