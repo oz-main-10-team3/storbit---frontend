@@ -11,4 +11,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'), // @를 src로 매핑
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://storbit.p-e.kr',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })

@@ -1,12 +1,12 @@
 import { FaComment } from 'react-icons/fa'
 import InputField from '@/common/InputField'
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import CommonButton from '@/common/CommonButton'
-import type { UserDataWithToken } from '@/types/userData'
-import { api } from '@/api/mainApi'
+import type { KakaoUserData, UserDataWithToken } from '@/types/userData'
+import { api, mainApi } from '@/api/mainApi'
 import { useUserInfo } from '@/store/userInfoStore'
-import type { AxiosError } from 'axios'
+import type { AxiosError, AxiosResponse } from 'axios'
 import type { ErrorMessage } from '@/types/errorMessage'
 
 export default function LoginPage() {
@@ -43,6 +43,34 @@ export default function LoginPage() {
     }
   }
 
+  const [searchParams] = useSearchParams()
+
+  const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID
+  const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI
+
+  const handleKakaoLogin = () => {
+    location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`
+  }
+
+  const getKakaoUserInfo = async (authorizationCode: string) => {
+    mainApi
+      .post<KakaoUserData>(`/auth/kakao/login/`, {
+        code: authorizationCode,
+      })
+      .then((res: AxiosResponse<KakaoUserData>) => {
+        alert(res)
+        // console.log(res)
+      })
+  }
+
+  useEffect(() => {
+    const authorizationCode = searchParams.get('code')
+
+    if (authorizationCode) {
+      getKakaoUserInfo(authorizationCode)
+    }
+  }, [searchParams])
+
   return (
     <div className="flex flex-col items-center justify-center bg-white h-[856px]">
       <div className="flex flex-col items-center justify-center gap-[32px]">
@@ -50,7 +78,10 @@ export default function LoginPage() {
           <div className="text-[32px] font-semibold">로그인</div>
 
           {/*카카오 간편 로그인 버튼*/}
-          <button className="w-[348px] h-[52px] bg-[#FEE500] text-[#391C1A] rounded flex items-center text-[16px] justify-center font-normal cursor-pointer">
+          <button
+            className="w-[348px] h-[52px] bg-[#FEE500] text-[#391C1A] rounded flex items-center text-[16px] justify-center font-normal cursor-pointer"
+            onClick={handleKakaoLogin}
+          >
             <FaComment className="mr-2" />
             카카오로 3초만에 가입하기
           </button>

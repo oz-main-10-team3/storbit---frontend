@@ -10,7 +10,14 @@ export interface UserData {
 
 export interface UserDataWithToken {
   access_token: string
-  message: string
+  message?: string
   refresh_token: string
-  user: UserData
+  user?: UserData
+}
+
+export interface KakaoUserData extends UserDataWithToken {
+  kakao_id: string
+  nickname: string
+  email: string
+  profile_image: string
 }

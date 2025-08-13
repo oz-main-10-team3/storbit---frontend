@@ -6,7 +6,9 @@ import { BrowserRouter } from 'react-router-dom'
 const enableMocking = async () => {
   if (!import.meta.env.DEV) return
   const { worker } = await import('@/api/mswMock/browser.ts')
-  return worker.start()
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+  })
 }
 
 enableMocking().then(() => {

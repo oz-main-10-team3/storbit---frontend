@@ -118,7 +118,7 @@ export default function NavBar() {
                   className="flex items-center cursor-pointer"
                   onClick={() => setIsDropdownOpen((prev) => !prev)}
                 >
-                  <div>{userInfo.user.nickname}</div>
+                  <div>{userInfo.user?.nickname}</div>
                   {isDropdownOpen ? (
                     <MdKeyboardArrowUp size={20} />
                   ) : (
@@ -184,7 +184,7 @@ export default function NavBar() {
       {/* 카테고리 메뉴 */}
       {isCategoryOpen && (
         <div
-          className="absolute top-full left-0 w-full z-50"
+          className="absolute left-0 z-50 w-full top-full"
           onMouseEnter={openCategoryMenu}
           onMouseLeave={closeCategoryMenu}
         >

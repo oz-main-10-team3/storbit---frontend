@@ -20,7 +20,7 @@ const goalInProgresses = [
 ]
 
 export default function StudyPlannerPage() {
-  const userName = useUserInfo((state) => state.userInfo?.user.name)
+  const userName = useUserInfo((state) => state.userInfo?.user?.name)
   const [isActive, setIsActive] = useState(false)
   const todos = useTodoStore((state) => state.todos)
   const removeCompletedTodos = useTodoStore(
@@ -65,7 +65,7 @@ export default function StudyPlannerPage() {
                 <div className="text-text1 text-[20px]">도전 중인 목표</div>
                 <GoPlus
                   size={25}
-                  className="text-disabled-text cursor-pointer"
+                  className="cursor-pointer text-disabled-text"
                 />
               </div>
               <div className="flex flex-col gap-[4px]">
@@ -97,7 +97,7 @@ export default function StudyPlannerPage() {
                     <div className="text-text1 text-[20px]">오늘의 할 일</div>
                     <GoPlus
                       size={25}
-                      className="text-disabled-text cursor-pointer"
+                      className="cursor-pointer text-disabled-text"
                       onClick={() => setIsActive(true)}
                     />
                   </div>
@@ -153,7 +153,7 @@ export default function StudyPlannerPage() {
                   onChange={setStudy}
                 />
               </div>
-              <div className="flex w-full justify-center items-center">
+              <div className="flex items-center justify-center w-full">
                 <AttendanceCalendar
                   activeStartDate={activeStartDate}
                   setActiveStartDate={setActiveStartDate}

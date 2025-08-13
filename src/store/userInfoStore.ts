@@ -1,10 +1,12 @@
 import { create } from 'zustand'
-import type { UserDataWithToken } from '@/types/userData'
+import type { KakaoUserData, UserDataWithToken } from '@/types/userData'
 import { persist } from 'zustand/middleware'
 
+type UserInfo = UserDataWithToken | KakaoUserData | null
+
 type UserInfoState = {
-  userInfo: UserDataWithToken | null
-  setUserInfo: (userInfo: UserDataWithToken | null) => void
+  userInfo: UserInfo
+  setUserInfo: (userInfo: UserInfo) => void
 }
 
 export const useUserInfo = create<UserInfoState>()(
