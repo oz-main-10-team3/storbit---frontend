@@ -60,7 +60,7 @@ export default function ApplicationCompleted({
         </div>
       </div>
       {showToast && (
-        <div className="fixed top-[180px] left-1/2 -translate-x-1/2 z-[9999]">
+        <div className="fixed top-1/4 left-1/2 -translate-x-1/2 z-[9999]">
           <ToastMessage
             message="알림 신청 되었어요. 쪽지함을 확인해주세요."
             onClose={() => setShowToast(false)}

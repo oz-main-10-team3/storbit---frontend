@@ -5,7 +5,7 @@ import ApplicationCompleted from '@/common/ConfirmModal/ApplicationCompleted.tsx
 import ConfirmModal from '@/common/ConfirmModal.tsx'
 import TransientModal from '@/common/TransientModal'
 import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
-import { myAppliedStudies } from '@/data/mockData.ts'
+import { api } from '@/api/mainApi.ts'
 
 export default function MyStudyAppliedPage() {
   const [studies, setStudies] = useState<Study[]>([])
@@ -18,7 +18,16 @@ export default function MyStudyAppliedPage() {
   }
 
   useEffect(() => {
-    setStudies(myAppliedStudies)
+    const fetchAppliedStudies = async () => {
+      try {
+        const response = await api.get('/api/v1/my/studies/applied')
+        setStudies(response.data)
+      } catch {
+        // TODO: handle error
+      }
+    }
+
+    fetchAppliedStudies()
   }, [])
 
   const handleOpenModal = (id: number, status: string) => {

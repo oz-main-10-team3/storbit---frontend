@@ -39,9 +39,9 @@ export default function CommonModal({
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-[8px] text-center text-[16px] text-[#BDBDBD]">
+        <div className="mt-[8px] text-center text-[16px] text-[#BDBDBD]">
           {subtitle}
-        </p>
+        </div>
       )}
 
       {/* 콘텐츠 */}

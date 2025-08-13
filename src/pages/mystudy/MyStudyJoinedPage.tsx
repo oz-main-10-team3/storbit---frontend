@@ -4,9 +4,12 @@ import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
 import MissionModal from '@/common/MissionModal.tsx'
 import TransientModal from '@/common/TransientModal.tsx'
 import StudyLeaveModal from '@/common/StudyLeaveModal'
-import { myJoinedStudies } from '@/data/mockData.ts'
+import { api } from '@/api/mainApi.ts'
+import type { AxiosError } from 'axios'
+import type { ErrorMessage } from '@/types/errorMessage.ts'
 
-export default function MyStudyJoinedPage() {
+export function MyStudyJoinedPage() {
+  const [errorMessage, setErrorMessage] = useState<ErrorMessage | null>(null)
   const [studies, setStudies] = useState<Study[]>([])
   const [isDailyModalOpen, setIsDailyModalOpen] = useState(false)
   const [isTransitionModalOpen, setIsTransitionModalOpen] = useState(false)
@@ -16,28 +19,55 @@ export default function MyStudyJoinedPage() {
   const [selectedStudy, setSelectedStudy] = useState<Study | null>(null)
 
   useEffect(() => {
-    setStudies(myJoinedStudies)
+    const controller = new AbortController()
+
+    api
+      .get('/api/v1/my/studies/joined', { signal: controller.signal })
+      .then((response) => {
+        const data: unknown = response.data
+        const items: Study[] = Array.isArray(data)
+          ? (data as Study[])
+          : data &&
+              typeof data === 'object' &&
+              Array.isArray((data as { items?: unknown }).items)
+            ? (data as { items: Study[] }).items
+            : ([] as Study[])
+        setStudies(items)
+      })
+      .catch((error: AxiosError<{ detail?: string }>) => {
+        const status = error.response?.status
+        if (!status) return
+        setErrorMessage({
+          status,
+          message:
+            error.response?.data?.detail ?? '알 수 없는 오류가 발생했습니다.',
+        })
+        setStudies([])
+      })
+
+    return () => controller.abort()
   }, [])
 
   return (
     <div className="flex flex-col gap-[40px] mt-[72px] pl-[60px] pr-[40px]">
       <div className="grid grid-cols-3 gap-[2px]">
-        {studies.map((study, index) => (
-          <MyStudyCard
-            key={index}
-            study={study}
-            onLeftButtonClick={
-              index === 1 ? undefined : () => setIsDailyModalOpen(true)
-            }
-            leftButtonText={index === 1 ? '스터디 시작 전' : '스터디 참여'}
-            leftButtonDisabled={index === 1}
-            onRightButtonClick={() => {
-              setSelectedStudy(study)
-              setIsLeaveModalOpen(true)
-            }}
-            rightButtonText="스터디 탈퇴"
-          />
-        ))}
+        {!errorMessage &&
+          studies.map((study, index) => (
+            <MyStudyCard
+              key={study.id}
+              study={study}
+              onLeftButtonClick={
+                index === 1 ? undefined : () => setIsDailyModalOpen(true)
+              }
+              leftButtonText={index === 1 ? '스터디 시작 전' : '스터디 참여'}
+              leftButtonDisabled={index === 1}
+              onRightButtonClick={() => {
+                setSelectedStudy(study)
+                setIsLeaveModalOpen(true)
+              }}
+              rightButtonText="스터디 탈퇴"
+            />
+          ))}
       </div>
 
       {isDailyModalOpen && (
@@ -67,9 +97,30 @@ export default function MyStudyJoinedPage() {
         <StudyLeaveModal
           isOpen={isLeaveModalOpen}
           onClose={() => setIsLeaveModalOpen(false)}
-          onSubmit={() => {
-            setIsLeaveModalOpen(false)
-            setSelectedStudy(null)
+          onSubmit={async (reason: string, description: string) => {
+            if (!selectedStudy) return
+            try {
+              await api.post(`/api/v1/my/studies/${selectedStudy.id}/leave`, {
+                reason,
+                description,
+              })
+              // 로컬 리스트에서 제거
+              setStudies((prev) =>
+                prev.filter((s) => s.id !== selectedStudy.id)
+              )
+            } catch (e) {
+              const err = e as AxiosError<{ detail?: string }>
+              const status = err.response?.status ?? 500
+              setErrorMessage({
+                status,
+                message:
+                  err.response?.data?.detail ??
+                  '탈퇴 처리 중 오류가 발생했습니다.',
+              })
+            } finally {
+              setIsLeaveModalOpen(false)
+              setSelectedStudy(null)
+            }
           }}
           onLeave={() => {
             setIsTransitionLeaveModalOpen(true)

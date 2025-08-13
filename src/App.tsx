@@ -14,7 +14,7 @@ import StudyCreateSuccessPage from '@/pages/study/StudyCreateSuccessPage'
 import StudyRoomPage from '@/pages/study/StudyRoomPage'
 import StudyCategoryPage from '@/pages/study/StudyCategoryPage'
 import MyStudyAppliedPage from '@/pages/mystudy/MyStudyAppliedPage'
-import MyStudyJoinedPage from '@/pages/mystudy/MyStudyJoinedPage'
+import { MyStudyJoinedPage } from '@/pages/mystudy/MyStudyJoinedPage'
 import MyStudyCreatedPage from '@/pages/mystudy/MyStudyCreatedPage'
 import MyStudyFavoritesPage from '@/pages/mystudy/MyStudyFavoritesPage'
 import AccountSettingsPage from '@/pages/mypage/AccountSettingsPage'
@@ -41,7 +41,6 @@ import CreateEventPage from '@/admin/events/CreateEvent.tsx'
 import UpdateEventPage from '@/admin/events/UpdateEvent.tsx'
 import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
 import CustomRecommendPage from '@/pages/category/CustomRecommendPage'
-
 
 export default function App() {
   return (

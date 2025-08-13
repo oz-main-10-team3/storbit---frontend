@@ -90,7 +90,7 @@ export default function TransientModal({
     return () => {
       clearTimeout(timer)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, autoCloseDelay])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

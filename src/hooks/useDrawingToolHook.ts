@@ -40,5 +40,12 @@ export function useDrawingTool(
       default:
         return null
     }
-  }, [toolName, color])
+  }, [
+    toolName,
+    color,
+    sharedState.circles,
+    sharedState.setCircles,
+    sharedState.setLines,
+    shouldFillCircle,
+  ])
 }

@@ -1,16 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ToastMessage from '@/common/ToastMessage'
-import { recruitApplicantsByStudy } from '@/data/recruitStatusData.ts'
-import { myCreatedStudies } from '@/data/mockData'
+import type { RecruitApplicant } from '@/types/Applicant'
 import type { Study } from '@/types/study'
 import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
 import LeaderMissionModal from '@/common/LeaderMissionModal'
 import MissionModal from '@/common/MissionModal'
 import TransientModal from '@/common/TransientModal'
 import RecruitStatusModal from '@/common/RecruitStatusModal'
+import MemberStatusModal from '@/common/MemberStatusModal'
 import StudyDismantle from '@/common/StudyDismantle.tsx'
+import { api } from '@/api/mainApi.ts'
+import type { AxiosError } from 'axios'
+import useDismantledStudiesStore from '@/store/useDismantledStudiesStore.ts'
+
+interface Member {
+  id: number
+  nickname: string
+  attendanceRate: number
+}
 
 export default function MyStudyCreatedPage() {
+  const [createdStudies, setCreatedStudies] = useState<Study[]>([])
   const [modalOpen, setModalOpen] = useState(false)
   const [isCommonModalOpen, setIsCommonModalOpen] = useState(false)
   const [isTransitionModalOpen, setIsTransitionModalOpen] = useState(false)
@@ -22,17 +32,102 @@ export default function MyStudyCreatedPage() {
   )
   // 스터디 해체 모달 상태
   const [isDismantleModalOpen, setIsDismantleModalOpen] = useState(false)
+  const [dismantleStudyId, setDismantleStudyId] = useState<number | null>(null)
+  // 멤버 현황 모달 상태
+  const [memberStatusModalStudyId, setMemberStatusModalStudyId] = useState<
+    number | null
+  >(null)
+  const [studyMembers, setStudyMembers] = useState<Member[]>([])
   // 추가: 모집 취소 모달 상태
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false)
   // Toast for member acceptance/rejection
   const [toastMessage, setToastMessage] = useState('')
   // 모집 지원자 상태 관리 (깊은 복사)
   const [recruitApplicantsByStudyState, setRecruitApplicantsByStudyState] =
-    useState(() => ({ ...recruitApplicantsByStudy }))
+    useState<Record<string, RecruitApplicant[]>>({})
+
+  const { dismantledStudyIds, clearDismantledStudies } =
+    useDismantledStudiesStore()
+
+  useEffect(() => {
+    clearDismantledStudies() // Clear on mount
+  }, [])
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    api
+      .get('/api/v1/my/studies/created', { signal: controller.signal })
+      .then((response) => {
+        const data: unknown = response.data
+        const items: Study[] = Array.isArray(data)
+          ? (data as Study[])
+          : data &&
+              typeof data === 'object' &&
+              Array.isArray((data as { items?: unknown }).items)
+            ? (data as { items: Study[] }).items
+            : ([] as Study[])
+        setCreatedStudies(
+          items.filter((study) => !dismantledStudyIds.includes(study.id))
+        )
+      })
+      .catch((_error: AxiosError<{ detail?: string }>) => {
+        // 무소음 실패 처리: UI는 비워둠
+        setCreatedStudies([])
+      })
+
+    return () => controller.abort()
+  }, [dismantledStudyIds])
+
+  useEffect(() => {
+    if (recruitModalStudyId === null) return
+
+    const controller = new AbortController()
+
+    api
+      .get(`/api/v1/studies/${recruitModalStudyId}/applicants`, {
+        signal: controller.signal,
+      })
+      .then((response) => {
+        const data: unknown = response.data
+        const items: RecruitApplicant[] = Array.isArray(data)
+          ? (data as RecruitApplicant[])
+          : []
+        setRecruitApplicantsByStudyState((prev) => ({
+          ...prev,
+          [recruitModalStudyId]: items,
+        }))
+      })
+      .catch((_error: AxiosError<{ detail?: string }>) => {
+        // 에러 처리
+      })
+
+    return () => controller.abort()
+  }, [recruitModalStudyId])
+
+  useEffect(() => {
+    if (memberStatusModalStudyId === null) return
+
+    const controller = new AbortController()
+
+    api
+      .get(`/api/v1/studies/${memberStatusModalStudyId}/members`, {
+        signal: controller.signal,
+      })
+      .then((response) => {
+        setStudyMembers(response.data)
+      })
+      .catch((_error: AxiosError<{ detail?: string }>) => {
+        // 에러 처리
+      })
+
+    return () => controller.abort()
+  }, [memberStatusModalStudyId])
+
   return (
     <div className="flex flex-col gap-[40px] mt-[72px] pl-[60px] pr-[40px]">
       <div className="grid grid-cols-3 gap-[2px]">
-        {myCreatedStudies.map((study: Study) => {
+        {createdStudies.map((study: Study) => {
           const isSingle = study.isSingleButton
           const isDefault = study.status === 'default'
 
@@ -50,7 +145,7 @@ export default function MyStudyCreatedPage() {
               : isDefault
                 ? '모집 취소'
                 : '스터디 해체'
-            rightText = '모집 현황'
+            rightText = isDefault ? '모집 현황' : '멤버 현황'
             isFullWidthSingleButton = false
           }
 
@@ -66,16 +161,19 @@ export default function MyStudyCreatedPage() {
                 } else if (leftText === '모집 취소') {
                   setIsCancelModalOpen(true)
                 } else if (leftText === '스터디 해체') {
+                  setDismantleStudyId(study.id)
                   setIsDismantleModalOpen(true)
                 } else {
                   alert(leftText)
                 }
               }}
-              onRightButtonClick={
-                rightText === '모집 현황'
-                  ? () => setRecruitModalStudyId(study.id)
-                  : undefined
-              }
+              onRightButtonClick={() => {
+                if (rightText === '모집 현황') {
+                  setRecruitModalStudyId(study.id)
+                } else if (rightText === '멤버 현황') {
+                  setMemberStatusModalStudyId(study.id)
+                }
+              }}
               isFullWidthSingleButton={isFullWidthSingleButton}
               showHeart={false}
             />
@@ -159,6 +257,13 @@ export default function MyStudyCreatedPage() {
           }}
         />
       )}
+      {memberStatusModalStudyId !== null && (
+        <MemberStatusModal
+          isOpen
+          onClose={() => setMemberStatusModalStudyId(null)}
+          members={studyMembers}
+        />
+      )}
       {/* 모집 취소 TransientModal 추가 */}
       {isCancelModalOpen && (
         <TransientModal
@@ -170,13 +275,32 @@ export default function MyStudyCreatedPage() {
 
       <StudyDismantle
         isOpen={isDismantleModalOpen}
-        onClose={() => setIsDismantleModalOpen(false)}
-        onSubmit={() => {
-          setIsTransitionLeaveModalOpen(true)
-        }}
-        onLeave={() => {
+        onClose={() => {
           setIsDismantleModalOpen(false)
+          setDismantleStudyId(null)
         }}
+        onSubmit={(reason: string, description: string) => {
+          if (dismantleStudyId === null) return
+
+          api
+            .delete(`/api/v1/studies/${dismantleStudyId}`, {
+              data: { reason, description },
+            })
+            .then(() => {
+              setCreatedStudies((prev) =>
+                prev.filter((study) => study.id !== dismantleStudyId)
+              )
+              setIsDismantleModalOpen(false)
+              setDismantleStudyId(null)
+              setIsTransitionLeaveModalOpen(true)
+            })
+            .catch((_error) => {
+              //void
+              // console.error('Error dismantling study:', error)
+              // Optionally, show an error message to the user
+            })
+        }}
+        onLeave={() => {}}
       />
 
       {isTransitionLeaveModalOpen && (
