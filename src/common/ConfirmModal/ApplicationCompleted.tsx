@@ -8,12 +8,14 @@ import ToastMessage from '@/common/ToastMessage.tsx'
 export interface ApplicationCompletedProps {
   isOpen: boolean
   onClose: () => void
+  onCancel: () => void
   queueNumber: number
 }
 
 export default function ApplicationCompleted({
   isOpen,
   onClose,
+  onCancel,
 }: ApplicationCompletedProps) {
   const [showToast, setShowToast] = useState(false)
   if (!isOpen) return null
@@ -54,7 +56,14 @@ export default function ApplicationCompleted({
           >
             알림 받기
           </CommonButton>
-          <CommonButton onClick={onClose} className="text-sm" variant="primary">
+          <CommonButton
+            onClick={() => {
+              onClose()
+              onCancel()
+            }}
+            className="text-sm"
+            variant="primary"
+          >
             신청 취소
           </CommonButton>
         </div>

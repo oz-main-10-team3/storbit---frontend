@@ -9,7 +9,8 @@ interface CommonModalProps {
   isOpen: boolean
   onClose: () => void
   type: 'underReview' | 'matchingComplete' | 'notApproved' | 'wait'
-  handleClick?: () => void
+  handleClick?: () => Promise<void> | void
+  onCancel?: () => Promise<void> | void
 }
 
 export default function ConfirmModal({
@@ -17,6 +18,7 @@ export default function ConfirmModal({
   onClose,
   type,
   handleClick,
+  onCancel,
 }: CommonModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -28,6 +30,7 @@ export default function ConfirmModal({
       subMessage: '스터디팀에서 검토중 입니다.',
       subMessage2: '조금만 기다리면 좋은 소식이 있을 거예요!',
       buttonText: '신청 취소',
+      onClick: onCancel || handleClick || onClose,
     },
     matchingComplete: {
       icon: <RiGroup3Line />,
@@ -111,7 +114,7 @@ export default function ConfirmModal({
           </div>
         </div>
         <button
-          onClick={handleClick || onClose}
+          onClick={handleClick || onClose || onCancel}
           className="bg-primary text-text3 text-[16px] w-full h-[48px] rounded-[4px] cursor-pointer"
         >
           {buttonText}

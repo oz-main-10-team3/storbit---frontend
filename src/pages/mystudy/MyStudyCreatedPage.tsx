@@ -51,7 +51,7 @@ export default function MyStudyCreatedPage() {
 
   useEffect(() => {
     clearDismantledStudies() // Clear on mount
-  }, [])
+  }, [clearDismantledStudies])
 
   useEffect(() => {
     const controller = new AbortController()

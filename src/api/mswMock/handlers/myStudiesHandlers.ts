@@ -20,6 +20,19 @@ interface StudyUpdateData {
 }
 
 export const myStudiesHandlers = [
+  http.delete('/api/v1/my/studies/applied/:studyId', ({ params }) => {
+    const { studyId } = params;
+    const id = Number(studyId);
+
+    const study = studyData.find((s) => s.id === id);
+
+    if (study) {
+      study.isApplied = false;
+      return HttpResponse.json({ message: 'Application canceled' });
+    } else {
+      return HttpResponse.json({ error: 'Study not found' }, { status: 404 });
+    }
+  }),
   http.get('/api/v1/my/studies/joined', () => {
     return HttpResponse.json(myJoinedStudies)
   }),
