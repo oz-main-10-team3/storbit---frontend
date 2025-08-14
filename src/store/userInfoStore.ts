@@ -6,7 +6,12 @@ type UserInfo = UserDataWithToken | KakaoUserData | null
 
 type UserInfoState = {
   userInfo: UserInfo
-  setUserInfo: (userInfo: UserInfo) => void
+  setUserInfo: (userInfo: {
+    id: number
+    nickname: string
+    profileUrl: string
+    email: string
+  }) => void
 }
 
 export const useUserInfo = create<UserInfoState>()(

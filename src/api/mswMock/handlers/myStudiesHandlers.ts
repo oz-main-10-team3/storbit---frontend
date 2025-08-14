@@ -8,6 +8,7 @@ import {
   studyData,
 } from '@/data/mockData'
 import { recruitApplicantsByStudy } from '@/data/recruitStatusData'
+import { appliedStudies } from '../MockData'
 
 interface StudyUpdateData {
   title: string
@@ -21,16 +22,16 @@ interface StudyUpdateData {
 
 export const myStudiesHandlers = [
   http.delete('/api/v1/my/studies/applied/:studyId', ({ params }) => {
-    const { studyId } = params;
-    const id = Number(studyId);
+    const { studyId } = params
+    const id = Number(studyId)
 
-    const study = studyData.find((s) => s.id === id);
+    const study = studyData.find((s) => s.id === id)
 
     if (study) {
-      study.isApplied = false;
-      return HttpResponse.json({ message: 'Application canceled' });
+      study.isApplied = false
+      return HttpResponse.json({ message: 'Application canceled' })
     } else {
-      return HttpResponse.json({ error: 'Study not found' }, { status: 404 });
+      return HttpResponse.json({ error: 'Study not found' }, { status: 404 })
     }
   }),
   http.get('/api/v1/my/studies/joined', () => {
@@ -150,4 +151,18 @@ export const myStudiesHandlers = [
       return HttpResponse.json({ detail: 'Leader delegated successfully' })
     }
   ),
+
+  http.post('/api/v1/studies/:studyId/apply', ({ params }) => {
+    const { studyId } = params
+    const id = Number(studyId)
+
+    const study = studyData.find((s) => s.id === id)
+
+    if (study) {
+      appliedStudies.push(study)
+      return HttpResponse.json({ message: 'Study application successful' })
+    } else {
+      return HttpResponse.json({ error: 'Study not found' }, { status: 404 })
+    }
+  }),
 ]

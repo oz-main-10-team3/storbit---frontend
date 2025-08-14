@@ -58,7 +58,6 @@ export default function MyStudyFavoritesPage() {
     api
       .patch(`/api/v1/studies/${id}/like`, { isLiked: liked })
       .catch((error: AxiosError<{ detail?: string }>) => {
-        // Rollback on failure and surface error without console
         setLikedStudies(snapshot)
         const status = error.response?.status
         if (!status) return
@@ -76,8 +75,25 @@ export default function MyStudyFavoritesPage() {
   }
 
   const handleSubmit = () => {
-    setIsApplyModalOpen(false)
-    setSelectedStudy(null)
+    if (!selectedStudy) return // Ensure selectedStudy is not null
+
+    api
+      .post(`/api/v1/studies/${selectedStudy.id}/apply`)
+      .then(() => {
+        setIsApplyModalOpen(false)
+        setSelectedStudy(null)
+        // Optionally, show a success message or refresh the liked studies list
+        // For now, just close the modal and clear selected study
+      })
+      .catch((error: AxiosError<{ detail?: string }>) => {
+        // console.error("Study application failed:", error);
+        // Handle error, e.g., show an error message to the user
+        setErrorMessage({
+          status: error.response?.status || 500,
+          message:
+            error.response?.data?.detail ?? '스터디 신청에 실패했습니다.',
+        })
+      })
   }
 
   return (
