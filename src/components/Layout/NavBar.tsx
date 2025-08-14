@@ -7,8 +7,8 @@ import { useUserInfo } from '@/store/userInfoStore'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 import NavbarUserInfoDropDown from '@/components/Layout/NavbarUserInfoDropDown'
 import { cn } from '@/utils/cn'
-import { api } from '@/api/mainApi'
-import axios from 'axios'
+// import { api } from '@/api/mainApi'
+// import axios from 'axios'
 
 export default function NavBar() {
   const userInfo = useUserInfo((state) => state.userInfo)
@@ -48,29 +48,33 @@ export default function NavBar() {
     }, 300)
   }
   const logout = async () => {
-    try {
-      const res = await api.post('/api/v1/auth/logout')
-      if (res.status === 200) {
-        useUserInfo.getState().setUserInfo(null)
-        setIsDropdownOpen(false)
-        navigate('/')
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const status = error.response?.status
-        const detail = error.response?.data?.detail
+    useUserInfo.getState().setUserInfo(null)
+    setIsDropdownOpen(false)
+    navigate('/')
 
-        if (status === 401) {
-          alert(detail || '인증 정보가 유효하지 않습니다. 다시 로그인해주세요.')
-          useUserInfo.getState().setUserInfo(null)
-          navigate('/login')
-        } else {
-          alert('알 수 없는 오류가 발생했습니다.')
-        }
-      } else {
-        alert('네트워크 오류 또는 서버 오류가 발생했습니다.')
-      }
-    }
+    // try {
+    //   const res = await api.post('/api/v1/auth/logout')
+    //   if (res.status === 200) {
+    //     useUserInfo.getState().setUserInfo(null)
+    //     setIsDropdownOpen(false)
+    //     navigate('/')
+    //   }
+    // } catch (error) {
+    //   if (axios.isAxiosError(error)) {
+    //     const status = error.response?.status
+    //     const detail = error.response?.data?.detail
+
+    //     if (status === 401) {
+    //       alert(detail || '인증 정보가 유효하지 않습니다. 다시 로그인해주세요.')
+    //       useUserInfo.getState().setUserInfo(null)
+    //       navigate('/login')
+    //     } else {
+    //       alert('알 수 없는 오류가 발생했습니다.')
+    //     }
+    //   } else {
+    //     alert('네트워크 오류 또는 서버 오류가 발생했습니다.')
+    //   }
+    // }
   }
 
   const navItemClass = 'transition-colors hover:text-[#8349FF] hover:font-bold'
@@ -118,7 +122,11 @@ export default function NavBar() {
                   className="flex items-center cursor-pointer"
                   onClick={() => setIsDropdownOpen((prev) => !prev)}
                 >
-                  <div>{userInfo.user?.nickname}</div>
+                  <div>
+                    {'kakao_id' in userInfo
+                      ? userInfo.nickname
+                      : userInfo.user?.nickname}
+                  </div>
                   {isDropdownOpen ? (
                     <MdKeyboardArrowUp size={20} />
                   ) : (

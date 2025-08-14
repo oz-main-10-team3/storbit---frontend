@@ -1,5 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { useUserInfo } from '@/store/userInfoStore'
+import defaultUserImg from '@/assets/images/default-profile.png'
+import { isKakaoUser } from '@/utils/isKakaoUser'
 
 const MENUITEMS = [
   { path: '/mypage/account', label: '계정 설정' },
@@ -18,33 +20,45 @@ const MENUITEMS = [
 export default function MypageSidebar() {
   const location = useLocation()
   const currentPath = location.pathname
-  const user = useUserInfo((state) => state.userInfo?.user)
+  const userInfo = useUserInfo((state) => state.userInfo)
 
   return (
     <div className="flex flex-col justify-start items-center gap-[45px] w-[272px] ml-[260px] mt-[88px]">
       <div className="flex flex-col items-center gap-[23px] w-full">
-        <div className="w-full flex justify-between gap-[20px]">
+        <div className="w-[272px] flex justify-between gap-[20px]">
           <img
-            src={user?.profile_image_url}
+            src={
+              isKakaoUser(userInfo)
+                ? userInfo.profile_image
+                : (userInfo?.user?.profile_image_url ?? defaultUserImg)
+            }
             alt="유저프로필이미지"
-            className="rounded-full w-[80px]"
+            className="w-[80px] h-[80px] shrink-0 object-cover rounded-full"
           />
-          <div className="flex flex-col justify-center text-left w-full">
-            <div className="text-[20px]">{user?.nickname}</div>
-            <div className="text-[15px] text-text4">{user?.email}</div>
+          <div className="flex flex-col justify-center w-full text-left">
+            <div className="text-[20px]">
+              {isKakaoUser(userInfo)
+                ? userInfo.nickname
+                : (userInfo?.user?.nickname ?? '닉네임')}
+            </div>
+            <div className="text-[15px] text-text4">
+              {isKakaoUser(userInfo)
+                ? userInfo.email
+                : (userInfo?.user?.email ?? '이메일')}
+            </div>
           </div>
         </div>
         <div className="flex w-full justify-around items-center text-[12px] h-[64px] border-primary border-[1px] px-[31px] rounded-[4px]">
           <div className="flex flex-col items-center justify-center">
             <div>총 공부시간</div>
-            <div className="text-text2 font-light">1234 시간</div>
+            <div className="font-light text-text2">1234 시간</div>
           </div>
           <div className="h-[26px] border-[0.5px] border-primary scale-x-50 origin-left">
             {/*세로줄 UI*/}
           </div>
           <div className="flex flex-col items-center justify-center">
             <div>참여한 스터디</div>
-            <div className="text-text2 font-light">99+</div>
+            <div className="font-light text-text2">99+</div>
           </div>
         </div>
       </div>

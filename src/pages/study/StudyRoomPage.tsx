@@ -15,6 +15,7 @@ import StudyRoomMessageInboxModal from '@/components/study/studyRoomPage/StudyRo
 import StudyRoomSendMessageModal from '@/components/study/studyRoomPage/StudyRoomSendMessageModal'
 import StudyRoomUserProfileModal from '@/components/study/studyRoomPage/StudyRoomUserProfileModal'
 import type { StudyCardDataType } from '@/types/StudyCardDataType'
+import { isKakaoUser } from '@/utils/isKakaoUser'
 
 const reportModalDropdownOption = [
   { label: '부적절한 스터디 내용', value: '1' },
@@ -28,7 +29,7 @@ const reportModalDropdownOption = [
 
 export default function StudyRoomPage() {
   const [isOpenTitleMenuModal, setIsOpenTitleMenuModal] = useState(false)
-  const [isReprotModalOpen, setReportModalOpen] = useState(false)
+  const [isReportModalOpen, setReportModalOpen] = useState(false)
   const [isDailyModalOpen, setIsDailyModalOpen] = useState(false)
   const [isMessageInboxModalOpen, setIsMessageInboxModalOpen] = useState(false)
   const [selectReportModalDropdownOption, setSelectReportModalDropdownOption] =
@@ -41,7 +42,7 @@ export default function StudyRoomPage() {
   const [selectedUserProfile, setSelectedUserProfile] =
     useState<StudyCardDataType | null>(null)
 
-  const user = useUserInfo((state) => state.userInfo?.user)
+  const userInfo = useUserInfo((state) => state.userInfo)
 
   useEffect(() => {
     if (roomId) {
@@ -75,7 +76,7 @@ export default function StudyRoomPage() {
             )}
             <CommonModal
               title="스터디 신고"
-              isOpen={isReprotModalOpen}
+              isOpen={isReportModalOpen}
               onClose={() => setReportModalOpen(false)}
               className="w-[560px] h-[598px] p-[40px]"
             >
@@ -121,7 +122,7 @@ export default function StudyRoomPage() {
                 onClose={() => setIsDailyModalOpen(false)}
                 title="데일리 미션"
                 subtitle={
-                  <p className="whitespace-pre-line text-sm text-text4 text-center">
+                  <p className="text-sm text-center whitespace-pre-line text-text4">
                     내가 오늘 꼭 달성하고 싶은 목표를 설정해주세요!
                     {'\n'}최대 5개까지 설정할 수 있습니다.
                   </p>
@@ -145,12 +146,20 @@ export default function StudyRoomPage() {
         </div>
         <div className="flex gap-[16px] items-center">
           <img
-            src={user?.profile_image_url ?? defaultUserImg}
+            src={
+              isKakaoUser(userInfo)
+                ? userInfo.profile_image
+                : (userInfo?.user?.profile_image_url ?? defaultUserImg)
+            }
             alt="유저프로피이미지"
-            className="rounded-full w-[64px]"
+            className="rounded-full w-[64px] h-[64px] shrink-0 object-cover"
           />
           <div className="flex gap-[8px] items-center">
-            <div className="text-[18px] text-text1">{user?.nickname}</div>
+            <div className="text-[18px] text-text1">
+              {isKakaoUser(userInfo)
+                ? userInfo.nickname
+                : (userInfo?.user?.nickname ?? '닉네임')}
+            </div>
             <CiMail
               size={20}
               className="text-[#bdbdbd] cursor-pointer"
