@@ -58,7 +58,7 @@ export default function LoginPage() {
         code: authorizationCode,
       })
       .then((res: AxiosResponse<KakaoUserData>) => {
-        alert(res)
+        alert(res.data)
         // console.log(res)
       })
   }
