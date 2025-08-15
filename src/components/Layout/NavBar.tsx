@@ -6,9 +6,6 @@ import CategoryMenu from '@/components/Layout/CategoryMenu'
 import { useUserInfo } from '@/store/userInfoStore'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 import NavbarUserInfoDropDown from '@/components/Layout/NavbarUserInfoDropDown'
-import { cn } from '@/utils/cn'
-import { api } from '@/api/mainApi'
-import axios from 'axios'
 import { HiMenu } from 'react-icons/hi' // 햄버거 메뉴 아이콘 추가
 
 export default function NavBar() {
