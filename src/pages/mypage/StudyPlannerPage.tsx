@@ -12,7 +12,6 @@ import DropDownCalendar from '@/components/mypage/studyPlannerPage/DropDownCalen
 import { useAttendanceCalendar } from '@/store/useAttendance'
 import { studyOptions } from '@/mystudymockdata/studyOptions'
 import { useUserInfo } from '@/store/userInfoStore'
-import { isKakaoUser } from '@/utils/isKakaoUser'
 
 const goalInProgresses = [
   { goal: '2025년 12월 토익 900점 목표', dDay: 365, progressDay: 256 },
@@ -50,7 +49,7 @@ export default function StudyPlannerPage() {
   return (
     <div className="w-[768px] mt-[88px] ml-[160px] pb-[20px]">
       <div className="text-[#121212] text-[24px]">
-        {`${isKakaoUser(userInfo) ? userInfo.nickname : userInfo?.user?.name}님의 스터디플랜`}
+        {`${userInfo?.nickname}님의 스터디플랜`}
       </div>
       <div className="flex flex-col gap-[16px] mt-[16px]">
         <div className="flex p-[20px] items-center justify-between w-full h-[64px] border-[1px] rounded-[8px] border-[#bdbdbd] font-light">

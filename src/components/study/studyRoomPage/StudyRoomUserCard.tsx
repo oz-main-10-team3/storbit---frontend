@@ -34,7 +34,7 @@ export default function StudyRoomUserCard({
     >
       <div className="flex gap-[16px]">
         <img
-          src={userProfile ?? defaultUserImg}
+          src={userProfile || defaultUserImg}
           alt="스터티개인프로필이미지"
           className="h-[41px] rounded-full cursor-pointer"
           onError={(e) => {

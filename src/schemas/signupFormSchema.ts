@@ -38,7 +38,7 @@ const signupFormSchema = Joi.object<SignupForm>({
         '비밀번호는 영문, 숫자, 특수문자를 포함한 8~20자여야 하며 공백이 없어야 합니다.',
     }),
 
-  gender: Joi.string().valid('남', '여').required().messages({
+  gender: Joi.string().valid('M', 'F').required().messages({
     'any.only': '성별은 남 또는 여만 선택 가능합니다.',
     'string.empty': '성별을 선택해주세요.',
   }),

@@ -4,5 +4,5 @@ export interface SignupForm {
   nickname: string
   phone_number: string
   password: string
-  gender: '남' | '여'
+  gender: 'M' | 'F'
 }

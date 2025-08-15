@@ -130,11 +130,7 @@ export default function NavBar() {
                   className="flex items-center cursor-pointer"
                   onClick={() => setIsDropdownOpen((prev) => !prev)}
                 >
-                  <div>
-                    {'kakao_id' in userInfo
-                      ? userInfo.nickname
-                      : userInfo.user?.nickname}
-                  </div>
+                  <div>{userInfo.nickname}</div>
                   {isDropdownOpen ? (
                     <MdKeyboardArrowUp size={20} />
                   ) : (

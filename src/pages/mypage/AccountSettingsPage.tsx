@@ -22,11 +22,7 @@ export default function AccountSettingsPage() {
     <div className="flex flex-col items-center justify-start bg-white mt-[88px] ml-[160px] pb-[20px]">
       <div className="flex flex-col items-center justify-center gap-[72px] self-start">
         <img
-          src={
-            isKakaoUser(userInfo)
-              ? userInfo.profile_image
-              : (userInfo?.user?.profile_image_url ?? defaultUserImg)
-          }
+          src={userInfo?.profile_image ?? defaultUserImg}
           alt="유저프로필이미지"
           className="rounded-full w-[96px] h-[96px] self-start object-cover"
         />
@@ -40,9 +36,7 @@ export default function AccountSettingsPage() {
               <InputField
                 className="w-full h-[48px] bg-disabled-fill placeholder:text-text4"
                 placeholder={
-                  isKakaoUser(userInfo)
-                    ? userInfo.nickname
-                    : (userInfo?.user?.name ?? '닉네임')
+                  isKakaoUser(userInfo) ? userInfo.nickname : userInfo?.fullname
                 }
                 type="text"
                 disabled
@@ -50,11 +44,7 @@ export default function AccountSettingsPage() {
 
               <InputField
                 className="w-full h-[48px] placeholder:text-text4 bg-disabled-fill"
-                placeholder={
-                  isKakaoUser(userInfo)
-                    ? userInfo.email
-                    : (userInfo?.user?.email ?? '이메일')
-                }
+                placeholder={userInfo?.email}
                 type="email"
                 disabled
               />
@@ -62,11 +52,7 @@ export default function AccountSettingsPage() {
               <div className="flex w-full gap-[4px]">
                 <InputField
                   className="w-[284px] h-[48px] placeholder:text-text4"
-                  placeholder={
-                    isKakaoUser(userInfo)
-                      ? userInfo.nickname
-                      : (userInfo?.user?.nickname ?? '닉네임')
-                  }
+                  placeholder={userInfo?.nickname}
                   type="text"
                 />
 
@@ -84,7 +70,7 @@ export default function AccountSettingsPage() {
                   placeholder={
                     isKakaoUser(userInfo)
                       ? (userInfo.phone ?? '')
-                      : userInfo?.user?.phone
+                      : userInfo?.phone_number
                   }
                   type="number"
                   disabled

@@ -1,6 +1,6 @@
 // utils/isAdmin.ts
-import type { UserDataWithToken } from '@/types/userData'
+import type { UserDataType } from '@/types/userData'
 
-export function isAdmin(user: UserDataWithToken | null): boolean {
-  return user?.user?.email === 'admin@admin.com' || user?.user?.user_id === 0
+export function isAdmin(user: UserDataType): boolean {
+  return user?.email === 'admin@admin.com'
 }
