@@ -4,9 +4,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaComment } from 'react-icons/fa'
 import { MdOutlineArrowForwardIos } from 'react-icons/md'
 import { useUserInfo } from '@/store/userInfoStore'
+import { isKakaoUser } from '@/utils/isKakaoUser'
+import defaultUserImg from '@/assets/images/default-profile.png'
 
 export default function AccountSettingsPage() {
-  const user = useUserInfo((state) => state.userInfo?.user)
+  const userInfo = useUserInfo((state) => state.userInfo)
 
   const navigate = useNavigate()
 
@@ -20,9 +22,13 @@ export default function AccountSettingsPage() {
     <div className="flex flex-col items-center justify-start bg-white mt-[88px] ml-[160px] pb-[20px]">
       <div className="flex flex-col items-center justify-center gap-[72px] self-start">
         <img
-          src={user?.profile_image_url}
+          src={
+            isKakaoUser(userInfo)
+              ? userInfo.profile_image
+              : (userInfo?.user?.profile_image_url ?? defaultUserImg)
+          }
           alt="유저프로필이미지"
-          className="rounded-full w-[96px] self-start"
+          className="rounded-full w-[96px] h-[96px] self-start object-cover"
         />
         <div className="flex flex-col items-center justify-center gap-[32px] w-[400px]">
           <div className="text-[24px] font-semibold self-start">회원정보</div>
@@ -33,14 +39,22 @@ export default function AccountSettingsPage() {
             <div className="flex flex-col pace-y-3 gap-[16px] w-full">
               <InputField
                 className="w-full h-[48px] bg-disabled-fill placeholder:text-text4"
-                placeholder={user?.name}
+                placeholder={
+                  isKakaoUser(userInfo)
+                    ? userInfo.nickname
+                    : (userInfo?.user?.name ?? '닉네임')
+                }
                 type="text"
                 disabled
               />
 
               <InputField
                 className="w-full h-[48px] placeholder:text-text4 bg-disabled-fill"
-                placeholder={user?.email}
+                placeholder={
+                  isKakaoUser(userInfo)
+                    ? userInfo.email
+                    : (userInfo?.user?.email ?? '이메일')
+                }
                 type="email"
                 disabled
               />
@@ -48,7 +62,11 @@ export default function AccountSettingsPage() {
               <div className="flex w-full gap-[4px]">
                 <InputField
                   className="w-[284px] h-[48px] placeholder:text-text4"
-                  placeholder={user?.nickname}
+                  placeholder={
+                    isKakaoUser(userInfo)
+                      ? userInfo.nickname
+                      : (userInfo?.user?.nickname ?? '닉네임')
+                  }
                   type="text"
                 />
 
@@ -63,7 +81,11 @@ export default function AccountSettingsPage() {
               <div className="flex w-full gap-[4px]">
                 <InputField
                   className="w-[284px] h-[48px] placeholder:text-text4 bg-disabled-fill"
-                  placeholder={user?.phone}
+                  placeholder={
+                    isKakaoUser(userInfo)
+                      ? (userInfo.phone ?? '')
+                      : userInfo?.user?.phone
+                  }
                   type="number"
                   disabled
                 />

@@ -8,6 +8,7 @@ import { api, mainApi } from '@/api/mainApi'
 import { useUserInfo } from '@/store/userInfoStore'
 import type { AxiosError, AxiosResponse } from 'axios'
 import type { ErrorMessage } from '@/types/errorMessage'
+import { isKakaoUser } from '@/utils/isKakaoUser'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -58,8 +59,10 @@ export default function LoginPage() {
         code: authorizationCode,
       })
       .then((res: AxiosResponse<KakaoUserData>) => {
-        alert(res)
-        // console.log(res)
+        if (isKakaoUser(res.data)) {
+          setUserInfo(res.data)
+          navigate('/')
+        }
       })
   }
 
