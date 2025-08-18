@@ -15,7 +15,6 @@ import StudyRoomMessageInboxModal from '@/components/study/studyRoomPage/StudyRo
 import StudyRoomSendMessageModal from '@/components/study/studyRoomPage/StudyRoomSendMessageModal'
 import StudyRoomUserProfileModal from '@/components/study/studyRoomPage/StudyRoomUserProfileModal'
 import type { StudyCardDataType } from '@/types/StudyCardDataType'
-import { isKakaoUser } from '@/utils/isKakaoUser'
 
 const reportModalDropdownOption = [
   { label: '부적절한 스터디 내용', value: '1' },
@@ -146,19 +145,13 @@ export default function StudyRoomPage() {
         </div>
         <div className="flex gap-[16px] items-center">
           <img
-            src={
-              isKakaoUser(userInfo)
-                ? userInfo.profile_image
-                : (userInfo?.user?.profile_image_url ?? defaultUserImg)
-            }
-            alt="유저프로피이미지"
+            src={userInfo?.profile_image || defaultUserImg}
+            alt={`${userInfo?.nickname} 유저 프로필이미지`}
             className="rounded-full w-[64px] h-[64px] shrink-0 object-cover"
           />
           <div className="flex gap-[8px] items-center">
             <div className="text-[18px] text-text1">
-              {isKakaoUser(userInfo)
-                ? userInfo.nickname
-                : (userInfo?.user?.nickname ?? '닉네임')}
+              {userInfo?.nickname ?? '닉네임'}
             </div>
             <CiMail
               size={20}

@@ -17,6 +17,7 @@ jobs:
           echo "VITE_KAKAO_CLIENT_ID=${{ secrets.VITE_KAKAO_CLIENT_ID }}" >> .env.production
           echo "VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }}" >> .env.production
           echo "VITE_API_MAIN_URL=${{ secrets.VITE_API_MAIN_URL }}" >> .env.production
+          echo "VITE_ADMIN_EMAILS=${{ secrets.VITE_ADMIN_EMAILS}}" >> .env.production
 
       - name: 의존성 설치
         run: npm i

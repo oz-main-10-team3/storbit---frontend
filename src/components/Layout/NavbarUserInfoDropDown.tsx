@@ -2,7 +2,7 @@ import { useUserInfo } from '@/store/userInfoStore'
 import { Link, useNavigate } from 'react-router-dom'
 import { CiMail } from 'react-icons/ci'
 import CommonButton from '@/common/CommonButton'
-import { isKakaoUser } from '@/utils/isKakaoUser'
+import defaultUserImg from '@/assets/images/default-profile.png'
 
 export default function NavbarUserInfoDropDown({
   setIsDropdownOpen,
@@ -21,20 +21,12 @@ export default function NavbarUserInfoDropDown({
           <div className="flex items-center gap-[8px]">
             <img
               className="w-[56px] h-[56px] rounded-full shrink-0 object-cover"
-              src={
-                isKakaoUser(userInfo)
-                  ? userInfo.profile_image
-                  : userInfo.user?.profile_image_url
-              }
-              alt={`${isKakaoUser(userInfo) ? userInfo.nickname : userInfo.user?.name}의 프로필 이미지`}
+              src={userInfo.profile_image || defaultUserImg}
+              alt={`${userInfo.nickname}의 프로필 이미지`}
             />
             <div>
               <div className="flex items-center justify-between">
-                <div className="text-[15px]">
-                  {isKakaoUser(userInfo)
-                    ? userInfo.nickname
-                    : userInfo.user?.nickname}
-                </div>
+                <div className="text-[15px]">{userInfo.nickname}</div>
                 <Link
                   to="/mypage/messages/inbox"
                   className="cursor-pointer"
@@ -43,9 +35,7 @@ export default function NavbarUserInfoDropDown({
                   <CiMail />
                 </Link>
               </div>
-              <div className="text-[12px] text-text4">
-                {isKakaoUser(userInfo) ? userInfo.email : userInfo.user?.email}
-              </div>
+              <div className="text-[12px] text-text4">{userInfo.email}</div>
             </div>
           </div>
           <CommonButton

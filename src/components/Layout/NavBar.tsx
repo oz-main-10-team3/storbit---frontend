@@ -130,11 +130,7 @@ export default function NavBar() {
                   className="flex items-center cursor-pointer"
                   onClick={() => setIsDropdownOpen((prev) => !prev)}
                 >
-                  <div>
-                    {'kakao_id' in userInfo
-                      ? userInfo.nickname
-                      : userInfo.user?.nickname}
-                  </div>
+                  <div>{userInfo.nickname}</div>
                   {isDropdownOpen ? (
                     <MdKeyboardArrowUp size={20} />
                   ) : (
@@ -272,7 +268,7 @@ export default function NavBar() {
                 </li>
                 <li>
                   <Link to="#" onClick={handleMobileMenuToggle}>
-                    {userInfo.user?.nickname} 님
+                    {userInfo.nickname} 님
                   </Link>
                 </li>
               </>

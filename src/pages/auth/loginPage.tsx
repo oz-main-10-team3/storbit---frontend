@@ -3,8 +3,8 @@ import InputField from '@/common/InputField'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import CommonButton from '@/common/CommonButton'
-import type { KakaoUserData, UserDataWithToken } from '@/types/userData'
-import { api, mainApi } from '@/api/mainApi'
+import type { EmailUserType, KakaoUserType } from '@/types/userData'
+import { mainApi } from '@/api/mainApi'
 import { useUserInfo } from '@/store/userInfoStore'
 import type { AxiosError, AxiosResponse } from 'axios'
 import type { ErrorMessage } from '@/types/errorMessage'
@@ -19,13 +19,13 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const res = await api.post('/api/v1/auth/login/', {
+      const res = await mainApi.post('/api/auth/login/', {
         email,
         password,
       })
 
       if (!!res && res.status === 200) {
-        const userData: UserDataWithToken = res.data
+        const userData: EmailUserType = res.data
 
         setUserInfo(userData)
         navigate('/')
@@ -55,10 +55,10 @@ export default function LoginPage() {
 
   const getKakaoUserInfo = async (authorizationCode: string) => {
     mainApi
-      .post<KakaoUserData>(`api/auth/kakao/login/`, {
+      .post<KakaoUserType>(`api/auth/kakao/login/`, {
         code: authorizationCode,
       })
-      .then((res: AxiosResponse<KakaoUserData>) => {
+      .then((res: AxiosResponse<KakaoUserType>) => {
         if (isKakaoUser(res.data)) {
           setUserInfo(res.data)
           navigate('/')

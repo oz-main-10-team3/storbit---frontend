@@ -1,6 +1,6 @@
-import type { UserDataWithToken } from '@/types/userData'
+import type { UserDataType } from '@/types/userData'
+import { isKakaoUser } from '@/utils/isKakaoUser'
 import axios from 'axios'
-// import { localStorageUtils } from '../utilities/localStorage'
 
 const BASE_URL = 'http://localhost:5173'
 const API_MAIN_URL = import.meta.env.VITE_API_MAIN_URL
@@ -29,10 +29,19 @@ api.interceptors.request.use(
       const userInfo = localStorage.getItem('userInfo')
 
       if (userInfo) {
-        const parsed = JSON.parse(userInfo) as {
-          state?: { userInfo?: UserDataWithToken }
+        const { state } = JSON.parse(userInfo) as {
+          state?: { userInfo?: UserDataType }
         }
-        const token = parsed?.state?.userInfo?.access_token
+        const user = state?.userInfo
+        if (!user) return config // 로그인 안 된 경우
+
+        let token: string | undefined
+
+        if (isKakaoUser(user)) {
+          token = user.access_token
+        } else {
+          token = user.access
+        }
 
         if (token) {
           // console.log('✅ Access Token:', token)
@@ -66,10 +75,19 @@ mainApi.interceptors.request.use(
       const userInfo = localStorage.getItem('userInfo')
 
       if (userInfo) {
-        const parsed = JSON.parse(userInfo) as {
-          state?: { userInfo?: UserDataWithToken }
+        const { state } = JSON.parse(userInfo) as {
+          state?: { userInfo?: UserDataType }
         }
-        const token = parsed?.state?.userInfo?.access_token
+        const user = state?.userInfo
+        if (!user) return config // 로그인 안 된 경우
+
+        let token: string | undefined
+
+        if (isKakaoUser(user)) {
+          token = user.access_token
+        } else {
+          token = user.access
+        }
 
         if (token) {
           // console.log('✅ Access Token:', token)

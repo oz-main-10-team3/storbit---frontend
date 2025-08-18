@@ -65,7 +65,7 @@ export default function AdminNavBar() {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-[12px] text-gray-300">
-            {userInfo?.user?.nickname || '스토빗관리자'}
+            {userInfo?.nickname || '스토빗관리자'}
           </span>
           <button
             onClick={logout}

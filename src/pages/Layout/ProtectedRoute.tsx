@@ -1,4 +1,5 @@
 import { useUserInfo } from '@/store/userInfoStore'
+import { getAccessToken } from '@/utils/getAccessToken'
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 // import { Navigate } from 'react-router-dom'
@@ -10,7 +11,7 @@ export default function ProtectedRoute({
 }) {
   const userInfo = useUserInfo((state) => state.userInfo)
   const [showAlert, setShowAlert] = useState(false)
-  if (userInfo && userInfo.access_token) {
+  if (getAccessToken(userInfo)) {
     return children
   }
   if (!showAlert) {

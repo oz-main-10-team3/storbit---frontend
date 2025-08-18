@@ -27,11 +27,7 @@ export default function MypageSidebar() {
       <div className="flex flex-col items-center gap-[23px] w-full">
         <div className="w-[272px] flex justify-between gap-[20px]">
           <img
-            src={
-              isKakaoUser(userInfo)
-                ? userInfo.profile_image
-                : (userInfo?.user?.profile_image_url ?? defaultUserImg)
-            }
+            src={userInfo?.profile_image || defaultUserImg}
             alt="유저프로필이미지"
             className="w-[80px] h-[80px] shrink-0 object-cover rounded-full"
           />
@@ -39,12 +35,12 @@ export default function MypageSidebar() {
             <div className="text-[20px]">
               {isKakaoUser(userInfo)
                 ? userInfo.nickname
-                : (userInfo?.user?.nickname ?? '닉네임')}
+                : (userInfo?.nickname ?? '닉네임')}
             </div>
             <div className="text-[15px] text-text4">
               {isKakaoUser(userInfo)
                 ? userInfo.email
-                : (userInfo?.user?.email ?? '이메일')}
+                : (userInfo?.email ?? '이메일')}
             </div>
           </div>
         </div>
