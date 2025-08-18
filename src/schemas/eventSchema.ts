@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from 'joi'
 
 export const eventSchema = Joi.object({
   title: Joi.string().min(2).max(100).required().messages({
@@ -34,4 +34,4 @@ export const eventSchema = Joi.object({
     'array.max': '이미지는 최대 10개까지 등록 가능합니다.',
     'string.empty': '이미지 경로를 입력해주세요.',
   }),
-});
+})

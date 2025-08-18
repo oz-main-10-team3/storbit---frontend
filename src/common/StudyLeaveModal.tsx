@@ -35,7 +35,7 @@ export default function StudyLeaveModal({
   useEffect(() => {
     const { error } = studyLeaveSchema.validate(
       { reason: reason2, description },
-      { abortEarly: false },
+      { abortEarly: false }
     )
     if (error) {
       const newErrors: { [key: string]: string } = {}

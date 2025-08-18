@@ -132,8 +132,16 @@ export function EventForm({
           placeholder="이벤트 제목을 작성해주세요"
           className="w-[800px] h-[48px] text-base border rounded-md px-4"
         />
-        <p className={`text-red-500 text-xs mt-1 ${!errors.title ? 'invisible' : ''}`}>{errors.title}</p>
-        <p className={`text-green-500 text-xs mt-1 ${!success.title ? 'invisible' : ''}`}>{success.title}</p>
+        <p
+          className={`text-red-500 text-xs mt-1 ${!errors.title ? 'invisible' : ''}`}
+        >
+          {errors.title}
+        </p>
+        <p
+          className={`text-green-500 text-xs mt-1 ${!success.title ? 'invisible' : ''}`}
+        >
+          {success.title}
+        </p>
       </div>
 
       {/* 유형 + 날짜 + 상태 */}
@@ -192,14 +200,46 @@ export function EventForm({
         </div>
       </div>
       <div className="flex flex-col gap-1 mb-8">
-        <p className={`text-red-500 text-xs ${!errors.type ? 'invisible' : ''}`}>{errors.type}</p>
-        <p className={`text-green-500 text-xs ${!success.type ? 'invisible' : ''}`}>{success.type}</p>
-        <p className={`text-red-500 text-xs ${!errors.startDate ? 'invisible' : ''}`}>{errors.startDate}</p>
-        <p className={`text-green-500 text-xs ${!success.startDate ? 'invisible' : ''}`}>{success.startDate}</p>
-        <p className={`text-red-500 text-xs ${!errors.endDate ? 'invisible' : ''}`}>{errors.endDate}</p>
-        <p className={`text-green-500 text-xs ${!success.endDate ? 'invisible' : ''}`}>{success.endDate}</p>
-        <p className={`text-red-500 text-xs ${!errors.status ? 'invisible' : ''}`}>{errors.status}</p>
-        <p className={`text-green-500 text-xs ${!success.status ? 'invisible' : ''}`}>{success.status}</p>
+        <p
+          className={`text-red-500 text-xs ${!errors.type ? 'invisible' : ''}`}
+        >
+          {errors.type}
+        </p>
+        <p
+          className={`text-green-500 text-xs ${!success.type ? 'invisible' : ''}`}
+        >
+          {success.type}
+        </p>
+        <p
+          className={`text-red-500 text-xs ${!errors.startDate ? 'invisible' : ''}`}
+        >
+          {errors.startDate}
+        </p>
+        <p
+          className={`text-green-500 text-xs ${!success.startDate ? 'invisible' : ''}`}
+        >
+          {success.startDate}
+        </p>
+        <p
+          className={`text-red-500 text-xs ${!errors.endDate ? 'invisible' : ''}`}
+        >
+          {errors.endDate}
+        </p>
+        <p
+          className={`text-green-500 text-xs ${!success.endDate ? 'invisible' : ''}`}
+        >
+          {success.endDate}
+        </p>
+        <p
+          className={`text-red-500 text-xs ${!errors.status ? 'invisible' : ''}`}
+        >
+          {errors.status}
+        </p>
+        <p
+          className={`text-green-500 text-xs ${!success.status ? 'invisible' : ''}`}
+        >
+          {success.status}
+        </p>
       </div>
 
       {/* 썸네일 */}
@@ -241,8 +281,16 @@ export function EventForm({
             이미지 찾기
           </label>
         </div>
-        <p className={`text-red-500 text-xs mt-1 ${!errors.thumbnailUrl ? 'invisible' : ''}`}>{errors.thumbnailUrl}</p>
-        <p className={`text-green-500 text-xs mt-1 ${!success.thumbnailUrl ? 'invisible' : ''}`}>{success.thumbnailUrl}</p>
+        <p
+          className={`text-red-500 text-xs mt-1 ${!errors.thumbnailUrl ? 'invisible' : ''}`}
+        >
+          {errors.thumbnailUrl}
+        </p>
+        <p
+          className={`text-green-500 text-xs mt-1 ${!success.thumbnailUrl ? 'invisible' : ''}`}
+        >
+          {success.thumbnailUrl}
+        </p>
       </div>
 
       {/* 이미지 추가 */}
@@ -277,8 +325,16 @@ export function EventForm({
             </label>
           </div>
         ))}
-        <p className={`text-red-500 text-xs mt-1 ${!errors.images ? 'invisible' : ''}`}>{errors.images}</p>
-        <p className={`text-green-500 text-xs mt-1 ${!success.images ? 'invisible' : ''}`}>{success.images}</p>
+        <p
+          className={`text-red-500 text-xs mt-1 ${!errors.images ? 'invisible' : ''}`}
+        >
+          {errors.images}
+        </p>
+        <p
+          className={`text-green-500 text-xs mt-1 ${!success.images ? 'invisible' : ''}`}
+        >
+          {success.images}
+        </p>
         {form.images.length < 10 && (
           <div className="w-full flex justify-center mt-6">
             <button

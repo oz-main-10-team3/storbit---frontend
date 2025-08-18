@@ -9,7 +9,7 @@ const isValidStatus = (status: string): status is Study['status'] =>
   ['default', '매칭 완료', '미승인', '검토중', '대기'].includes(status)
 
 // rawData를 가공하여 유효한 스터디 데이터만 필터링 후 정리
-export let studyData: Study[] = rawData
+export const studyData: Study[] = rawData
   .filter((item) => isValidStatus(item.status)) // status가 유효한 것만 추림
   .map(
     (item) =>
@@ -73,8 +73,6 @@ export const updateMockData = () => {
   createdStudyIdsByLeader = myCreatedStudies.map((study) => study.id)
   myLikedStudies = studyData.filter(
     (study) =>
-      study.isLiked &&
-      study.userId !== currentUserId &&
-      !study.isApplied
+      study.isLiked && study.userId !== currentUserId && !study.isApplied
   )
 }

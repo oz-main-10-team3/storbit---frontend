@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from 'joi'
 
 export const studyDismantleSchema = Joi.object({
   reason: Joi.string().required().messages({
@@ -11,4 +11,4 @@ export const studyDismantleSchema = Joi.object({
     'string.max': '상세 설명은 최대 500자 이하이어야 합니다.',
     'any.required': '상세 설명을 입력해주세요.',
   }),
-});
+})

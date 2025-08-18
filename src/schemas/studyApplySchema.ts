@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from 'joi'
 
 export const studyApplySchema = Joi.object({
   level: Joi.string().required().messages({
@@ -11,4 +11,4 @@ export const studyApplySchema = Joi.object({
     'string.max': '자기소개는 최대 500자 이하이어야 합니다.',
     'any.required': '자기소개를 입력해주세요.',
   }),
-});
+})

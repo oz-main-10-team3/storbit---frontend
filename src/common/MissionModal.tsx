@@ -181,7 +181,9 @@ export default function MissionModal({
                     ? 'disabled'
                     : 'primary'
                 }
-                disabled={missions.length >= 5 || !!errors.new || !newMission.trim()}
+                disabled={
+                  missions.length >= 5 || !!errors.new || !newMission.trim()
+                }
               >
                 + 추가
               </CommonButton>

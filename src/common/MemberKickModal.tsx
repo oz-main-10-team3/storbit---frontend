@@ -33,7 +33,7 @@ export default function MemberKickModal({
   const validate = () => {
     const { error } = memberKickSchema.validate(
       { reason, description },
-      { abortEarly: false },
+      { abortEarly: false }
     )
     if (error) {
       const newErrors: { [key: string]: string } = {}

@@ -31,7 +31,7 @@ export function StudyApplyModal({
   useEffect(() => {
     const { error } = studyApplySchema.validate(
       { level: selectedLevel, introduction },
-      { abortEarly: false },
+      { abortEarly: false }
     )
     if (error) {
       const newErrors: { [key: string]: string } = {}
@@ -49,7 +49,8 @@ export function StudyApplyModal({
     }
   }, [selectedLevel, introduction])
 
-  const isDisabled = Object.keys(errors).length > 0 || !selectedLevel || !introduction
+  const isDisabled =
+    Object.keys(errors).length > 0 || !selectedLevel || !introduction
 
   return (
     <CommonModal
@@ -94,8 +95,12 @@ export function StudyApplyModal({
             placeholder="자신의 레벨을 선택해주세요"
           />
         </div>
-        {errors.level && <p className="text-red-500 text-xs ml-24">{errors.level}</p>}
-        {success.level && <p className="text-green-500 text-xs ml-24">{success.level}</p>}
+        {errors.level && (
+          <p className="text-red-500 text-xs ml-24">{errors.level}</p>
+        )}
+        {success.level && (
+          <p className="text-green-500 text-xs ml-24">{success.level}</p>
+        )}
         {/* 소개 작성 */}
         <div className="flex flex-col gap-1 text-sm font-semibold text-text1">
           <label className="flex items-center gap-[2px]">
@@ -108,8 +113,12 @@ export function StudyApplyModal({
             onChange={(e) => setIntroduction(e.target.value)}
           />
         </div>
-        {errors.introduction && <p className="text-red-500 text-xs">{errors.introduction}</p>}
-        {success.introduction && <p className="text-green-500 text-xs">{success.introduction}</p>}
+        {errors.introduction && (
+          <p className="text-red-500 text-xs">{errors.introduction}</p>
+        )}
+        {success.introduction && (
+          <p className="text-green-500 text-xs">{success.introduction}</p>
+        )}
         <CommonButton
           className="w-full h-11 text-sm font-semibold"
           disabled={isDisabled}

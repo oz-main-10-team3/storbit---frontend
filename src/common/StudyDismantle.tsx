@@ -34,7 +34,7 @@ export default function StudyDismantle({
   const validate = () => {
     const { error } = studyDismantleSchema.validate(
       { reason, description },
-      { abortEarly: false },
+      { abortEarly: false }
     )
     if (error) {
       const newErrors: { [key: string]: string } = {}
