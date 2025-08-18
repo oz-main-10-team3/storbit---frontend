@@ -21,3 +21,5 @@ export interface KakaoUserData extends UserDataWithToken {
   email: string
   profile_image: string
 }
+
+export type UserInfo = UserDataWithToken | KakaoUserData | null
