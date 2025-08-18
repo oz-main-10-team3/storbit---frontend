@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CommonModal from '@/common/CommonModal.tsx'
 import Dropdown from '@/common/DropDown.tsx'
 import CommonButton from '@/common/CommonButton.tsx'
+import { studyDismantleSchema } from '@/schemas/studyDismantleSchema'
 
 interface studyDismantleProps {
   isOpen: boolean
@@ -24,18 +25,45 @@ export default function StudyDismantle({
   isOpen,
   onClose,
   onSubmit,
-  onLeave,
 }: studyDismantleProps) {
   const [reason, setReason] = useState<string>()
   const [description, setDescription] = useState('')
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [success, setSuccess] = useState<{ [key: string]: string }>({})
+
+  const validate = () => {
+    const { error } = studyDismantleSchema.validate(
+      { reason, description },
+      { abortEarly: false },
+    )
+    if (error) {
+      const newErrors: { [key: string]: string } = {}
+      error.details.forEach((detail) => {
+        newErrors[detail.path[0]] = detail.message
+      })
+      setErrors(newErrors)
+      setSuccess({})
+    } else {
+      setErrors({})
+      const newSuccess: { [key: string]: string } = {}
+      if (reason) newSuccess.reason = '성공적으로 선택되었습니다.'
+      if (description) newSuccess.description = '성공적으로 입력되었습니다.'
+      setSuccess(newSuccess)
+    }
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      validate()
+    }
+  }, [reason, description, isOpen, validate])
 
   const handleSubmit = () => {
+    if (Object.keys(errors).length > 0) return
     if (!reason || !description.trim()) return
     onSubmit(reason, description.trim())
     setReason(undefined)
     setDescription('')
-    onLeave()
-    onClose()
   }
 
   return (
@@ -61,10 +89,16 @@ export default function StudyDismantle({
         selected={reason}
         onChange={(value) => setReason(value)}
         placeholder="선택해 주세요"
-        className="mb-6 w-[276px]"
+        className="mb-1 w-[276px]"
       />
+      {errors.reason && (
+        <p className="text-red-500 text-xs mb-4">{errors.reason}</p>
+      )}
+      {success.reason && (
+        <p className="text-green-500 text-xs mb-4">{success.reason}</p>
+      )}
 
-      <div className="mb-6">
+      <div className="mb-1">
         <label className="block text-sm font-medium mb-1">
           상세 설명<span className="text-alertText">*</span>
         </label>
@@ -75,12 +109,22 @@ export default function StudyDismantle({
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+      {errors.description && (
+        <p className="text-red-500 text-xs mb-4">{errors.description}</p>
+      )}
+      {success.description && (
+        <p className="text-green-500 text-xs mb-4">{success.description}</p>
+      )}
 
       <CommonButton
         onClick={handleSubmit}
-        disabled={!reason || description.trim() === ''}
-        className="w-full"
-        variant={!reason || description.trim() === '' ? 'disabled' : 'primary'}
+        disabled={Object.keys(errors).length > 0 || !reason || !description}
+        className="w-full mt-6"
+        variant={
+          Object.keys(errors).length > 0 || !reason || !description
+            ? 'disabled'
+            : 'primary'
+        }
       >
         해체 하기
       </CommonButton>

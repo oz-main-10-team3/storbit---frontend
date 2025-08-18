@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import CommonModal from '@/common/CommonModal'
 import Dropdown from '@/common/DropDown'
 import CommonButton from '@/common/CommonButton'
+import { studyLeaveSchema } from '@/schemas/studyLeaveSchema'
 
 interface StudyLeaveModalProps {
   isOpen: boolean
@@ -28,8 +29,32 @@ export default function StudyLeaveModal({
 }: StudyLeaveModalProps) {
   const [reason2, setReason2] = useState<string>()
   const [description, setDescription] = useState('')
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [success, setSuccess] = useState<{ [key: string]: string }>({})
+
+  useEffect(() => {
+    const { error } = studyLeaveSchema.validate(
+      { reason: reason2, description },
+      { abortEarly: false },
+    )
+    if (error) {
+      const newErrors: { [key: string]: string } = {}
+      error.details.forEach((detail) => {
+        newErrors[detail.path[0]] = detail.message
+      })
+      setErrors(newErrors)
+      setSuccess({})
+    } else {
+      setErrors({})
+      const newSuccess: { [key: string]: string } = {}
+      if (reason2) newSuccess.reason = '성공적으로 선택되었습니다.'
+      if (description) newSuccess.description = '성공적으로 입력되었습니다.'
+      setSuccess(newSuccess)
+    }
+  }, [reason2, description])
 
   const handleSubmit = () => {
+    if (Object.keys(errors).length > 0) return
     if (!reason2 || !description.trim()) return
     onSubmit(reason2, description.trim())
     setReason2(undefined)
@@ -61,10 +86,16 @@ export default function StudyLeaveModal({
         selected={reason2}
         onChange={(value) => setReason2(value)}
         placeholder="선택해 주세요"
-        className="mb-6 w-[276px]"
+        className="mb-1 w-[276px]"
       />
+      {errors.reason && (
+        <p className="text-red-500 text-xs mb-4">{errors.reason}</p>
+      )}
+      {success.reason && (
+        <p className="text-green-500 text-xs mb-4">{success.reason}</p>
+      )}
 
-      <div className="mb-6">
+      <div className="mb-1">
         <label className="block text-sm font-medium mb-1">
           탈퇴 설명<span className="text-alertText">*</span>
         </label>
@@ -75,12 +106,22 @@ export default function StudyLeaveModal({
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+      {errors.description && (
+        <p className="text-red-500 text-xs mb-4">{errors.description}</p>
+      )}
+      {success.description && (
+        <p className="text-green-500 text-xs mb-4">{success.description}</p>
+      )}
 
       <CommonButton
         onClick={handleSubmit}
-        disabled={!reason2 || description.trim() === ''}
-        className="w-full"
-        variant={!reason2 || description.trim() === '' ? 'disabled' : 'primary'}
+        disabled={Object.keys(errors).length > 0 || !reason2 || !description}
+        className="w-full mt-6"
+        variant={
+          Object.keys(errors).length > 0 || !reason2 || !description
+            ? 'disabled'
+            : 'primary'
+        }
       >
         탈퇴 하기
       </CommonButton>

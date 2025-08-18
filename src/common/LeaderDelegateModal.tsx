@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CommonModal from '@/common/CommonModal'
 import CommonButton from '@/common/CommonButton'
 import DropDown from '@/common/DropDown'
+import { leaderDelegateSchema } from '@/schemas/leaderDelegateSchema'
 
 const reasons = [
   {
@@ -37,6 +38,32 @@ export default function LeaderDelegateModal({
   onSubmit,
 }: LeaderDelegateModalProps) {
   const [selectedReason, setSelectedReason] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (selectedReason) {
+      const { error } = leaderDelegateSchema.validate({
+        reason: selectedReason,
+      })
+      if (error) {
+        setError(error.details[0].message)
+        setSuccess(null)
+      } else {
+        setError(null)
+        setSuccess('성공적으로 선택되었습니다.')
+      }
+    } else {
+      setError(null)
+      setSuccess(null)
+    }
+  }, [selectedReason])
+
+  const handleSubmit = () => {
+    if (!error && selectedReason) {
+      onSubmit(selectedReason)
+    }
+  }
 
   return (
     <CommonModal
@@ -62,11 +89,14 @@ export default function LeaderDelegateModal({
             onChange={setSelectedReason}
             className="text-[15px] w-[320px] h-[48px] m-3 "
           />
+          {error && <p className="text-red-500 text-xs ml-3">{error}</p>}
+          {success && <p className="text-green-500 text-xs ml-3">{success}</p>}
         </div>
         <CommonButton
-          className="w-[320px] h-[48px] text-[16px] font-semibold bg-[#A259FF] text-white"
-          onClick={() => selectedReason && onSubmit(selectedReason)}
-          disabled={!selectedReason}
+          className="w-[320px] h-[48px] text-[16px] font-semibold "
+          onClick={handleSubmit}
+          disabled={!!error || !selectedReason}
+          variant={!!error || !selectedReason ? 'disabled' : 'primary'}
         >
           위임 하기
         </CommonButton>

@@ -19,6 +19,7 @@ interface CommonModalProps {
     | 'allMessageDelete'
     | 'messageResend'
     | 'messageDelete'
+    | 'saveSuccess'
   autoCloseDelay?: number // 초 단위, 기본값은 5초
 }
 
@@ -67,6 +68,11 @@ const MODAL_CONFIG = {
     icon: <AiOutlineExclamationCircle />,
     title: '쪽지 삭제완료',
     message: '한번 삭제되면 다시 되돌릴 수 없어요',
+  },
+  saveSuccess: {
+    icon: <AiOutlineCheckCircle />,
+    title: '저장 완료',
+    message: '변경사항이 성공적으로 저장되었어요.',
   },
 } as const
 

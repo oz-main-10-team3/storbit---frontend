@@ -1,7 +1,8 @@
 import CommonModal from '@/common/CommonModal'
 import CommonButton from '@/common/CommonButton'
 import Dropdown from '@/common/DropDown'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { memberKickSchema } from '@/schemas/memberKickSchema'
 
 const KICK_REASONS = [
   { label: '지속적인 무단 불참', value: '지속적 무단 불참' },
@@ -26,9 +27,39 @@ export default function MemberKickModal({
 }: MemberKickModalProps) {
   const [reason, setReason] = useState('')
   const [description, setDescription] = useState('')
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [success, setSuccess] = useState<{ [key: string]: string }>({})
+
+  const validate = () => {
+    const { error } = memberKickSchema.validate(
+      { reason, description },
+      { abortEarly: false },
+    )
+    if (error) {
+      const newErrors: { [key: string]: string } = {}
+      error.details.forEach((detail) => {
+        newErrors[detail.path[0]] = detail.message
+      })
+      setErrors(newErrors)
+      setSuccess({})
+    } else {
+      setErrors({})
+      const newSuccess: { [key: string]: string } = {}
+      if (reason) newSuccess.reason = '성공적으로 선택되었습니다.'
+      if (description) newSuccess.description = '성공적으로 입력되었습니다.'
+      setSuccess(newSuccess)
+    }
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      validate()
+    }
+  }, [reason, description, isOpen])
 
   const handleKick = () => {
-    if (!reason) return
+    if (Object.keys(errors).length > 0) return
+    if (!reason || !description.trim()) return
     onSubmit(reason, description)
     setReason('')
     setDescription('')
@@ -54,6 +85,12 @@ export default function MemberKickModal({
           onChange={setReason}
           className="w-full"
         />
+        {errors.reason && (
+          <p className="text-red-500 text-xs self-start">{errors.reason}</p>
+        )}
+        {success.reason && (
+          <p className="text-green-500 text-xs self-start">{success.reason}</p>
+        )}
         <div className="w-full">
           <span className="text-[14px] text-[#222] font-medium">
             상세 설명<span className="text-alertText">*</span>
@@ -66,13 +103,25 @@ export default function MemberKickModal({
             required
           />
         </div>
+        {errors.description && (
+          <p className="text-red-500 text-xs self-start">
+            {errors.description}
+          </p>
+        )}
+        {success.description && (
+          <p className="text-green-500 text-xs self-start">
+            {success.description}
+          </p>
+        )}
         <CommonButton
           variant={
-            !reason || description.trim() === '' ? 'disabled' : 'primary'
+            Object.keys(errors).length > 0 || !reason || !description
+              ? 'disabled'
+              : 'primary'
           }
           className="w-full mt-3"
           onClick={handleKick}
-          disabled={!reason || !description}
+          disabled={Object.keys(errors).length > 0 || !reason || !description}
         >
           퇴출하기
         </CommonButton>

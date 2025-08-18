@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import CommonModal from '@/common/CommonModal'
 import CommonButton from '@/common/CommonButton'
 import Dropdown from '@/common/DropDown'
 import { LEVEL_OPTIONS } from '@/constants/levelOptions'
 import type { Study } from '@/types/study'
+import { studyApplySchema } from '@/schemas/studyApplySchema'
 
 interface StudyApplyModalProps {
   isOpen: boolean
@@ -24,7 +25,31 @@ export function StudyApplyModal({
 }: StudyApplyModalProps) {
   const [selectedLevel, setSelectedLevel] = useState('')
   const [introduction, setIntroduction] = useState('')
-  const isDisabled = !selectedLevel || introduction.trim() === ''
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [success, setSuccess] = useState<{ [key: string]: string }>({})
+
+  useEffect(() => {
+    const { error } = studyApplySchema.validate(
+      { level: selectedLevel, introduction },
+      { abortEarly: false },
+    )
+    if (error) {
+      const newErrors: { [key: string]: string } = {}
+      error.details.forEach((detail) => {
+        newErrors[detail.path[0]] = detail.message
+      })
+      setErrors(newErrors)
+      setSuccess({})
+    } else {
+      setErrors({})
+      const newSuccess: { [key: string]: string } = {}
+      if (selectedLevel) newSuccess.level = '성공적으로 선택되었습니다.'
+      if (introduction) newSuccess.introduction = '성공적으로 입력되었습니다.'
+      setSuccess(newSuccess)
+    }
+  }, [selectedLevel, introduction])
+
+  const isDisabled = Object.keys(errors).length > 0 || !selectedLevel || !introduction
 
   return (
     <CommonModal
@@ -69,6 +94,8 @@ export function StudyApplyModal({
             placeholder="자신의 레벨을 선택해주세요"
           />
         </div>
+        {errors.level && <p className="text-red-500 text-xs ml-24">{errors.level}</p>}
+        {success.level && <p className="text-green-500 text-xs ml-24">{success.level}</p>}
         {/* 소개 작성 */}
         <div className="flex flex-col gap-1 text-sm font-semibold text-text1">
           <label className="flex items-center gap-[2px]">
@@ -81,6 +108,8 @@ export function StudyApplyModal({
             onChange={(e) => setIntroduction(e.target.value)}
           />
         </div>
+        {errors.introduction && <p className="text-red-500 text-xs">{errors.introduction}</p>}
+        {success.introduction && <p className="text-green-500 text-xs">{success.introduction}</p>}
         <CommonButton
           className="w-full h-11 text-sm font-semibold"
           disabled={isDisabled}
