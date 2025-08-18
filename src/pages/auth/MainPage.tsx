@@ -71,6 +71,7 @@ const MainPage = () => {
               {hotData.map((item, index) => (
                 <div key={`hot-${index}`} className="shrink-0 w-[440px]">
                   <StudyCard
+                    id={item.id}
                     imageUrl={item.imageUrl}
                     title={item.title}
                     description={item.description}
@@ -113,6 +114,7 @@ const MainPage = () => {
               {newData.map((item, index) => (
                 <div key={`new-${index}`} className="shrink-0 w-[440px]">
                   <StudyCard
+                    id={item.id}
                     imageUrl={item.imageUrl}
                     title={item.title}
                     description={item.description}
@@ -155,6 +157,7 @@ const MainPage = () => {
               {steadyData.map((item, index) => (
                 <div key={`steady-${index}`} className="shrink-0 w-[320px]">
                   <StudyCard
+                    id={item.id}
                     imageUrl={item.imageUrl}
                     title={item.title}
                     description={item.description}
