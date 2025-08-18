@@ -268,7 +268,7 @@ export default function NavBar() {
                 </li>
                 <li>
                   <Link to="#" onClick={handleMobileMenuToggle}>
-                    {userInfo.user?.nickname} 님
+                    {userInfo.nickname} 님
                   </Link>
                 </li>
               </>
