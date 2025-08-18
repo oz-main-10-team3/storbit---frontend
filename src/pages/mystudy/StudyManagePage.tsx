@@ -62,7 +62,7 @@ export default function StudyManagePage() {
         setSelectedTime(studyData.time || '')
         setCapacity(String(studyData.capacity || ''))
         setLevel(studyData.level || '')
-      } catch (_) {
+      } catch {
         // Optionally, handle not found error e.g., redirect
         // navigate('/not-found')
       }
@@ -95,7 +95,7 @@ export default function StudyManagePage() {
       // Optionally, show a success message
       alert('저장되었습니다.')
       navigate(-1) // Go back to the previous page
-    } catch (_error) {
+    } catch {
       // Optionally, show an error message
     }
   }
@@ -375,7 +375,7 @@ export default function StudyManagePage() {
                   addDismantledStudy(Number(studyId))
                   navigate('/mystudy/created') // or to another appropriate page
                 })
-                .catch((_error) => {
+                .catch(() => {
                   // Optionally, show an error message
                 })
             }}
@@ -406,7 +406,7 @@ export default function StudyManagePage() {
               // Optionally, you might want to refetch the members list
               // or update the UI to reflect the new leader.
             })
-            .catch((_error) => {
+            .catch(() => {
               // Optionally, show an error message
             })
         }}
@@ -435,7 +435,7 @@ export default function StudyManagePage() {
               setKickMemberId(null)
               setOpenedMoreId(null)
             })
-            .catch((_error) => {
+            .catch(() => {
               // Optionally, show an error message
             })
         }}

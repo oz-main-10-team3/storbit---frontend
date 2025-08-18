@@ -6,6 +6,7 @@ import ConfirmModal from '@/common/ConfirmModal.tsx'
 import TransientModal from '@/common/TransientModal'
 import MyStudyCard from '@/common/mystudy/MyStudyCard.tsx'
 import { api } from '@/api/mainApi.ts'
+import { cancelApplication } from '@/api/myApplications.ts'
 
 export default function MyStudyAppliedPage() {
   const [studies, setStudies] = useState<Study[]>([])
@@ -13,8 +14,21 @@ export default function MyStudyAppliedPage() {
   const [selectedQueue, setSelectedQueue] = useState(0)
   const [selectedStatus, setSelectedStatus] = useState('default')
   const [cancelModalOpen, setCancelModalOpen] = useState(false)
-  const handleCancelClick = () => {
-    setCancelModalOpen(true)
+  const [selectedStudyIdForConfirm, setSelectedStudyIdForConfirm] = useState<
+    number | null
+  >(null)
+
+  const handleCancelClick = async (id: number) => {
+    try {
+      await cancelApplication(id)
+      setStudies(studies.filter((study) => study.id !== id))
+      setCancelModalOpen(true)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_error) {
+      //void
+      // console.error('Failed to cancel application', error)
+      // TODO: show error message to user
+    }
   }
 
   useEffect(() => {
@@ -30,9 +44,10 @@ export default function MyStudyAppliedPage() {
     fetchAppliedStudies()
   }, [])
 
-  const handleOpenModal = (id: number, status: string) => {
+  const handleOpenModal = (id: number, status: string, studyId: number) => {
     setSelectedQueue(id)
     setSelectedStatus(status)
+    setSelectedStudyIdForConfirm(studyId)
     setModalOpen(true)
   }
 
@@ -49,8 +64,10 @@ export default function MyStudyAppliedPage() {
           <MyStudyCard
             key={index}
             study={study}
-            onLeftButtonClick={() => handleCancelClick()}
-            onRightButtonClick={() => handleOpenModal(index, study.status)}
+            onLeftButtonClick={() => handleCancelClick(study.id)}
+            onRightButtonClick={() =>
+              handleOpenModal(index, study.status, study.id)
+            }
             leftButtonText="신청 취소"
             rightButtonText="신청 현황"
           />
@@ -63,6 +80,7 @@ export default function MyStudyAppliedPage() {
           <ApplicationCompleted
             isOpen={modalOpen}
             onClose={handleCloseModal}
+            onCancel={() => handleCancelClick(selectedStudyIdForConfirm!)}
             queueNumber={selectedQueue}
           />
         ) : (
@@ -77,6 +95,13 @@ export default function MyStudyAppliedPage() {
                   : selectedStatus === '대기'
                     ? 'wait'
                     : 'underReview'
+            }
+            onCancel={
+              selectedStatus !== '매칭 완료' &&
+              selectedStatus !== '미승인' &&
+              selectedStatus !== '대기'
+                ? () => handleCancelClick(selectedStudyIdForConfirm!)
+                : undefined
             }
           />
         ))}

@@ -1,4 +1,5 @@
 import type { study } from '@/types/studyCreateType'
+import type { Study } from '@/types/study'
 
 interface MockData {
   email: string
@@ -125,3 +126,4 @@ export const mockUsers: MockData[] = [
 ]
 
 export const mockStudies: study[] = []
+export const appliedStudies: Study[] = []

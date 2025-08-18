@@ -9,7 +9,8 @@ interface CommonModalProps {
   isOpen: boolean
   onClose: () => void
   type: 'underReview' | 'matchingComplete' | 'notApproved' | 'wait'
-  handleClick?: () => void
+  handleClick?: () => Promise<void> | void
+  onCancel?: () => void
 }
 
 export default function ConfirmModal({
@@ -17,6 +18,7 @@ export default function ConfirmModal({
   onClose,
   type,
   handleClick,
+  onCancel,
 }: CommonModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -111,7 +113,15 @@ export default function ConfirmModal({
           </div>
         </div>
         <button
-          onClick={handleClick || onClose}
+          onClick={() => {
+            onClose()
+            if (handleClick) {
+              handleClick()
+            }
+            if (onCancel) {
+              onCancel()
+            }
+          }}
           className="bg-primary text-text3 text-[16px] w-full h-[48px] rounded-[4px] cursor-pointer"
         >
           {buttonText}

@@ -40,7 +40,7 @@ api.interceptors.request.use(
           config.headers.Authorization = `Bearer ${token}`
         }
       }
-    } catch (_error) {
+    } catch {
       void 0
     }
 
@@ -77,7 +77,7 @@ mainApi.interceptors.request.use(
           config.headers.Authorization = `Bearer ${token}`
         }
       }
-    } catch (_error) {
+    } catch {
       void 0
     }
 

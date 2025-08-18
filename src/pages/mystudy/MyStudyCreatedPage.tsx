@@ -51,7 +51,7 @@ export default function MyStudyCreatedPage() {
 
   useEffect(() => {
     clearDismantledStudies() // Clear on mount
-  }, [])
+  }, [clearDismantledStudies])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -145,7 +145,7 @@ export default function MyStudyCreatedPage() {
               : isDefault
                 ? '모집 취소'
                 : '스터디 해체'
-            rightText = isDefault ? '모집 현황' : '멤버 현황'
+            rightText = '모집 현황'
             isFullWidthSingleButton = false
           }
 
@@ -170,8 +170,6 @@ export default function MyStudyCreatedPage() {
               onRightButtonClick={() => {
                 if (rightText === '모집 현황') {
                   setRecruitModalStudyId(study.id)
-                } else if (rightText === '멤버 현황') {
-                  setMemberStatusModalStudyId(study.id)
                 }
               }}
               isFullWidthSingleButton={isFullWidthSingleButton}
