@@ -9,6 +9,7 @@ import { useUserInfo } from '@/store/userInfoStore'
 import type { AxiosError, AxiosResponse } from 'axios'
 import type { ErrorMessage } from '@/types/errorMessage'
 import { isKakaoUser } from '@/utils/isKakaoUser'
+import { useEnterKey } from '@/hooks/useEnterKey'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -43,6 +44,10 @@ export default function LoginPage() {
       })
     }
   }
+  const { handleKeyDown, handleCompositionStart, handleCompositionEnd } =
+    useEnterKey(() => {
+      handleLogin()
+    })
 
   const [searchParams] = useSearchParams()
 
@@ -102,6 +107,9 @@ export default function LoginPage() {
               placeholder="example@onstudy.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
               error={
                 errorMessage?.status === 404 ? errorMessage?.message : undefined
               }
@@ -112,6 +120,9 @@ export default function LoginPage() {
               value={password}
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
               error={
                 errorMessage?.status === 401 ? errorMessage?.message : undefined
               }
