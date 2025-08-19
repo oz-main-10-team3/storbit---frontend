@@ -1,4 +1,4 @@
-import { TbTextResize } from 'react-icons/tb'
+// import { TbTextResize } from 'react-icons/tb'
 import { SlPencil } from 'react-icons/sl'
 import { LuCircle } from 'react-icons/lu'
 import { FaCircle } from 'react-icons/fa'
@@ -19,8 +19,8 @@ export default function StudyRoomToolbox({
   setShouldFillCircle,
 }: StudyRoomToolboxProps) {
   return (
-    <div className="flex items-center gap-[10px] px-[22px] py-[12px] ml-[10px] absolute bottom-[40px] left-1/2 -translate-x-1/2 h-[48px] w-[150px] z-20 bg-white shadow-[1px_1px_8px_rgba(0,0,0,0.25)] rounded-[8px]">
-      <TbTextResize size={30} />
+    <div className="flex items-center justify-center gap-[10px] px-[22px] py-[12px] ml-[10px] absolute bottom-[40px] left-1/2 -translate-x-1/2 h-[48px] w-[200px] z-20 bg-white shadow-[1px_1px_8px_rgba(0,0,0,0.25)] rounded-[8px]">
+      {/* <TbTextResize size={30} /> */}
       <SlPencil
         size={25}
         className="cursor-pointer"
@@ -46,7 +46,7 @@ export default function StudyRoomToolbox({
         type="color"
         value={color}
         onChange={(e) => setColor(e.target.value)}
-        className="w-[20px]"
+        className="w-[30px]"
       />
     </div>
   )

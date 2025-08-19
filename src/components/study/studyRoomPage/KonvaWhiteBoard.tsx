@@ -1,16 +1,19 @@
 // Whiteboard.tsx
+import { disconnectSocket, initSocket } from '@/api/soket'
 import StudyRoomToolbox from '@/components/study/studyRoomPage/StudyRoomToolbox'
 import { useDrawingTool } from '@/hooks/useDrawingToolHook'
 import type { Circle as CircleType } from '@/types/circle'
 import type { ColoredLine } from '@/types/point'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Stage, Layer, Line, Circle } from 'react-konva'
+import { useParams } from 'react-router-dom'
 
 export default function Whiteboard({
   containerRef,
 }: {
   containerRef: React.RefObject<HTMLDivElement | null>
 }) {
+  const { roomId: studyId } = useParams()
   const [toolName, setToolName] = useState<'pen' | 'circle' | 'fillCircle'>(
     'pen'
   )
@@ -27,6 +30,35 @@ export default function Whiteboard({
 
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
+  const socketRef = useRef<WebSocket | null>(null)
+
+  useEffect(() => {
+    if (!studyId) return
+    const socket = initSocket(studyId)
+    socketRef.current = socket
+
+    // 서버에서 메시지를 받으면 실행될 핸들러
+    socket.onmessage = (event) => {
+      try {
+        const { type, data } = JSON.parse(event.data)
+        // console.log(data)
+        if (type === 'draw:pen') {
+          setLines((prev) => [...prev, data])
+        } else if (type === 'draw:circle') {
+          setCircles((prev) => [...prev, data])
+        }
+      } catch (_error) {
+        void 0
+        // console.error('Failed to parse message from server:', e)
+      }
+    }
+
+    return () => {
+      disconnectSocket()
+      socketRef.current = null
+    }
+  }, [studyId])
+  // console.log(lines)
   //화이트보드 사이즈 부모 사이즈 기준으로 적용
   useEffect(() => {
     if (!containerRef.current) return

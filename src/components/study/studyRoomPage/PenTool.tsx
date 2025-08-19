@@ -2,6 +2,7 @@ import React from 'react'
 import type { DrawingTool } from '@/types/drawingTool'
 import type { KonvaEventObject } from 'konva/lib/Node'
 import type { ColoredLine } from '@/types/point'
+import { getSocket } from '@/api/soket'
 
 export class PenTool implements DrawingTool {
   private isDrawing = false
@@ -62,6 +63,17 @@ export class PenTool implements DrawingTool {
 
   onMouseUp() {
     this.isDrawing = false
+    const lastLine = this.lines[this.lines.length - 1]
+    const socket = getSocket()
+
+    // JSON 형태로 데이터를 변환하여 서버로 전송
+    const message = {
+      type: 'draw:pen', // 서버에서 구분할 타입
+      data: lastLine,
+    }
+
+    // console.log(message)
+    socket.send(JSON.stringify(message))
   }
 
   setColor(color: string) {

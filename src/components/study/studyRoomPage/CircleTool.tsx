@@ -1,9 +1,8 @@
-// tools/CircleTool.ts
 import React from 'react'
 import type { DrawingTool } from '@/types/drawingTool'
 import type { KonvaEventObject } from 'konva/lib/Node'
-// import { Circle as KonvaCircle } from 'react-konva'
 import type { Circle } from '@/types/circle'
+import { getSocket } from '@/api/soket'
 
 export class CircleTool implements DrawingTool {
   private isDrawing = false
@@ -77,6 +76,12 @@ export class CircleTool implements DrawingTool {
 
     this.circles.push(finalCircle)
     this.setCircles([...this.circles])
+    const socket = getSocket()
+    const message = {
+      type: 'draw:circle', // 서버에서 구분할 타입
+      data: finalCircle,
+    }
+    socket.send(JSON.stringify(message))
   }
 
   setColor(color: string) {
