@@ -9,6 +9,8 @@ import { useUserInfo } from '@/store/userInfoStore'
 import type { AxiosError, AxiosResponse } from 'axios'
 import type { ErrorMessage } from '@/types/errorMessage'
 import { isKakaoUser } from '@/utils/isKakaoUser'
+import { useEnterKey } from '@/hooks/useEnterKey'
+import type { ErrorResponseType } from '@/types/errorResponseType'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -34,15 +36,32 @@ export default function LoginPage() {
         return
       }
     } catch (error) {
-      const axiosError = error as AxiosError<{ detail: string }>
+      const axiosError = error as AxiosError<ErrorResponseType>
       if (!axiosError.status) return
+      const data = axiosError.response?.data
+
+      let errorMessage = '알 수 없는 오류가 발생했습니다.'
+
+      if (data) {
+        const firstKey = Object.keys(data)[0]
+        const firstValue = data[firstKey] // string | string[] | undefined
+
+        if (typeof firstValue === 'string') {
+          errorMessage = firstValue
+        } else if (Array.isArray(firstValue) && firstValue.length > 0) {
+          errorMessage = firstValue[0]
+        }
+      }
       setErrorMessage({
         status: axiosError.status,
-        message:
-          axiosError.response?.data.detail ?? '알 수 없는 오류가 발생했습니다.',
+        message: errorMessage,
       })
     }
   }
+  const { handleKeyDown, handleCompositionStart, handleCompositionEnd } =
+    useEnterKey(() => {
+      handleLogin()
+    })
 
   const [searchParams] = useSearchParams()
 
@@ -102,6 +121,9 @@ export default function LoginPage() {
               placeholder="example@onstudy.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
               error={
                 errorMessage?.status === 404 ? errorMessage?.message : undefined
               }
@@ -112,6 +134,9 @@ export default function LoginPage() {
               value={password}
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
               error={
                 errorMessage?.status === 401 ? errorMessage?.message : undefined
               }
@@ -128,15 +153,20 @@ export default function LoginPage() {
           </div>
           <div className="flex flex-col justify-center items-center gap-[24px] w-full">
             <CommonButton onClick={handleLogin}>로그인</CommonButton>
-            <Link
-              className="flex text-[14px] text-text2 gap-[8px] font-normal"
-              to="/auth/signup"
-            >
-              이메일로 가입하기
-            </Link>
           </div>
         </div>
       </div>
+      <Link
+        className="flex text-[14px] text-text2 gap-[8px] font-normal mt-[24px]"
+        to="/auth/signup"
+      >
+        이메일로 가입하기
+      </Link>
+      {errorMessage && (
+        <p className="text-xs text-alertText font-medium mt-5">
+          * {errorMessage.message}
+        </p>
+      )}
     </div>
   )
 }
