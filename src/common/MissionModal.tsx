@@ -1,9 +1,10 @@
-import { type ReactNode, useState } from 'react'
+import { type ReactNode, useState, useEffect } from 'react'
 import { FaPen } from 'react-icons/fa'
 import InputField from '@/common/InputField'
 import CommonModal from '@/common/CommonModal'
 import CommonButton from '@/common/CommonButton'
 import TransientModal from '@/common/TransientModal.tsx'
+import { missionSchema } from '@/schemas/missionSchema'
 
 interface MissionModalProps {
   isOpen: boolean
@@ -27,8 +28,38 @@ export default function MissionModal({
   const [editingText, setEditingText] = useState('')
   const [newMission, setNewMission] = useState('')
   const [isTransitionModalOpen, setIsTransitionModalOpen] = useState(false)
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [success, setSuccess] = useState<{ [key: string]: string }>({})
+
+  const validate = (field: string, value: string) => {
+    const { error } = missionSchema.validate({ mission: value })
+    if (error) {
+      setErrors((prev) => ({ ...prev, [field]: error.details[0].message }))
+      setSuccess((prev) => {
+        const newSuccess = { ...prev }
+        delete newSuccess[field]
+        return newSuccess
+      })
+    } else {
+      setErrors((prev) => {
+        const newErrors = { ...prev }
+        delete newErrors[field]
+        return newErrors
+      })
+      setSuccess((prev) => ({ ...prev, [field]: '성공적으로 입력되었습니다.' }))
+    }
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setErrors({})
+    }
+  }, [isOpen])
 
   const handleSave = () => {
+    validate('edit', editingText)
+    if (errors.edit) return
+
     if (editIndex !== null) {
       const updated = [...missions]
       updated[editIndex] = editingText
@@ -39,6 +70,9 @@ export default function MissionModal({
   }
 
   const handleAdd = () => {
+    validate('new', newMission)
+    if (errors.new) return
+
     if (newMission.trim() && missions.length < 5) {
       setMissions((prev) => [...prev, newMission.trim()])
       setNewMission('')
@@ -63,7 +97,10 @@ export default function MissionModal({
                   <div className="relative w-[368px] h-[48px]">
                     <InputField
                       value={editingText}
-                      onChange={(e) => setEditingText(e.target.value)}
+                      onChange={(e) => {
+                        setEditingText(e.target.value)
+                        validate('edit', e.target.value)
+                      }}
                       className="w-full text-sm pr-[124px] outline-none h-[48px]"
                       placeholder="미션을 입력하세요"
                     />
@@ -71,7 +108,8 @@ export default function MissionModal({
                       <CommonButton
                         className="w-[52px] h-[32px] text-xs px-0"
                         onClick={handleSave}
-                        variant="primary"
+                        variant={errors.edit ? 'disabled' : 'primary'}
+                        disabled={!!errors.edit}
                       >
                         저장
                       </CommonButton>
@@ -80,6 +118,11 @@ export default function MissionModal({
                         onClick={() => {
                           setEditIndex(null)
                           setEditingText('')
+                          setErrors((prev) => {
+                            const newErrors = { ...prev }
+                            delete newErrors.edit
+                            return newErrors
+                          })
                         }}
                         variant="secondary"
                       >
@@ -106,6 +149,12 @@ export default function MissionModal({
                     </button>
                   </div>
                 )}
+                {errors.edit && editIndex === index && (
+                  <p className="text-red-500 text-xs mt-1">{errors.edit}</p>
+                )}
+                {success.edit && editIndex === index && (
+                  <p className="text-green-500 text-xs mt-1">{success.edit}</p>
+                )}
               </div>
             ))}
           </div>
@@ -117,7 +166,10 @@ export default function MissionModal({
             <div className="flex gap-2">
               <InputField
                 value={newMission}
-                onChange={(e) => setNewMission(e.target.value)}
+                onChange={(e) => {
+                  setNewMission(e.target.value)
+                  validate('new', e.target.value)
+                }}
                 placeholder="새로운 미션을 입력하세요"
                 className="w-[256px] h-[48px] text-sm"
               />
@@ -125,15 +177,23 @@ export default function MissionModal({
                 className="px-4 w-[112px] h-[48px] text-sm"
                 onClick={handleAdd}
                 variant={
-                  missions.length >= 5 || !newMission.trim()
+                  missions.length >= 5 || !!errors.new || !newMission.trim()
                     ? 'disabled'
                     : 'primary'
                 }
-                disabled={missions.length >= 5 || !newMission.trim()}
+                disabled={
+                  missions.length >= 5 || !!errors.new || !newMission.trim()
+                }
               >
                 + 추가
               </CommonButton>
             </div>
+            {errors.new && (
+              <p className="text-red-500 text-xs mt-1">{errors.new}</p>
+            )}
+            {success.new && (
+              <p className="text-green-500 text-xs mt-1">{success.new}</p>
+            )}
           </div>
 
           <div className="pt-8">

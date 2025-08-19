@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import CommonButton from '@/common/CommonButton'
 import InputField from '@/common/InputField'
 import Dropdown from '@/common/DropDown'
+import StudyDismantle from '@/common/StudyDismantle.tsx'
 import {
   daysOfWeek,
   levelOptions,
@@ -15,11 +16,16 @@ import MemberKickModal from '@/common/MemberKickModal.tsx'
 import TransientModal from '@/common/TransientModal.tsx'
 import { api } from '@/api/mainApi.ts'
 import useDismantledStudiesStore from '@/store/useDismantledStudiesStore.ts'
+import { studyManageFormSchema } from '@/schemas/studyManageFormSchema.ts'
 
 interface Member {
   id: number
   nickname: string
   attendanceRate: number
+}
+
+interface FieldStatus {
+  [key: string]: { error?: string; success?: string }
 }
 
 export default function StudyManagePage() {
@@ -36,10 +42,13 @@ export default function StudyManagePage() {
   const [selectedTime, setSelectedTime] = useState('')
   const [capacity, setCapacity] = useState('')
   const [level, setLevel] = useState('')
+  const [fieldStatus, setFieldStatus] = useState<FieldStatus>({})
+
   const [isLeaderModalOpen, setIsLeaderModalOpen] = useState(false)
   const [isKickModalOpen, setIsKickModalOpen] = useState(false)
   const [kickMemberId, setKickMemberId] = useState<number | null>(null)
   const [delegateMemberId, setDelegateMemberId] = useState<number | null>(null)
+  const [isDismantleModalOpen, setIsDismantleModalOpen] = useState(false)
   const [isTransitionLeaveModalOpen, setIsTransitionLeaveModalOpen] =
     useState(false)
 
@@ -77,24 +86,53 @@ export default function StudyManagePage() {
     )
   }
 
+  const updatedStudy = {
+    studyName,
+    description,
+    selectedDays,
+    selectedTime,
+    capacity,
+    level,
+  }
+  const { error } = studyManageFormSchema.validate(updatedStudy, {
+    abortEarly: true,
+  })
+  const isFormInvalid = !!error
+
   const handleSaveChanges = async () => {
     if (!studyId) return
 
-    const updatedStudy = {
-      title: studyName,
-      description,
-      waitingMode,
-      days: selectedDays,
-      time: selectedTime,
-      capacity,
-      level,
+    const { error } = studyManageFormSchema.validate(updatedStudy, {
+      abortEarly: false,
+    })
+
+    if (error) {
+      const newFieldStatus: FieldStatus = {}
+      error.details.forEach((detail) => {
+        newFieldStatus[detail.path[0]] = { error: detail.message }
+      })
+      setFieldStatus(newFieldStatus)
+      return
+    } else {
+      const newFieldStatus: FieldStatus = {}
+      Object.keys(updatedStudy).forEach((key) => {
+        newFieldStatus[key] = { success: '성공 했습니다' }
+      })
+      setFieldStatus(newFieldStatus)
     }
 
     try {
-      await api.put(`/api/v1/studies/${studyId}`, updatedStudy)
-      // Optionally, show a success message
+      await api.put(`/api/v1/studies/${studyId}`, {
+        title: studyName,
+        description,
+        waitingMode,
+        days: selectedDays,
+        time: selectedTime,
+        capacity,
+        level,
+      })
       alert('저장되었습니다.')
-      navigate(-1) // Go back to the previous page
+      navigate(-1)
     } catch {
       // Optionally, show an error message
     }
@@ -133,6 +171,16 @@ export default function StudyManagePage() {
               중복확인
             </CommonButton>
           </div>
+          {fieldStatus.studyName?.error && (
+            <p className="text-red-500 text-sm">
+              {fieldStatus.studyName.error}
+            </p>
+          )}
+          {fieldStatus.studyName?.success && (
+            <p className="text-green-500 text-sm">
+              {fieldStatus.studyName.success}
+            </p>
+          )}
 
           {/* 스터디 소개 */}
           <div>
@@ -146,6 +194,16 @@ export default function StudyManagePage() {
               className="w-full h-[120px] border border-gray-300 rounded-md px-4 py-2 text-[14px] resize-none placeholder:text-gray-400 bg-white text-black"
             />
           </div>
+          {fieldStatus.description?.error && (
+            <p className="text-red-500 text-sm">
+              {fieldStatus.description.error}
+            </p>
+          )}
+          {fieldStatus.description?.success && (
+            <p className="text-green-500 text-sm">
+              {fieldStatus.description.success}
+            </p>
+          )}
 
           {/* 대표 이미지 */}
           <div>
@@ -235,6 +293,16 @@ export default function StudyManagePage() {
                 ))}
             </div>
           </div>
+          {fieldStatus.selectedDays?.error && (
+            <p className="text-red-500 text-sm">
+              {fieldStatus.selectedDays.error}
+            </p>
+          )}
+          {fieldStatus.selectedDays?.success && (
+            <p className="text-green-500 text-sm">
+              {fieldStatus.selectedDays.success}
+            </p>
+          )}
 
           {/* 시간 / 인원 / 색상 */}
           <Dropdown
@@ -249,6 +317,16 @@ export default function StudyManagePage() {
             onChange={setSelectedTime}
             className="text-[14px]"
           />
+          {fieldStatus.selectedTime?.error && (
+            <p className="text-red-500 text-sm">
+              {fieldStatus.selectedTime.error}
+            </p>
+          )}
+          {fieldStatus.selectedTime?.success && (
+            <p className="text-green-500 text-sm">
+              {fieldStatus.selectedTime.success}
+            </p>
+          )}
           <Dropdown
             label={
               <p className="text-sm font-medium text-text mb-2">
@@ -261,6 +339,14 @@ export default function StudyManagePage() {
             onChange={setCapacity}
             className="text-[14px]"
           />
+          {fieldStatus.capacity?.error && (
+            <p className="text-red-500 text-sm">{fieldStatus.capacity.error}</p>
+          )}
+          {fieldStatus.capacity?.success && (
+            <p className="text-green-500 text-sm">
+              {fieldStatus.capacity.success}
+            </p>
+          )}
           <Dropdown
             label={
               <p className="text-sm font-medium text-text mb-2">
@@ -273,6 +359,14 @@ export default function StudyManagePage() {
             onChange={setLevel}
             className="text-[14px]"
           />
+          {fieldStatus.level?.error && (
+            <p className="text-red-500 text-sm">{fieldStatus.level.error}</p>
+          )}
+          {fieldStatus.level?.success && (
+            <p className="text-green-500 text-sm">
+              {fieldStatus.level.success}
+            </p>
+          )}
 
           {/* 참여 멤버 관리 */}
           {members.length > 0 && (
@@ -358,27 +452,16 @@ export default function StudyManagePage() {
 
           {/* 저장 버튼 */}
           <CommonButton
-            variant="primary"
+            variant={isFormInvalid ? 'disabled' : 'primary'}
             className="mt-8 w-full text-[14px]"
             onClick={handleSaveChanges}
+            disabled={isFormInvalid}
           >
             저장하기
           </CommonButton>
           <button
             className="text-[14px] text-black underline mt-2 mx-auto block"
-            onClick={() => {
-              if (!studyId) return
-              api
-                .delete(`/api/v1/studies/${studyId}`)
-                .then(() => {
-                  alert('스터디가 해체되었습니다.')
-                  addDismantledStudy(Number(studyId))
-                  navigate('/mystudy/created') // or to another appropriate page
-                })
-                .catch(() => {
-                  // Optionally, show an error message
-                })
-            }}
+            onClick={() => setIsDismantleModalOpen(true)}
           >
             스터디 해체하기
           </button>
@@ -441,10 +524,36 @@ export default function StudyManagePage() {
         }}
       />
 
+      <StudyDismantle
+        isOpen={isDismantleModalOpen}
+        onClose={() => setIsDismantleModalOpen(false)}
+        onSubmit={(reason: string, description: string) => {
+          if (!studyId) return
+          api
+            .delete(`/api/v1/studies/${studyId}`, {
+              data: { reason, description },
+            })
+            .then(() => {
+              addDismantledStudy(Number(studyId))
+              setIsDismantleModalOpen(false)
+              setIsTransitionLeaveModalOpen(true) // Show transient modal on success
+            })
+            .catch((_error) => {
+              // console.error('Error dismantling study:', error)
+              // Optionally, show an error message to the user
+              setIsDismantleModalOpen(false) // Close modal on error too
+            })
+        }}
+        onLeave={() => {}}
+      />
+
       {isTransitionLeaveModalOpen && (
         <TransientModal
           isOpen={isTransitionLeaveModalOpen}
-          onClose={() => setIsTransitionLeaveModalOpen(false)}
+          onClose={() => {
+            setIsTransitionLeaveModalOpen(false)
+            navigate('/mystudy/created')
+          }}
           type="dissolution"
         />
       )}

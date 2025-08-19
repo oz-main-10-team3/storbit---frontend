@@ -6,6 +6,7 @@ import {
   myJoinedStudies,
   myLikedStudies,
   studyData,
+  updateMockData,
 } from '@/data/mockData'
 import { recruitApplicantsByStudy } from '@/data/recruitStatusData'
 import { appliedStudies } from '../MockData'
@@ -109,6 +110,7 @@ export const myStudiesHandlers = [
     }
 
     studyData.splice(studyIndex, 1)
+    updateMockData()
 
     return HttpResponse.json(
       { detail: '스터디가 해체되었습니다.' },

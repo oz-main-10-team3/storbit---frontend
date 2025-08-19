@@ -43,6 +43,8 @@ export const studyCapacityOptions = [
   { label: '6명', value: '6' },
   { label: '7명', value: '7' },
   { label: '8명', value: '8' },
+  { label: '9명', value: '9' },
+  { label: '10명', value: '10' },
 ]
 
 export const levelOptions = [

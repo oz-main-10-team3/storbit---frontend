@@ -29,28 +29,28 @@ export const studyData: Study[] = rawData
   )
 
 //  내가 만든 스터디 목록 (방장 스터디)
-export const myCreatedStudies: Study[] = studyData.filter(
+export let myCreatedStudies: Study[] = studyData.filter(
   (study) => study.userId === currentUserId
 )
 
 //내가 신청한 스터디만 필터링
-export const myAppliedStudies: Study[] = studyData.filter(
+export let myAppliedStudies: Study[] = studyData.filter(
   (study) => study.isApplied && study.userId !== currentUserId
 )
 
 // 내가 참여한 스터디 목록 (내가 만든 스터디 + 내가 신청한 스터디)
-export const myJoinedStudies: Study[] = studyData.filter(
+export let myJoinedStudies: Study[] = studyData.filter(
   (study) =>
     (study.isApplied || study.userId === currentUserId) && !study.isLeft
 )
 
 // 내가 방장으로 만든 스터디들의 ID 목록
-export const createdStudyIdsByLeader: number[] = myCreatedStudies.map(
+export let createdStudyIdsByLeader: number[] = myCreatedStudies.map(
   (study) => study.id
 )
 
 //  찜한 스터디 목록 (내가 만든 스터디와 내가 신청한 스터디는 제외)
-export const myLikedStudies: Study[] = studyData.filter(
+export let myLikedStudies: Study[] = studyData.filter(
   (study) =>
     study.isLiked && // 찜한 것 중에서
     study.userId !== currentUserId && // 내가 만든 게 아니고
@@ -60,3 +60,19 @@ export const myLikedStudies: Study[] = studyData.filter(
 // 특정 ID로 스터디 찾는 유틸 함수
 export const getStudyById = (id: number): Study | undefined =>
   studyData.find((study) => study.id === id)
+
+export const updateMockData = () => {
+  myCreatedStudies = studyData.filter((study) => study.userId === currentUserId)
+  myAppliedStudies = studyData.filter(
+    (study) => study.isApplied && study.userId !== currentUserId
+  )
+  myJoinedStudies = studyData.filter(
+    (study) =>
+      (study.isApplied || study.userId === currentUserId) && !study.isLeft
+  )
+  createdStudyIdsByLeader = myCreatedStudies.map((study) => study.id)
+  myLikedStudies = studyData.filter(
+    (study) =>
+      study.isLiked && study.userId !== currentUserId && !study.isApplied
+  )
+}
