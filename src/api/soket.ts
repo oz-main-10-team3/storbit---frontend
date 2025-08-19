@@ -1,9 +1,11 @@
 let socket: WebSocket | null = null
 
 // study_id 기반으로 소켓 초기화
-export const initSocket = (studyId: string) => {
+export const initSocket = (studyId: string, token: string) => {
   // WebSocket 객체를 생성합니다.
-  socket = new WebSocket(`wss://storbit.o-r.kr/ws/study/${studyId}/`)
+  socket = new WebSocket(
+    `wss://storbit.o-r.kr/ws/study/${studyId}/?token=${token}`
+  )
 
   socket.onopen = () => {
     // console.log('WebSocket 연결 성공')

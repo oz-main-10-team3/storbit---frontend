@@ -61,14 +61,9 @@ export default function NavBar() {
       } else {
         refreshToken = userInfo?.refresh
       }
-      const res = await mainApi.post('/api/auth/logout/', {
+      await mainApi.post('/api/auth/logout/', {
         refresh: refreshToken,
       })
-      if (res.status === 205) {
-        useUserInfo.getState().setUserInfo(null)
-        setIsDropdownOpen(false)
-        navigate('/')
-      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status
@@ -82,6 +77,10 @@ export default function NavBar() {
       } else {
         alert('네트워크 오류 또는 서버 오류가 발생했습니다.')
       }
+    } finally {
+      useUserInfo.getState().setUserInfo(null)
+      setIsDropdownOpen(false)
+      navigate('/')
     }
   }
 
