@@ -7,6 +7,7 @@ import ArrowNavigation from '@/common/ArrowNavigation'
 
 const dummyData = [
   {
+    id: 1,
     imageUrl: defaultThumbnail,
     title: 'Python 웹크롤링 데이터 분석반',
     description:
@@ -15,6 +16,7 @@ const dummyData = [
     time: '월, 수 오후 8시',
   },
   {
+    id: 2,
     imageUrl: defaultThumbnail,
     title: 'React 클론코딩 프로젝트 스터디',
     description:
@@ -23,6 +25,7 @@ const dummyData = [
     time: '토요일 오후 5시',
   },
   {
+    id: 3,
     imageUrl: defaultThumbnail,
     title: '알고리즘 문제풀이 매일 챌린지',
     description:
@@ -72,6 +75,7 @@ export default function CategoryPage() {
               {dummyData.map((item, index) => (
                 <StudyCard
                   key={`weekly-${index}`}
+                  id={item.id}
                   imageUrl={item.imageUrl}
                   title={item.title}
                   description={item.description}
@@ -106,6 +110,7 @@ export default function CategoryPage() {
               {visibleNewStudies.map((item, index) => (
                 <StudyCard
                   key={`new-${startIndex + index}`}
+                  id={item.id}
                   imageUrl={item.imageUrl}
                   title={item.title}
                   description={item.description}
@@ -138,6 +143,7 @@ export default function CategoryPage() {
                 .map((item, index) => (
                   <StudyCard
                     key={`total-${index}`}
+                    id={item.id}
                     imageUrl={item.imageUrl}
                     title={item.title}
                     description={item.description}

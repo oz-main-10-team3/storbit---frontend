@@ -41,6 +41,7 @@ import CreateEventPage from '@/admin/events/CreateEvent.tsx'
 import UpdateEventPage from '@/admin/events/UpdateEvent.tsx'
 import CategoryShortcutPage from '@/pages/category/CategoryShortcutPage'
 import CustomRecommendPage from '@/pages/category/CustomRecommendPage'
+import StudyDetailPage from './pages/study/StudyDetailPage'
 import ProtectedRoute from '@/pages/Layout/ProtectedRoute'
 
 export default function App() {
@@ -91,6 +92,7 @@ export default function App() {
           path="/study/category/:category"
           element={<StudyCategoryPage />}
         />
+        <Route path="/study/detail/:id" element={<StudyDetailPage />} />
 
         {/* 나의 스터디 */}
         <Route element={<MyStudyLayout />}>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { cn } from '@/utils/cn'
 import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5'
 import { HiOutlineUserGroup } from 'react-icons/hi2'
@@ -6,6 +7,7 @@ import { BsClock } from 'react-icons/bs'
 import StudyTag from '@/common/tag/StudyTag'
 
 interface StudyCardProps {
+  id?: number
   imageUrl: string
   title: string
   description: string
@@ -19,6 +21,7 @@ interface StudyCardProps {
 }
 
 const StudyCard = ({
+  id,
   imageUrl,
   title,
   description,
@@ -45,9 +48,16 @@ const StudyCard = ({
     e.stopPropagation() // 카드 클릭 방지
     setIsBookmarked((prev) => !prev)
   }
-
+  const Navigate = useNavigate()
+  const handleCardClick = () => {
+    Navigate(`/study/detail/${id}`)
+    if (onClick) onClick()
+  }
   return (
-    <div onClick={onClick} className={cn('block', wrapperClass, className)}>
+    <div
+      onClick={handleCardClick}
+      className={cn('block', wrapperClass, className)}
+    >
       {/* 이미지 영역 */}
       <div className={cn(imageClass, 'relative rounded-[8px] overflow-hidden')}>
         {/* 태그 박스 */}
