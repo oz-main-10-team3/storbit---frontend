@@ -1,15 +1,29 @@
 import { useUserInfo } from '@/store/userInfoStore.ts'
 import { useNavigate } from 'react-router-dom'
 import { isAdmin } from '@/utils/isAdmin.ts'
-import { eventMockData } from '@/data/eventMockData.ts'
 import { EventCard } from '@/components/event/EventCard.tsx'
+import { useEvents } from '@/hooks/useEvents'
 
 export default function EventListPage() {
   const { userInfo } = useUserInfo()
   const navigate = useNavigate()
 
+  const { data: events = [], isLoading, error } = useEvents()
+
   const handleCreateClick = () => {
     navigate('/admin/events/create')
+  }
+
+  if (isLoading) {
+    return <div className="px-10 py-[72px] text-center">불러오는 중...</div>
+  }
+
+  if (error) {
+    return (
+      <div className="px-10 py-[72px] text-center text-red-500">
+        이벤트를 불러오지 못했어요.
+      </div>
+    )
   }
 
   return (
@@ -27,13 +41,11 @@ export default function EventListPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-x-[56px] gap-y-[40px] max-w-[1440px] mx-auto">
-        {eventMockData
-          .filter((event) => event.status === '진행중')
-          .map((event) => (
-            <div key={event.id} className="flex flex-col gap-2">
-              <EventCard event={event} />
-            </div>
-          ))}
+        {events.map((event) => (
+          <div key={event.id} className="flex flex-col gap-2">
+            <EventCard event={event} />
+          </div>
+        ))}
       </div>
     </div>
   )

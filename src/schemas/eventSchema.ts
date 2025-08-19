@@ -7,31 +7,31 @@ export const eventSchema = Joi.object({
     'string.max': '이벤트 타이틀은 최대 100자 이하이어야 합니다.',
     'any.required': '이벤트 타이틀을 입력해주세요.',
   }),
-  type: Joi.string().required().messages({
-    'string.empty': '이벤트 유형을 선택해주세요.',
-    'any.required': '이벤트 유형을 선택해주세요.',
-  }),
-  startDate: Joi.date().iso().required().messages({
-    'date.base': '유효한 시작일을 입력해주세요.',
-    'date.iso': '시작일은 YYYY-MM-DD 형식이어야 합니다.',
+  type: Joi.string()
+    .valid('리워드 이벤트', '이자카야 이벤트', '인기이자카야 이벤트', '시즌 한정판')
+    .required()
+    .messages({
+      'any.only': '이벤트 유형을 선택해주세요.',
+      'any.required': '이벤트 유형을 선택해주세요.',
+    }),
+  startDate: Joi.string().required().messages({
+    'string.empty': '시작일을 입력해주세요.',
     'any.required': '시작일을 입력해주세요.',
   }),
-  endDate: Joi.date().iso().min(Joi.ref('startDate')).required().messages({
-    'date.base': '유효한 종료일을 입력해주세요.',
-    'date.iso': '종료일은 YYYY-MM-DD 형식이어야 합니다.',
-    'date.min': '종료일은 시작일 이후여야 합니다.',
+  endDate: Joi.string().required().messages({
+    'string.empty': '종료일을 입력해주세요.',
     'any.required': '종료일을 입력해주세요.',
   }),
-  status: Joi.string().required().messages({
-    'string.empty': '진행 상태를 선택해주세요.',
+  status: Joi.string().valid('예정', '진행중', '보류중', '종료').required().messages({
+    'any.only': '진행 상태를 선택해주세요.',
     'any.required': '진행 상태를 선택해주세요.',
   }),
   thumbnailUrl: Joi.string().required().messages({
     'string.empty': '이벤트 썸네일을 등록해주세요.',
     'any.required': '이벤트 썸네일을 등록해주세요.',
   }),
-  images: Joi.array().items(Joi.string().required()).max(10).messages({
-    'array.max': '이미지는 최대 10개까지 등록 가능합니다.',
-    'string.empty': '이미지 경로를 입력해주세요.',
+  images: Joi.array().items(Joi.string().allow('')).min(1).required().messages({
+    'array.min': '이미지를 1개 이상 등록해주세요.',
+    'any.required': '이미지를 1개 이상 등록해주세요.',
   }),
 })

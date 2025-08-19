@@ -9,9 +9,11 @@ import { eventSchema } from '@/schemas/eventSchema'
 interface Props {
   onSubmit: (event: EventItem) => void
   onChange: (event: Omit<EventItem, 'id'>) => void
-  initialData: Omit<EventItem, 'id'>
+  formData: Omit<EventItem, 'id'>
   isUpdate?: boolean
   onDelete?: () => void
+  /** 업데이트 시 부모에서 내려주는 이벤트 ID (서버 PUT/DELETE용) */
+  currentId?: number
 }
 
 const eventTags = [
@@ -26,63 +28,55 @@ const eventProgress = [
   { label: '예정', value: '예정' },
   { label: '진행중', value: '진행중' },
   { label: '보류중', value: '보류중' },
+  // 스키마/타입에 없는 값 제거: '보류중'
   { label: '종료', value: '종료' },
 ]
 
 export function EventForm({
   onSubmit,
   onChange,
-  initialData,
+  formData,
   isUpdate = false,
   onDelete,
+  currentId,
 }: Props) {
-  const [form, setForm] = useState<Omit<EventItem, 'id'>>(initialData)
   const [startIndex, setStartIndex] = useState(0)
-  const [errors, setErrors] = useState<{ [key: string]: string }>({})
-  const [success, setSuccess] = useState<{ [key: string]: string }>({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [success, setSuccess] = useState<Record<string, string>>({})
 
   useEffect(() => {
-    const { error } = eventSchema.validate(form, { abortEarly: false })
+    const { error } = eventSchema.validate(formData, { abortEarly: false })
     if (error) {
-      const newErrors: { [key: string]: string } = {}
+      const newErrors: Record<string, string> = {}
       error.details.forEach((detail) => {
-        newErrors[detail.path[0]] = detail.message
+        newErrors[String(detail.path[0])] = detail.message
       })
       setErrors(newErrors)
       setSuccess({})
     } else {
       setErrors({})
-      const newSuccess: { [key: string]: string } = {}
-      Object.keys(form).forEach((key) => {
-        if (key !== 'images') {
-          newSuccess[key] = '성공적으로 입력되었습니다.'
-        }
+      const newSuccess: Record<string, string> = {}
+      Object.keys(formData).forEach((key) => {
+        if (key !== 'images') newSuccess[key] = '성공적으로 입력되었습니다.'
       })
-      if (form.images.length > 0) {
+      if (formData.images.length > 0)
         newSuccess.images = '성공적으로 입력되었습니다.'
-      }
       setSuccess(newSuccess)
     }
-  }, [form])
+  }, [formData])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-    onChange({ ...form, [name]: value })
+    onChange({ ...formData, [name]: value })
   }
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const imageUrl = URL.createObjectURL(file)
-      setForm((prev) => ({
-        ...prev,
-        thumbnailUrl: imageUrl,
-      }))
-      onChange({ ...form, thumbnailUrl: imageUrl })
-    }
+    if (!file) return
+    const imageUrl = URL.createObjectURL(file)
+    onChange({ ...formData, thumbnailUrl: imageUrl })
   }
 
   const handleAddImages = (
@@ -92,25 +86,17 @@ export function EventForm({
     const file = e.target.files?.[0]
     if (file) {
       const url = URL.createObjectURL(file)
-      setForm((prev) => {
-        const newImages = [...prev.images]
-        newImages[index] = url
-        const updated = { ...prev, images: newImages }
-        onChange(updated)
-        return updated
-      })
+      const newImages = [...formData.images]
+      newImages[index] = url
+      onChange({ ...formData, images: newImages })
     }
   }
 
   const addImageInput = () => {
-    if (form.images.length < 10) {
-      setForm((prev) => {
-        const updated = { ...prev, images: [...prev.images, ''] }
-        onChange(updated)
-        // Reset startIndex to show last 5 images if more than 5
-        setStartIndex(updated.images.length > 5 ? updated.images.length - 5 : 0)
-        return updated
-      })
+    if (formData.images.length < 10) {
+      const updated = { ...formData, images: [...formData.images, ''] }
+      onChange(updated)
+      setStartIndex(updated.images.length > 5 ? updated.images.length - 5 : 0)
     }
   }
 
@@ -127,7 +113,7 @@ export function EventForm({
         </label>
         <InputField
           name="title"
-          value={form.title}
+          value={formData.title}
           onChange={handleChange}
           placeholder="이벤트 제목을 작성해주세요"
           className="w-[800px] h-[48px] text-base border rounded-md px-4"
@@ -148,14 +134,10 @@ export function EventForm({
       <div className="flex gap-[16px] mb-8">
         <Dropdown
           options={eventTags}
-          selected={form.type}
+          selected={formData.type}
           placeholder="이벤트 유형"
           onChange={(value) => {
-            setForm((prev) => {
-              const updated = { ...prev, type: value as EventItem['type'] }
-              onChange(updated)
-              return updated
-            })
+            onChange({ ...formData, type: value as EventItem['type'] })
           }}
           className="w-[184px] h-[48px] text-text4"
         />
@@ -163,7 +145,7 @@ export function EventForm({
           <input
             type="date"
             name="startDate"
-            value={form.startDate}
+            value={formData.startDate}
             onChange={handleChange}
             placeholder="시작일"
             className="w-[200px] h-[48px] text-text4  border px-3"
@@ -174,26 +156,23 @@ export function EventForm({
           <input
             type="date"
             name="endDate"
-            value={form.endDate}
+            value={formData.endDate}
             onChange={handleChange}
             placeholder="종료일"
             className="w-[200px] h-[48px] text-text4  border px-3"
+            id="end-date"
           />
         </div>
         <div>
           <Dropdown
             options={eventProgress}
-            selected={form.status}
+            selected={formData.status}
             placeholder="진행 상태"
             onChange={(value) => {
-              setForm((prev) => {
-                const updated = {
-                  ...prev,
+              onChange({
+                  ...formData,
                   status: value as EventItem['status'],
-                }
-                onChange(updated)
-                return updated
-              })
+                })
             }}
             className="w-[160px] h-[48px] text-text4"
           />
@@ -248,9 +227,9 @@ export function EventForm({
           이벤트 썸네일<span className="text-red-500 ml-1">*</span>
         </label>
         <div className="w-[400px] h-[218px] bg-gray-100 flex items-center justify-center rounded-md overflow-hidden">
-          {form.thumbnailUrl ? (
+          {formData.thumbnailUrl ? (
             <img
-              src={form.thumbnailUrl}
+              src={formData.thumbnailUrl}
               className="w-full h-full object-cover"
               alt="thumbnail"
             />
@@ -263,8 +242,10 @@ export function EventForm({
         <div className="flex gap-[8px] mt-2">
           <input
             type="text"
-            value={form.thumbnailUrl}
-            readOnly
+            name="thumbnailUrl"
+            value={formData.thumbnailUrl}
+            onChange={handleChange}
+            placeholder="이미지 URL을 붙여넣거나 아래에서 파일 선택"
             className="w-[620px] h-[48px] border text-sm rounded-md px-3"
           />
           <input
@@ -301,7 +282,7 @@ export function EventForm({
         <span className="ml-[20px] text-sm text-gray-400 mb-2">
           등록된 이미지가 표시 됩니다.
         </span>
-        {form.images.map((img, index) => (
+        {formData.images.map((img, index) => (
           <div key={index} className="flex items-center gap-[8px] mb-[8px]">
             <input
               type="text"
@@ -335,7 +316,7 @@ export function EventForm({
         >
           {success.images}
         </p>
-        {form.images.length < 10 && (
+        {formData.images.length < 10 && (
           <div className="w-full flex justify-center mt-6">
             <button
               type="button"
@@ -356,7 +337,7 @@ export function EventForm({
             <AiOutlineLeft size={24} className="text-gray-400" />
           </button>
 
-          {form.images.slice(startIndex, startIndex + 5).map((img, idx) => (
+          {formData.images.slice(startIndex, startIndex + 5).map((img, idx) => (
             <div
               key={startIndex + idx}
               className="w-[112px] h-[120px] bg-gray-100 flex items-center justify-center text-sm text-gray-300 rounded-md"
@@ -376,10 +357,10 @@ export function EventForm({
           <button
             onClick={() =>
               setStartIndex((prev) =>
-                Math.min(prev + 1, Math.max(0, form.images.length - 5))
+                Math.min(prev + 1, Math.max(0, formData.images.length - 5))
               )
             }
-            disabled={startIndex + 5 >= form.images.length}
+            disabled={startIndex + 5 >= formData.images.length}
             className="disabled:opacity-30"
             type="button"
           >
@@ -404,10 +385,8 @@ export function EventForm({
             disabled={Object.keys(errors).length > 0}
             onClick={() =>
               onSubmit({
-                ...form,
-                id: isUpdate
-                  ? (initialData as EventItem & { id: number }).id
-                  : Date.now(),
+                ...formData,
+                id: currentId ?? Date.now(),
               })
             }
           >
@@ -420,7 +399,7 @@ export function EventForm({
             className="w-[400px] h-[48px] text-white text-base font-semibold rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() =>
               onSubmit({
-                ...form,
+                ...formData,
                 id: Date.now(),
               })
             }
