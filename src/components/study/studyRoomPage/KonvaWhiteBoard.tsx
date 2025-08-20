@@ -2,8 +2,10 @@
 import { disconnectSocket, initSocket } from '@/api/soket'
 import StudyRoomToolbox from '@/components/study/studyRoomPage/StudyRoomToolbox'
 import { useDrawingTool } from '@/hooks/useDrawingToolHook'
+import { useUserInfo } from '@/store/userInfoStore'
 import type { Circle as CircleType } from '@/types/circle'
 import type { ColoredLine } from '@/types/point'
+import { isKakaoUser } from '@/utils/isKakaoUser'
 import React, { useEffect, useRef, useState } from 'react'
 import { Stage, Layer, Line, Circle } from 'react-konva'
 import { useParams } from 'react-router-dom'
@@ -14,6 +16,8 @@ export default function Whiteboard({
   containerRef: React.RefObject<HTMLDivElement | null>
 }) {
   const { roomId: studyId } = useParams()
+  const userInfo = useUserInfo((state) => state.userInfo)
+
   const [toolName, setToolName] = useState<'pen' | 'circle' | 'fillCircle'>(
     'pen'
   )
@@ -33,8 +37,11 @@ export default function Whiteboard({
   const socketRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
-    if (!studyId) return
-    const socket = initSocket(studyId)
+    if (!studyId || !userInfo) return
+    const token = isKakaoUser(userInfo)
+      ? userInfo.access_token
+      : userInfo.access
+    const socket = initSocket(studyId, token)
     socketRef.current = socket
 
     // 서버에서 메시지를 받으면 실행될 핸들러
@@ -57,7 +64,7 @@ export default function Whiteboard({
       disconnectSocket()
       socketRef.current = null
     }
-  }, [studyId])
+  }, [studyId, userInfo])
   // console.log(lines)
   //화이트보드 사이즈 부모 사이즈 기준으로 적용
   useEffect(() => {
