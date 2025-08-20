@@ -159,7 +159,7 @@ export default function StudyCreatePage() {
           <div className="flex gap-[8px] w-full">
             <InputField
               className={cn(
-                'w-[362px] h-[48px] placeholder:text-text4',
+                'w-full h-[48px] placeholder:text-text4',
                 !errors.title &&
                   watch('title')?.trim() !== '' &&
                   'border-text text-text'
@@ -170,13 +170,6 @@ export default function StudyCreatePage() {
                 required: '스터디 이름을 입력해주세요',
               })}
             />
-            <CommonButton
-              type="button"
-              variant="grayStyle"
-              className="text-[16px]"
-            >
-              중복확인
-            </CommonButton>
           </div>
         </div>
 
@@ -296,8 +289,8 @@ export default function StudyCreatePage() {
           <InputField
             type="text"
             className={cn(
-              'w-[362px] h-[48px] placeholder:text-text4',
-              !errors.member && watch('member') !== 0 && 'border-text text-text'
+              'w-full h-[48px] placeholder:text-text4',
+              !errors.member && watch('member') > 0 && 'border-text text-text'
             )}
             disabled={isUnlimited}
             placeholder="최대 10명까지 등록 가능해요"
