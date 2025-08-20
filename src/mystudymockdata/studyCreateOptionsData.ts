@@ -1,3 +1,12 @@
+export const studyLevel = [
+  { value: '왕초급', label: '왕초급' },
+  { value: '초급', label: '초급' },
+  { value: '중급', label: '중급' },
+  { value: '고급', label: '고급' },
+  { value: '마스터', label: '마스터' },
+  { value: '무관', label: '무관' },
+]
+
 export const timeOptions = Array.from({ length: 24 }, (_, i) => {
   const period = i < 12 ? '오전' : '오후'
   const hour = i % 12 === 0 ? 12 : i % 12
@@ -13,15 +22,15 @@ export const studyCategoryOptions = [
 
 export const studyTypeOptions = [
   {
-    value: 'IT · 프로그래밍 > 개발 교육과정',
+    value: 1,
     label: 'IT · 프로그래밍 > 개발 교육과정',
   },
   {
-    value: 'IT · 프로그래밍 > 커리어 개발',
+    value: 2,
     label: 'IT · 프로그래밍 > 커리어 개발',
   },
   {
-    value: 'IT · 프로그래밍 > 개발 프로젝트',
+    value: 3,
     label: 'IT · 프로그래밍 > 개발 프로젝트',
   },
 ]
@@ -36,3 +45,13 @@ export const daysOfWeek = [
   '일요일',
   '공휴일 포함',
 ]
+
+export const genderMap = {
+  남: 'male',
+  여: 'female',
+  무관: 'all',
+}
+
+type GenderOptionKey = keyof typeof genderMap
+
+export const genderOptions: GenderOptionKey[] = ['남', '여', '무관']
