@@ -34,7 +34,7 @@ export default function InputField({
   return (
     <div
       className={cn(
-        'flex flex-col gap-1.5',
+        'flex flex-col gap-1.5 w-full',
         isCheckbox && 'flex-row items-center'
       )}
     >
