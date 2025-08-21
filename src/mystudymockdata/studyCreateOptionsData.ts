@@ -13,15 +13,15 @@ export const studyCategoryOptions = [
 
 export const studyTypeOptions = [
   {
-    value: 'IT · 프로그래밍 > 개발 교육과정',
+    value: 1,
     label: 'IT · 프로그래밍 > 개발 교육과정',
   },
   {
-    value: 'IT · 프로그래밍 > 커리어 개발',
+    value: 2,
     label: 'IT · 프로그래밍 > 커리어 개발',
   },
   {
-    value: 'IT · 프로그래밍 > 개발 프로젝트',
+    value: 3,
     label: 'IT · 프로그래밍 > 개발 프로젝트',
   },
 ]
