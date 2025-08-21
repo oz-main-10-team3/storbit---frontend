@@ -5,6 +5,7 @@ import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5'
 import { HiOutlineUserGroup } from 'react-icons/hi2'
 import { BsClock } from 'react-icons/bs'
 import StudyTag from '@/common/tag/StudyTag'
+import { studyTypeOptions } from '@/mystudymockdata/studyCreateOptionsData'
 
 interface StudyCardProps {
   id?: number
@@ -12,11 +13,14 @@ interface StudyCardProps {
   title: string
   description: string
   memberCount?: number
+  maxMember?: number
   time?: string
   showBookmarkIcon?: boolean
   className?: string //외부에서 카드 전체 스타일을 확장할 때 사용 (Tailwind 클래스)
   variant?: 'horizontal' | 'vertical'
   thumbnailRatio?: string //썸네일 이미지 영역의 크기를 커스터마이징할 때 사용
+  level?: string
+  category?: number
   onClick?: () => void
 }
 
@@ -26,16 +30,18 @@ const StudyCard = ({
   title,
   description,
   memberCount,
+  maxMember,
   time,
   showBookmarkIcon,
   className,
   variant = 'vertical',
   thumbnailRatio,
+  level,
+  category,
   onClick,
 }: StudyCardProps) => {
   const isVertical = variant === 'vertical'
   const [isBookmarked, setIsBookmarked] = useState(false)
-
   const imageClass = thumbnailRatio
     ? thumbnailRatio
     : isVertical
@@ -43,7 +49,6 @@ const StudyCard = ({
       : 'w-[440px] h-[256px]'
 
   const wrapperClass = isVertical ? 'w-[320px]' : 'w-[440px]'
-
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.stopPropagation() // 카드 클릭 방지
     setIsBookmarked((prev) => !prev)
@@ -52,6 +57,14 @@ const StudyCard = ({
   const handleCardClick = () => {
     Navigate(`/study/detail/${id}`)
     if (onClick) onClick()
+  }
+  const getCategoryValue = (value: number | undefined) => {
+    const option = studyTypeOptions.find((item) => item.value === value)
+    if (!option) return null
+
+    // "IT · 프로그래밍 > 개발 교육과정" → ["IT · 프로그래밍 ", " 개발 교육과정"]
+    const parts = option.label.split('>')
+    return parts[parts.length - 1].trim()
   }
   return (
     <div
@@ -62,8 +75,11 @@ const StudyCard = ({
       <div className={cn(imageClass, 'relative rounded-[8px] overflow-hidden')}>
         {/* 태그 박스 */}
         <div className="absolute top-[16px] right-[16px] flex gap-[4px] z-10">
-          <StudyTag variant="level" text="초급" />
-          <StudyTag variant="category" text="프로그래밍" />
+          <StudyTag variant="level" text={level ?? '초급'} />
+          <StudyTag
+            variant="category"
+            text={getCategoryValue(category) ?? '프로그래밍'}
+          />
         </div>
 
         {/* 이미지 */}
@@ -100,7 +116,9 @@ const StudyCard = ({
             {memberCount !== undefined && (
               <div className="flex items-center gap-1">
                 <HiOutlineUserGroup className="w-[16px] h-[16px]" />
-                <span>{memberCount}/10</span>
+                <span>
+                  {memberCount}/{maxMember}
+                </span>
               </div>
             )}
             {time && (
