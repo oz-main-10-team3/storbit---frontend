@@ -152,25 +152,23 @@ export default function StudyCreatePage() {
         </h1>
 
         {/* 스터디 이름 */}
-        <div className="flex flex-col gap-[16px] mt-[40px] w-full">
+        <div className="flex flex-col gap-[16px] mt-[40px]">
           <label className="text-[16px]">
             스터디 이름<span className="text-alertText">*</span>
           </label>
-          <div className="flex gap-[8px] w-full">
-            <InputField
-              className={cn(
-                'w-full h-[48px] placeholder:text-text4',
-                !errors.title &&
-                  watch('title')?.trim() !== '' &&
-                  'border-text text-text'
-              )}
-              error={errors.title?.message}
-              placeholder="이름을 입력해주세요"
-              {...register('title', {
-                required: '스터디 이름을 입력해주세요',
-              })}
-            />
-          </div>
+          <InputField
+            className={cn(
+              'w-full h-[48px] placeholder:text-text4',
+              !errors.title &&
+                watch('title')?.trim() !== '' &&
+                'border-text text-text'
+            )}
+            error={errors.title?.message}
+            placeholder="이름을 입력해주세요"
+            {...register('title', {
+              required: '스터디 이름을 입력해주세요',
+            })}
+          />
         </div>
 
         {/* 스터디 소개 */}
