@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  deploy: # job 의 이름을 작성 아무이름 작성가능
+  deploy-S3: # job 의 이름을 작성 아무이름 작성가능
     runs-on: ubuntu-latest
     steps:
       - name: Github Repository 파일 불러오기
@@ -41,3 +41,31 @@ jobs:
 
       - name: Cloudfront 캐시 무효화
         run: aws cloudfront create-invalidation --distribution-id E2YEVL0ASNB0W5 --path "/*"
+
+  push-another-repo:
+    runs-on: ubuntu-latest
+    container: pandoc/latex
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install mustache (to update the date)
+        run: apk add ruby && gem install mustache
+
+      - name: creates output
+        run: sh ./build.sh
+
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
+        with:
+          source-directory: 'output'
+          destination-github-username: yongarframe
+          destination-repository-name: storbit---frontend
+          user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: develop
+
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
